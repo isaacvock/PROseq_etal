@@ -16,7 +16,7 @@ if config["PE"]:
             html="results/trimmed/reports/{sample}.html",
             json="results/trimmed/reports/{sample}.json"
         log:
-            "logs/fastp/pe/{sample}.log"
+            "logs/fastp/{sample}.log"
         params:
             adapters=config["fastp_adapters"],
             extra=["fastp_parameters"]
@@ -66,7 +66,7 @@ else:
             html="results/trimmed/reports/{sample}.html",
             json="results/trimmed/reports{sample}.json"
         log:
-            "logs/fastp/se/{sample}.log"
+            "logs/fastp/{sample}.log"
         params:
             adapters=config["fastp_adapters"],
             extra=["fastp_parameters"]
