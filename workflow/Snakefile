@@ -28,6 +28,14 @@ container: "docker://continuumio/miniconda3"
 
 
 ##### load rules #####
+include: "rules/common.smk"
+include: "rules/preprocess.smk"
+
+
+
+
+##### Target rule ######
+
 if config["PE"]:
 
     rule all:
