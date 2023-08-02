@@ -11,6 +11,8 @@ samples:
 # Paired end?
 PE: True
 
+# Path to genome fasta file
+genome: "data/genome/genome.fasta"
 
 # Extra options to pass to fastqc
 fastqc_params: "--quiet"

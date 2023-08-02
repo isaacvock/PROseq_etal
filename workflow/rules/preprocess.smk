@@ -3,7 +3,7 @@
 if config["PE"]:
 
     # Trim with fastp (automatically detects adapters)
-    rule fastp_pe:
+    rule fastp:
         input:
             sample=get_input_fastqs
         output:
@@ -19,7 +19,7 @@ if config["PE"]:
             "logs/fastp/{sample}.log"
         params:
             adapters=config["fastp_adapters"],
-            extra=["fastp_parameters"]
+            extra=""
         threads: 2
         wrapper:
             "v2.2.1/bio/fastp"
@@ -57,7 +57,7 @@ if config["PE"]:
 else:
 
     # Trim with fastp (automatically detects adapters)
-    rule fastp_se:
+    rule fastp:
         input:
             sample=get_input_fastqs
         output:
@@ -69,7 +69,7 @@ else:
             "logs/fastp/{sample}.log"
         params:
             adapters=config["fastp_adapters"],
-            extra=["fastp_parameters"]
+            extra=""
         threads: 1
         wrapper:
             "v2.2.1/bio/fastp"

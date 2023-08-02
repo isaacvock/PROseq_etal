@@ -2,7 +2,10 @@ import glob
 
 SAMP_NAMES = list(config['samples'].keys())
 
-PAIRS = [1, 2]
+if config["PE"]:
+    READS = [1, 2]
+else:
+    READS = [1]
 
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]

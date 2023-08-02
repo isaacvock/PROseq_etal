@@ -3,11 +3,11 @@ rule index:
     input:
         config["genome"],
     output:
-        "bwa-mem2_index/genome.0123",
-        "bwa-mem2_index/genome.amb",
-        "bwa-mem2_index/genome.ann",
-        "bwa-mem2_index/genome.bwt.2bit.64",
-        "bwa-mem2_index/genome.pac",
+        "bwamem2_index/genome.0123",
+        "bwamem2_index/genome.amb",
+        "bwamem2_index/genome.ann",
+        "bwamem2_index/genome.bwt.2bit.64",
+        "bwamem2_index/genome.pac",
     log:
         "logs/index/index.log",
     wrapper:
@@ -19,13 +19,13 @@ if config["PE"]:
     # Align
     rule align:
         input:
-            reads=["results/trimmed/{sample}.1.fastq", "results/trimmed/{sample}.2.fastq"],
+            reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             # Index can be a list of (all) files created by bwa, or one of them
-            idx=multiext("bwa-mem2_index/genome", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
+            idx=multiext("bwamem2_index/genome", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
         output:
             "results/align/{sample}.bam",
         log:
-            "logs/bwa_mem2/{sample}.log",
+            "logs/bwamem2/{sample}.log",
         params:
             extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
             sort="none",  # Can be 'none', 'samtools' or 'picard'.
