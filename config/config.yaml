@@ -14,6 +14,10 @@ PE: True
 # Path to genome fasta file
 genome: "data/genome/genome.fasta"
 
+# Which aligner to use? 
+  # Options are: "bwa-mem2", "bowtie2", "star"
+aligner: "bwa-mem2"
+
 # Extra options to pass to fastqc
 fastqc_params: "--quiet"
 
@@ -22,3 +26,11 @@ fastp_adapters: ""
 
 # Extra parameters for fastp
 fastp_parameters: "" 
+
+
+### bwa-mem2 parameters
+
+bwamem2_extra: r"-R '@RG\tID:{sample}\tSM:{sample}'"
+bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
+bwamem2_sort_order: "coordinate"
+bwamem2_sort_extra: ""
