@@ -11,7 +11,6 @@ if config["PE"]:
             # Unpaired reads separately
             unpaired1="results/trimmed/{sample}.u1.fastq",
             unpaired2="results/trimmed/{sample}.u2.fastq",
-            merged="results/trimmed/{sample}.merged.fastq",
             failed="results/trimmed/{sample}.failed.fastq",
             html="results/trimmed/reports/{sample}.html",
             json="results/trimmed/reports/{sample}.json"
