@@ -18,5 +18,5 @@ fastqc_params: "--quiet"
 # Adapters to pass to fastp (not strictly necessary as fastp can autodetect)
 fastp_adapters: ""
 
-# Extra parameters for pastp
+# Extra parameters for fastp
 fastp_parameters: "" 
