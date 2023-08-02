@@ -28,3 +28,17 @@ container: "docker://continuumio/miniconda3"
 
 
 ##### load rules #####
+if config["PE"]:
+
+    rule all:
+        input:
+            expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = ['r1', 'r2'])
+            expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = ['r1', 'r2'])
+
+else:
+
+    rule all:
+        input:
+            expand("results/fastqc/{SID}.html", SID = SAMP_NAMES)
+            expand("results/fastqc/{SID}_fastqc.zip", SID = SAMP_NAMES)
+
