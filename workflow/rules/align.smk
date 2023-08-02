@@ -1,16 +1,29 @@
+# Index
+rule index:
+    input:
+        config["genome"],
+    output:
+        "bwa-mem2_index/genome.0123",
+        "bwa-mem2_index/genome.amb",
+        "bwa-mem2_index/genome.ann",
+        "bwa-mem2_index/genome.bwt.2bit.64",
+        "bwa-mem2_index/genome.pac",
+    log:
+        "logs/index/index.log",
+    wrapper:
+        "v2.2.1/bio/bwa-mem2/index"
+
+
 if config["PE"]:
 
-    # Index
-
-
     # Align
-    rule bwa_mem2:
+    rule align:
         input:
             reads=["results/trimmed/{sample}.1.fastq", "results/trimmed/{sample}.2.fastq"],
             # Index can be a list of (all) files created by bwa, or one of them
-            idx=multiext("genome.fasta", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
+            idx=multiext("bwa-mem2_index/genome", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
         output:
-            "mapped/{sample}.bam",
+            "results/align/{sample}.bam",
         log:
             "logs/bwa_mem2/{sample}.log",
         params:
