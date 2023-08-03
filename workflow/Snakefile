@@ -42,7 +42,9 @@ if config["PE"]:
         input:
             expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = ['r1', 'r2']),
             expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = ['r1', 'r2']),
-            expand("results/align/{SID}.bam", SID = SAMP_NAMES)
+            expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
+            expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES)
+
 
 else:
 
@@ -50,5 +52,6 @@ else:
         input:
             expand("results/fastqc/{SID}.html", SID = SAMP_NAMES),
             expand("results/fastqc/{SID}_fastqc.zip", SID = SAMP_NAMES),
-            expand("results/align/{SID}.bam", SID = SAMP_NAMES)
+            expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
+            expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES)
 

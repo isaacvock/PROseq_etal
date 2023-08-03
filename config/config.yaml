@@ -30,7 +30,24 @@ fastp_parameters: ""
 
 ### bwa-mem2 parameters
 
-bwamem2_extra: r"-R '@RG\tID:{sample}\tSM:{sample}'"
+bwamem2_extra: ""
 bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
 bwamem2_sort_order: "coordinate"
 bwamem2_sort_extra: ""
+
+
+### bedtools genomecov parameters
+
+genomecov_params: "-3"
+
+
+### deeptools bamCoverage parameters
+
+genome_name: "GRCh38"
+genome_size: ""
+extra: ""
+
+
+### bedGraphToBigWig parameters
+
+bg2bw_params: ""
