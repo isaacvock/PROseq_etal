@@ -32,13 +32,13 @@ rule chrom_sizes:
         "logs/chrom_sizes/chrom_sizes.out"
     conda:
         "../envs/chrom.yaml"
+    params:
+        shellscript = workflow.source_path("../scripts/chrom.sh"),
     threads: 1
     shell:
         """
-        samtools view -H {input} \
-            | awk -v OFS="\t" ' $1 ~ /^@SQ/ {split($2, chr, ":")
-                                                split($3, size, ":")
-                                                print chr[2], size[2]}' > {output}
+        chmod +x {params.shellscript}
+        {params.shellscript} {input} {output}
         """
 
 rule bg2bw_pos:
