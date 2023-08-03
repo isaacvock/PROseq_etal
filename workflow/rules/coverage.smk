@@ -18,7 +18,7 @@ rule genomecov_minus:
     log:
         "logs/genomecov/{sample}.log"
     params:
-        "-strand - {}".format(str(config["genomecov_params"]))
+        "-bga -strand - {}".format(str(config["genomecov_params"]))
     wrapper:
         "v2.2.1/bio/bedtools/genomecov"
 
