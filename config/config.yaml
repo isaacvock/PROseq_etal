@@ -8,6 +8,8 @@ samples:
   KO_ctl: data/fastq/KO_ctl
 
 
+### General information
+
 # Paired end?
 PE: True
 
@@ -18,8 +20,15 @@ genome: "data/genome/genome.fasta"
   # Options are: "bwa-mem2", "bowtie2", "star"
 aligner: "bwa-mem2"
 
+
+### fastqc parameters
+
 # Extra options to pass to fastqc
 fastqc_params: "--quiet"
+
+
+### fastp parameters
+
 
 # Adapters to pass to fastp (not strictly necessary as fastp can autodetect)
 fastp_adapters: ""
@@ -39,13 +48,6 @@ bwamem2_sort_extra: ""
 ### bedtools genomecov parameters
 
 genomecov_params: "-3"
-
-
-### deeptools bamCoverage parameters
-
-genome_name: "GRCh38"
-genome_size: ""
-extra: ""
 
 
 ### bedGraphToBigWig parameters
