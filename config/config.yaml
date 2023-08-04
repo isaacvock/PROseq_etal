@@ -1,4 +1,4 @@
-## example of what samples will look like for fastq input
+## Paths to fastq containing directories.
 samples:
   WT_1: data/fastq/WT_1
   WT_2: data/fastq/WT_2
