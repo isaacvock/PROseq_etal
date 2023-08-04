@@ -49,7 +49,7 @@ rule sort_bg_pos:
     log:
         "logs/sort_bg/{sample}_pos.log"
     shell:
-        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {ouptput}"
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
 rule sort_bg_min:
     input:
@@ -59,7 +59,7 @@ rule sort_bg_min:
     log:
         "logs/sort_bg/{sample}_min.log"
     shell:
-        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {ouptput}"
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
 
 
