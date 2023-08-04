@@ -41,9 +41,31 @@ rule chrom_sizes:
         {params.shellscript} {input} {output}
         """
 
+rule sort_bg_pos:
+    input:
+        "results/genomecov/{sample}_pos.bg"
+    output:
+        "results/sort_bg/{sample}_pos_sorted.bg"
+    log:
+        "logs/sort_bg/{sample}_pos.log"
+    shell:
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {ouptput}"
+
+rule sort_bg_min:
+    input:
+        "results/genomecov/{sample}_min.bg"
+    output:
+        "results/sort_bg/{sample}_min_sorted.bg"
+    log:
+        "logs/sort_bg/{sample}_min.log"
+    shell:
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {ouptput}"
+
+
+
 rule bg2bw_pos:
     input:
-        bedGraph="results/genomecov/{sample}_pos.bg",
+        bedGraph="results/sort_bg/{sample}_pos_sorted.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig/{sample}_pos.bw"
@@ -56,7 +78,7 @@ rule bg2bw_pos:
 
 rule bg2bw_min:
     input:
-        bedGraph="results/genomecov/{sample}_min.bg",
+        bedGraph="results/sort_bg/{sample}_min_sorted.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig/{sample}_min.bw"
