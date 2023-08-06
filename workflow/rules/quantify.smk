@@ -27,7 +27,7 @@ rule quantify_pause:
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify/quantify_pause.log"
+        "logs/quantify/{sample}_quantify_pause.log"
     threads: 1
     shell:
         """
@@ -48,7 +48,7 @@ rule quantify_genebody:
         "../envs/quantify.yaml"
     threads: 1
     log:
-        "logs/quantify/quantify_genebody.log"
+        "logs/quantify/{sample}_quantify_genebody.log"
     shell:
         """
         htseq-count -t gene_body -m union -s {params.strand} \
@@ -67,7 +67,7 @@ rule quantify_gene:
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify/quantify_gene.log"
+        "logs/quantify/{sample}_quantify_gene.log"
     threads: 1
     shell:
         """
