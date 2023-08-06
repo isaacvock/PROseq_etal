@@ -20,7 +20,7 @@ rule quantify_pause
     output:
         counts="results/quantify/{sample}_pause.csv",
     params:
-        strand=config["strand"]
+        strand=config["strandedness"]
     conda:
         "../envs/quantify.yaml"
     shell:

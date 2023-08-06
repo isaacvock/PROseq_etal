@@ -14,10 +14,16 @@ samples:
 PE: True
 
 # Strandedness
-strand: reverse
+strandedness: reverse
 
 # Path to genome fasta file
 genome: data/genome/genome.fasta
+
+# Path to annotation gtf file
+annotation: data/genome/genome.gtf
+
+# Path to pause index annotation (will be created at this address if it does not exist)
+PI_gtf: data/genome/genome_PI.gtf
 
 # Which aligner to use? 
   # Options are: "bwa-mem2", "bowtie2", "star"
