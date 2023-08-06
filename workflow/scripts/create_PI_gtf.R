@@ -38,7 +38,7 @@ options(echo = as.logical(opt$echocode))
 gtf <- rtracklayer::import(opt$input)
 
 # Identify pause sites
-    # pause site start = 100 bases upstream of most upstream TSS
+    # pause site start = 100 bases upstream of most upstream TSS (or 1, if TSS is less than a start of 100 nt)
     # pause site end = pause site start + :
         # 500 if 500 < (width of longest transcript)/2
         # round(width of longest transcript/2) if this is > 60 and < 500
