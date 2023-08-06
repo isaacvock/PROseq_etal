@@ -13,7 +13,7 @@ rule create_PI_gtf:
         {params.rscript} -o {output} -c {input} 1> {log} 2>&1
         """
 
-rule quantify_pause
+rule quantify_pause:
     input:
         bam="results/align/{sample}.bam",
         gtf=config["PI_gtf"]
@@ -27,10 +27,10 @@ rule quantify_pause
         """
         htseq-count -t pause -m intersection-strict -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts}
+        -c {output.counts} {input.bam} {input.gtf}
         """
 
-rule quantify_genebody
+rule quantify_genebody:
     input:
         bam="results/align/{sample}.bam",
         gtf=config["PI_gtf"]
@@ -44,10 +44,10 @@ rule quantify_genebody
         """
         htseq-count -t gene_body -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts}
+        -c {output.counts} {input.bam} {input.gtf}
         """
 
-rule quantify_gene
+rule quantify_gene:
     input:
         bam="results/align/{sample}.bam",
         gtf=config["PI_gtf"]
@@ -61,5 +61,5 @@ rule quantify_gene
         """
         htseq-count -t transcript -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts}
+        -c {output.counts} {input.bam} {input.gtf}
         """
