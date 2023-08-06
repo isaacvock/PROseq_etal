@@ -7,6 +7,7 @@ rule create_PI_gtf:
         rscript=workflow.source_path("../scripts/create_PI_gtf.R")
     conda:
         "../envs/quantify.yaml"
+    threads: 1
     shell:
         r"""
         chmod +x {params.rscript}
@@ -23,6 +24,7 @@ rule quantify_pause:
         strand=config["strandedness"]
     conda:
         "../envs/quantify.yaml"
+    threads: 1
     shell:
         """
         htseq-count -t pause -m intersection-strict -s {params.strand} \
@@ -40,6 +42,7 @@ rule quantify_genebody:
         strand=config["strand"]
     conda:
         "../envs/quantify.yaml"
+    threads: 1
     shell:
         """
         htseq-count -t gene_body -m union -s {params.strand} \
@@ -57,6 +60,7 @@ rule quantify_gene:
         strand=config["strand"]
     conda:
         "../envs/quantify.yaml"
+    threads: 1
     shell:
         """
         htseq-count -t transcript -m union -s {params.strand} \
