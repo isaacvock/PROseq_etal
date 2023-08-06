@@ -1,9 +1,11 @@
+#!/usr/bin/env Rscript
 ### PURPOSE OF THIS SCRIPT
 ## Take a GTF annotation and create a new annotation file that marks annotated
 ## pause sites for pause index (PI) creation.
 
 # Load dependencies ------------------------------------------------------------
 
+library(rtracklayer)
 library(dplyr)
 library(optparse)
 

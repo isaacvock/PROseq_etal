@@ -44,11 +44,11 @@ rule quantify_genebody:
         counts="results/quantify/{sample}_genebody.csv",
     params:
         strand=config["strandedness"]
-    conda:
-        "../envs/quantify.yaml"
     threads: 1
     log:
         "logs/quantify/{sample}_quantify_genebody.log"
+    conda:
+        "../envs/quantify.yaml"
     shell:
         """
         htseq-count -t gene_body -m union -s {params.strand} \
