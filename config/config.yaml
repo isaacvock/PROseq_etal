@@ -13,8 +13,11 @@ samples:
 # Paired end?
 PE: True
 
+# Strandedness
+strand: reverse
+
 # Path to genome fasta file
-genome: "data/genome/genome.fasta"
+genome: data/genome/genome.fasta
 
 # Which aligner to use? 
   # Options are: "bwa-mem2", "bowtie2", "star"
