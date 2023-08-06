@@ -4,7 +4,6 @@
 
 # Load dependencies ------------------------------------------------------------
 
-library(rtracklayer)
 library(dplyr)
 library(optparse)
 
