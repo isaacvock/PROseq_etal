@@ -39,7 +39,7 @@ rule quantify_genebody:
     output:
         counts="results/quantify/{sample}_genebody.csv",
     params:
-        strand=config["strand"]
+        strand=config["strandedness"]
     conda:
         "../envs/quantify.yaml"
     threads: 1
@@ -57,7 +57,7 @@ rule quantify_gene:
     output:
         counts="results/quantify/{sample}_gene.csv",
     params:
-        strand=config["strand"]
+        strand=config["strandedness"]
     conda:
         "../envs/quantify.yaml"
     threads: 1
