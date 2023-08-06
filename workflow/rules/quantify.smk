@@ -13,7 +13,7 @@ rule create_PI_gtf:
     shell:
         r"""
         chmod +x {params.rscript}
-        {params.rscript} -o {output} -c {input} 1> {log} 2>&1
+        {params.rscript} -o {output} -i {input}
         """
 
 rule quantify_pause:
