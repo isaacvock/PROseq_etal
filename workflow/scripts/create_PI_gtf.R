@@ -47,8 +47,8 @@ gtf <- rtracklayer::import(opt$input)
 PI <- as_tibble(gtf) %>%
   group_by(gene_id) %>%
   summarise(seqnames = unique(seqnames)[1],
-            start = min(start) - 100,
-            end = min(start) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1),
+            start = pmax(min(start) - 100, 1),
+            end = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1),
             strand = unique(strand)[1],
             source = unique(source)[1],
             type = "pause",
@@ -63,7 +63,7 @@ PI <- as_tibble(gtf) %>%
 gene_body <- as_tibble(gtf) %>%
   group_by(gene_id) %>%
   summarise(seqnames = unique(seqnames)[1],
-            start = min(start) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1) + 1,
+            start = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1) + 1,
             end = max(end),
             strand = unique(strand)[1],
             source = unique(source)[1],
