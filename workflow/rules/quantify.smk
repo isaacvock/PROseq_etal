@@ -31,7 +31,7 @@ rule quantify_pause:
     threads: 1
     shell:
         """
-        htseq-count -t pause -m intersection-strict -s {params.strand} \
+        htseq-count -t pause -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
         -c {output.counts} {input.bam} {input.gtf}
         """
