@@ -4,7 +4,6 @@
 
 # Load dependencies ------------------------------------------------------------
 
-library(data.table)
 library(readr)
 library(dplyr)
 library(rtracklayer)
@@ -38,8 +37,8 @@ options(echo = as.logical(opt$echocode))
 # Calculate pause index --------------------------------------------------------
 
 ### Load data
-pause <- fread(opt$pause)
-genebody <- fread(opt$genebody)
+pause <- read_csv(opt$pause)
+genebody <- read_csv(opt$genebody)
 gtf <- as_tibble(rtracklayer::import(opt$annotation))
 
 ### Add column names
