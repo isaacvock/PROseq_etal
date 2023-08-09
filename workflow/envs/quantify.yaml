@@ -9,5 +9,6 @@ dependencies:
   - r-optparse =1.7.3
   - r-dplyr
   - r-readr
+  - r-data.table
   - bioconductor-rtracklayer
 
