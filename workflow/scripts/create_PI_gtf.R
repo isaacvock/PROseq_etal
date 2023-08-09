@@ -45,33 +45,29 @@ gtf <- rtracklayer::import(opt$input)
         # 60 if (width of longest transcript/2) < 60
         # width of longest transcript - 1 if this is < 60
 PI <- as_tibble(gtf) %>%
-  group_by(gene_id) %>%
+  group_by(gene_id, strand) %>%
   summarise(seqnames = unique(seqnames)[1],
             start = pmax(min(start) - 100, 1),
             end = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1),
-            strand = unique(strand)[1],
             source = unique(source)[1],
             type = "pause",
             score = NA,
             phase = NA,
-            transcript_id = NA,
-            gene_id = unique(gene_id)) %>%
+            transcript_id = NA) %>%
   mutate(width = end - start)
 
 
 # Identify gene bodies (downstream of pause site)
 gene_body <- as_tibble(gtf) %>%
-  group_by(gene_id) %>%
+  group_by(gene_id, strand) %>%
   summarise(seqnames = unique(seqnames)[1],
             start = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1) + 1,
             end = max(end),
-            strand = unique(strand)[1],
             source = unique(source)[1],
             type = "gene_body",
             score = NA,
             phase = NA,
-            transcript_id = NA,
-            gene_id = unique(gene_id)) %>%
+            transcript_id = NA) %>%
   mutate(width = end - start)
 
 
