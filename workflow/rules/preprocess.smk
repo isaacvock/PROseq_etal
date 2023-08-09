@@ -35,7 +35,9 @@ if config["PE"]:
             "logs/fastqc/{sample}_r1.log"
         params:
             extra = config["fastqc_params"]
-        threads: 1
+        resources:
+            mem_mb = 9000 
+        threads: 4
         wrapper:
             "v2.2.1/bio/fastqc"
 
@@ -49,7 +51,9 @@ if config["PE"]:
             "logs/fastqc/{sample}_r2.log"
         params:
             extra = config["fastqc_params"]
-        threads: 1
+        resources:
+            mem_mb = 9000 
+        threads: 4
         wrapper:
             "v2.2.1/bio/fastqc"
 
@@ -84,6 +88,8 @@ else:
             "logs/fastqc/{sample}.log"
         params:
             extra = config["fastqc_params"]
-        threads: 1
+        resources:
+            mem_mb = 9000 
+        threads: 4
         wrapper:
             "v2.2.1/bio/fastqc"
