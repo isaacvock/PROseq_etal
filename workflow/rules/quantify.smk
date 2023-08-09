@@ -75,3 +75,23 @@ rule quantify_gene:
         -r pos -p bam --add-chromosome-info \
         -c {output.counts} {input.bam} {input.gtf}
         """
+
+rule calc_PI:
+    input:
+        pause="results/quantify/{sample}_pause.csv",
+        gb="results/quantify/{sample}_genebody.csv",
+        gtf=config["PI_gtf"]
+    output:
+        PI="results/calc_PI/{sample}_PI.csv",
+    conda:
+        "../envs/quantify.yaml"
+    log:
+        "logs/calc_PI/{sample}.log"
+    params:
+        rscript=workflow.source_path("../scripts/calculate_PI.R")
+    threads: 1
+    shell:
+        r"""
+        chmod +x {params.rscript}
+        {params.rscript} -p {input.pause} -g {input.gb} -a {input.gtf} -o {output.PI}
+        """

@@ -46,9 +46,8 @@ if config["PE"]:
             expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = ['r1', 'r2']),
             expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_pause.csv", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_genebody.csv", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES)
+            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
+            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES)
 
 
 else:
@@ -59,7 +58,6 @@ else:
             expand("results/fastqc/{SID}_fastqc.zip", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_pause.csv", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_genebody.csv", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES)
+            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
+            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES)
 
