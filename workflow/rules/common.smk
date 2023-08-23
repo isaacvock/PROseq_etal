@@ -2,6 +2,11 @@ import glob
 
 SAMP_NAMES = list(config['samples'].keys())
 
+if config["findPeaks_style"] == "groseq":
+    PEAK_TYPE = "transcripts"
+else:
+    PEAK_TYPE = "peaks"
+
 if config["PE"]:
     READS = [1, 2]
 else:

@@ -67,5 +67,11 @@ bg2bw_params: ""
 ### HOMER parameters
 
 makeTagDir_params: ""
+
 findPeaks_style: "groseq"
 findPeaks_params: ""
+
+mergePeaks_params: "-d given"
+
+annotatePeaks_mode: "rna"
+annotatePeaks_params: ""

@@ -15,6 +15,7 @@ shell(
     " {snakemake.input.tag}"
     " -style {snakemake.params.style}"
     " {extra}"
-    " -o auto)"
+    " -o {snakemake.output.transcripts}"
+    " -gtf {snakemake.output.gtf})"
     " {log}"
 )

@@ -15,13 +15,13 @@ rule homer_makeTagDir:
 
 if config["findPeaks_style"] == "groseq":
 
-    ### Annotate transcripts
+    ### Find transcripts
     rule homer_findPeaks:
         input:
             tag="tagDir/{sample}",
         output:
-            "results/tagDir/{sample}/transcripts.txt",
-            "results/findPeaks/{sample}/transcripts.gtf"
+            transcripts="results/findPeaks/{sample}_transcripts.txt",
+            gtf="results/findPeaks/{sample}.gtf"
         params:
             style=config["findPeaks_style"],
             extra=config["findPeaks_params"]
@@ -47,3 +47,35 @@ else:
             "logs/homer_findPeaks/{sample}.log"
         wrapper:
             "v2.4.0/bio/homer/findPeaks"
+
+
+rule homer_mergePeaks:
+    input:
+        # input peak files
+        expand("results/findPeaks/{SID}_{type}.txt", SID = SAMP_NAMES, type = PEAK_TYPE)
+    output:
+        "results/mergePeaks/merged.peaks"
+    params:
+        extra=config["mergePeaks_params"]  # optional params, see homer manual
+    log:
+        "logs/mergePeaks/{sample1}_{sample2}.log"
+    wrapper:
+        "v2.4.0/bio/homer/mergePeaks"
+
+
+rule homer_annotatePeaks:
+    input:
+        peaks="peaks_refs/{sample}.peaks",
+        genome=config["genome"],
+        gtf=config["annotation"]
+    output:
+        annotations="{sample}_annot.txt",
+    threads:
+        2
+    params:
+        mode=config["annotatePeaks_mode"], # add tss, tts or rna mode and options here, i.e. "tss mm8"
+        extra=["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
+    log:
+        "logs/annotatePeaks/{sample}.log"
+    wrapper:
+        "v2.4.0/bio/homer/annotatePeaks"   
