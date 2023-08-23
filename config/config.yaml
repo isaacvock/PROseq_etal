@@ -83,3 +83,5 @@ annotatePeaks_params: ""
 ### MACS2 parameters
 
 callpeaks_params: "-f BAMPE -g hs"
+bdgcmp_FE_params: ""
+bdgcmp_diff_params: ""
