@@ -19,7 +19,7 @@ if config["findPeaks_style"] == "groseq":
     ### Find transcripts
     rule homer_findPeaks:
         input:
-            tag="tagDir/{sample}",
+            tag="results/tagDir/{sample}",
         output:
             transcripts="results/findPeaks/{sample}_transcripts.txt",
             gtf="results/findPeaks/{sample}.gtf"
@@ -39,7 +39,7 @@ else:
     ### Find peaks
     rule homer_findPeaks:
         input:
-            tag="tagDir/{sample}",
+            tag="results/tagDir/{sample}",
         output:
             "results/findPeaks/{sample}_peaks.txt"
         params:

@@ -4,4 +4,5 @@ channels:
   - nodefaults
 dependencies:
   - homer =4.11
+  - samtools =1.17
   - snakemake-wrapper-utils =0.5.0
