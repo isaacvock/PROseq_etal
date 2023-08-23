@@ -70,12 +70,12 @@ rule homer_mergePeaks:
 rule homer_annotatePeaks:
     input:
         peaks="results/mergePeaks/merged.peaks",
+        genome=config["genome"],
         gtf=config["annotation"]
     output:
         annotations="results/annotatePeaks/merged_annot.txt",
     threads: 2
     params:
-        mode=config["annotatePeaks_mode"], # add tss, tts or rna mode and options here, i.e. "tss mm8"
         extra=["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
         "logs/annotatePeaks/annotatePeaks.log"
