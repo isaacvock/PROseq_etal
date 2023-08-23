@@ -76,6 +76,7 @@ rule homer_annotatePeaks:
         annotations="results/annotatePeaks/merged_annot.txt",
     threads: 2
     params:
+        mode="",
         extra=["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
         "logs/annotatePeaks/annotatePeaks.log"
