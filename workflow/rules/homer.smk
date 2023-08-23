@@ -6,6 +6,7 @@ rule homer_makeTagDir:
         directory("results/tagDir/{sample}")
     params:
         extra=config["makeTagDir_params"]
+    threads: 1
     log:
         "logs/homer_makeTagDir/{sample}.log"
     wrapper:
@@ -25,6 +26,7 @@ if config["findPeaks_style"] == "groseq":
         params:
             style=config["findPeaks_style"],
             extra=config["findPeaks_params"]
+        threads: 1
         log:
             "logs/homer_findPeaks/{sample}.log"
         conda:
@@ -43,6 +45,7 @@ else:
         params:
             style=config["findPeaks_style"],
             extra=config["findPeaks_params"]
+        threads: 1
         log:
             "logs/homer_findPeaks/{sample}.log"
         wrapper:
@@ -57,8 +60,9 @@ rule homer_mergePeaks:
         "results/mergePeaks/merged.peaks"
     params:
         extra=config["mergePeaks_params"]  # optional params, see homer manual
+    threads: 1
     log:
-        "logs/mergePeaks/{sample1}_{sample2}.log"
+        "logs/mergePeaks/mergePeaks.log"
     wrapper:
         "v2.4.0/bio/homer/mergePeaks"
 
@@ -70,12 +74,11 @@ rule homer_annotatePeaks:
         gtf=config["annotation"]
     output:
         annotations="results/annotatePeaks/merged_annot.txt",
-    threads:
-        2
+    threads: 2
     params:
         mode=config["annotatePeaks_mode"], # add tss, tts or rna mode and options here, i.e. "tss mm8"
         extra=["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
-        "logs/annotatePeaks/{sample}.log"
+        "logs/annotatePeaks/annotatePeaks.log"
     wrapper:
         "v2.4.0/bio/homer/annotatePeaks"   
