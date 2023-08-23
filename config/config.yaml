@@ -10,6 +10,10 @@ samples:
 
 ### General information
 
+# Which experiment
+  # Options are: "ChIPseq" and "PROseq"
+method: "PROseq"
+
 # Paired end?
 PE: True
 
@@ -22,13 +26,12 @@ genome: data/genome/genome.fasta
 # Path to annotation gtf file
 annotation: data/genome/genome.gtf
 
-# Path to pause index annotation (will be created at this address if it does not exist)
+# Path to pause index annotation (will be created if it does not exist)
 PI_gtf: data/genome/genome_PI.gtf
 
 # Which aligner to use? 
   # Options are: "bwa-mem2", "bowtie2", "star"
 aligner: "bwa-mem2"
-
 
 ### fastqc parameters
 
@@ -75,3 +78,8 @@ mergePeaks_params: "-d given"
 
 annotatePeaks_mode: "rna"
 annotatePeaks_params: ""
+
+
+### MACS2 parameters
+
+callpeaks_params: "-f BAMPE -g hs"
