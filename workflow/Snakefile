@@ -47,7 +47,8 @@ if config["PE"]:
             expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
             expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
-            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES)
+            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
+            "results/annotatePeaks/merged_annot.txt"
 
 
 else:
@@ -59,5 +60,6 @@ else:
             expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
             expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
-            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES)
+            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
+            "results/annotatePeaks/merged_annot.txt"
 

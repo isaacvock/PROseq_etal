@@ -65,11 +65,11 @@ rule homer_mergePeaks:
 
 rule homer_annotatePeaks:
     input:
-        peaks="peaks_refs/{sample}.peaks",
+        peaks="results/mergePeaks/merged.peaks",
         genome=config["genome"],
         gtf=config["annotation"]
     output:
-        annotations="{sample}_annot.txt",
+        annotations="results/annotatePeaks/merged_annot.txt",
     threads:
         2
     params:
