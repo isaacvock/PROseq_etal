@@ -33,6 +33,7 @@ include: "rules/preprocess.smk"
 include: "rules/align.smk"
 include: "rules/coverage.smk"
 include: "rules/quantify.smk"
+include: "rules/homer.smk"
 
 
 
