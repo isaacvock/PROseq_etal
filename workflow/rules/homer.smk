@@ -70,7 +70,6 @@ rule homer_mergePeaks:
 rule homer_annotatePeaks:
     input:
         peaks="results/mergePeaks/merged.peaks",
-        genome=config["genome"],
         gtf=config["annotation"]
     output:
         annotations="results/annotatePeaks/merged_annot.txt",
