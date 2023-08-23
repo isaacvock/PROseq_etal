@@ -77,7 +77,7 @@ rule homer_annotatePeaks:
     threads: 2
     params:
         mode="",
-        extra=["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
+        extra=config["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
         "logs/annotatePeaks/annotatePeaks.log"
     wrapper:
