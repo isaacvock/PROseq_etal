@@ -62,3 +62,10 @@ genomecov_params: "-3"
 ### bedGraphToBigWig parameters
 
 bg2bw_params: ""
+
+
+### HOMER parameters
+
+makeTagDir_params: ""
+findPeaks_style: "groseq"
+findPeaks_params: ""
