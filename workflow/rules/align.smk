@@ -22,7 +22,7 @@ if config["aligner"] == "bwa-mem2" :
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             # Index can be a list of (all) files created by bwa, or one of them
             idx=multiext(
-                "{}/genome".format(str(config["indices"])), 
+                "{}/genome".format(INDEX_PATH), 
                 ".amb", 
                 ".ann", 
                 ".bwt.2bit.64", 
@@ -49,7 +49,7 @@ elif config["aligner" == "bowtie2"]:
             ref=config["genome"],
         output:
             multiext(
-                "{}/genome".format(str(config["indices"])), 
+                "{}/genome".format(INDEX_PATH), 
                 expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),
@@ -71,7 +71,7 @@ elif config["aligner" == "bowtie2"]:
         input:
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             idx=multiext(
-                "{}/genome".format(str(config["indices"])), 
+                "{}/genome".format(INDEX_PATH), 
                 expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),
