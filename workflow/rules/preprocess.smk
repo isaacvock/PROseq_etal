@@ -25,14 +25,14 @@ if config["PE"]:
 
 
     # Run fastqc on trimmed fastqs
-    rule fastqc_r1:
+    rule fastqc:
         input:
-            "results/trimmed/{sample}.1.fastq"
+            "results/trimmed/{sample}.{read}.fastq"
         output:
-            html="results/fastqc/{sample}_r1.html",
-            zip="results/fastqc/{sample}_r1_fastqc.zip"
+            html="results/fastqc/{sample}_r{read}.html",
+            zip="results/fastqc/{sample}_r{read}_fastqc.zip"
         log:
-            "logs/fastqc/{sample}_r1.log"
+            "logs/fastqc/{sample}_r{read}.log"
         params:
             extra = config["fastqc_params"]
         resources:
@@ -40,23 +40,7 @@ if config["PE"]:
         threads: 4
         wrapper:
             "v2.2.1/bio/fastqc"
-
-    rule fastqc_r2:
-        input:
-            "results/trimmed/{sample}.2.fastq"
-        output:
-            html="results/fastqc/{sample}_r2.html",
-            zip="results/fastqc/{sample}_r2_fastqc.zip"
-        log:
-            "logs/fastqc/{sample}_r2.log"
-        params:
-            extra = config["fastqc_params"]
-        resources:
-            mem_mb = 9000 
-        threads: 4
-        wrapper:
-            "v2.2.1/bio/fastqc"
-
+            
 else:
 
     # Trim with fastp (automatically detects adapters)
@@ -82,8 +66,8 @@ else:
         input:
             "results/trimmed/{sample}.fastq"
         output:
-            html="results/fastqc/{sample}.html",
-            zip="results/fastqc/{sample}_fastqc.zip"
+            html="results/fastqc/{sample}_r1.html",
+            zip="results/fastqc/{sample}_r1_fastqc.zip"
         log:
             "logs/fastqc/{sample}.log"
         params:

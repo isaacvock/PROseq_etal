@@ -39,28 +39,25 @@ include: "rules/homer.smk"
 
 ##### Target rule ######
 
-if config["PE"]:
 
-    rule all:
-        input:
-            expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = ['r1', 'r2']),
-            expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = ['r1', 'r2']),
-            expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
-            expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
-            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
-            "results/annotatePeaks/merged_annot.txt"
+if config["method"] == "PROseq":
+
+    expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = READ_NAMES),
+    expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = READ_NAMES),
+    expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
+    expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
+    expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
+    expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
+    "results/annotatePeaks/merged_annot.txt"
 
 
 else:
 
-    rule all:
-        input:
-            expand("results/fastqc/{SID}.html", SID = SAMP_NAMES),
-            expand("results/fastqc/{SID}_fastqc.zip", SID = SAMP_NAMES),
-            expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
-            expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
-            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
-            "results/annotatePeaks/merged_annot.txt"
+    expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = READ_NAMES),
+    expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = READ_NAMES),
+    expand("results/bigwig/{SID}_pos.bw", SID = SAMP_NAMES),
+    expand("results/bigwig/{SID}_min.bw", SID = SAMP_NAMES),
+    expand("results/macs2_bg2bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
+    expand("results/macs2_bg2bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
+    "results/annotatePeaks/merged_annot.txt"
 

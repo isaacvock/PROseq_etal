@@ -7,6 +7,13 @@ samples:
   KO_2: data/fastq/KO_2
   KO_ctl: data/fastq/KO_ctl
 
+## Which sample IDs are inputs/controls for others?
+  # Only relevant if method == ChIPseq
+controls:
+  WT_1: WT_ctl
+  WT_2: WT_ctl
+  KO_1: KO_ctl
+  KO_2: KO_ctl
 
 ### General information
 
