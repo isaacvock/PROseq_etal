@@ -4,7 +4,7 @@ rule genomecov_plus:
     output:
         "results/genomecov/{sample}_pos.bg"
     log:
-        "logs/genomecov/{sample}.log"
+        "logs/genomecov/{sample}_pos.log"
     params:
         "-bga -strand + {}".format(str(config["genomecov_params"]))
     wrapper:
@@ -16,9 +16,21 @@ rule genomecov_minus:
     output:
         "results/genomecov/{sample}_min.bg"
     log:
-        "logs/genomecov/{sample}.log"
+        "logs/genomecov/{sample}_min.log"
     params:
         "-bga -strand - {}".format(str(config["genomecov_params"]))
+    wrapper:
+        "v2.2.1/bio/bedtools/genomecov"
+
+rule genomecov:
+    input:
+        "results/align/{sample}.bam",
+    output:
+        "results/genomecov/{sample}.bg"
+    log:
+        "logs/genomecov/{sample}.log"
+    params:
+        "-bg {}".format(str(config["genomecov_params"]))
     wrapper:
         "v2.2.1/bio/bedtools/genomecov"
 
