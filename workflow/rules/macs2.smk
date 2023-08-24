@@ -52,7 +52,7 @@ if config["method"] == "ChIPseq":
             treatment="results/macs2_callpeak/{sample}_treat_pileup.bdg",
             control="results/macs2_callpeak/{sample}_control_lambda.bdg",
         output:
-            fe="results/macs2_enrichment/{sample}_diff.bdg"
+            diff="results/macs2_enrichment/{sample}_diff.bdg"
         params:
             extra=config["bdgcmp_diff_params"],
         log:
@@ -62,14 +62,52 @@ if config["method"] == "ChIPseq":
             macs2 bdgcmp \
                 -t {input.treatment} \
                 -c {input.control} \
-                -o {output.fe} \
+                -o {output.diff} \
                 -m subtract {params.extra} 1> {log} 2>&1 
             """
 
     ### Sort BedGraph files uppercase letter before lowercase
+    rule macs2_sort:
+        input:
+            diff="results/macs2_enrichment/{sample}_diff.bdg"
+            fe="results/macs2_enrichment/{sample}_FE.bdg"
+        output:
+            diff="results/macs2_enrichment/{sample}_sorted_diff.bg",
+            fe="results/macs2_enrichment/{sample}_sorted_FE.bg"
+        log:
+            "logs/macs2_enrichment/{sample}_sort.log"
+        shell:
+            """
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff} 1> {log} 2>&1
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.fe} > {output.fe} 1> {log} 2>&1
+            """
 
     ### Convert bedGraph to bigWig
-    
+    rule diff_bg2bw:
+        input:
+            bedGraph="results/macs2_enrichment/{sample}_sorted_diff.bg",
+            chromsizes="results/genomecov/genome.chrom.sizes"
+        output:
+            "results/macs2_bg2bw/{sample}_diff.bw"
+        params:
+            config["bg2bw_params"]
+        log:
+            "logs/diff_bg2bw/{sample}.log"
+        wrapper:
+            "v2.2.1/bio/ucsc/bedGraphToBigWig"    
+
+    rule FE_bg2bw:
+        input:
+            bedGraph="results/macs2_enrichment/{sample}_sorted_FE.bg",
+            chromsizes="results/genomecov/genome.chrom.sizes"
+        output:
+            "results/macs2_bg2bw/{sample}_FE.bw"
+        params:
+            config["bg2bw_params"]
+        log:
+            "logs/FE_bg2bw/{sample}.log"
+        wrapper:
+            "v2.2.1/bio/ucsc/bedGraphToBigWig" 
 
 else:
 
