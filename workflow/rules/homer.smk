@@ -24,7 +24,7 @@ if config["findPeaks_style"] == "groseq":
             transcripts="results/findPeaks/{sample}_transcripts.txt",
             gtf="results/findPeaks/{sample}.gtf"
         params:
-            style=config["findPeaks_style"],
+            style="groseq",
             extra=config["findPeaks_params"]
         threads: 1
         log:
@@ -79,6 +79,22 @@ rule homer_annotatePeaks:
         mode="",
         extra=config["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
-        "logs/annotatePeaks/annotatePeaks.log"
+        "logs/homer_annotatePeaks/annotatePeaks.log"
+    wrapper:
+        "v2.4.0/bio/homer/annotatePeaks"   
+
+rule homer_annotateSeparatePeaks:
+    input:
+        peaks=expand("results/findPeaks/{{sample}}_{type}.txt", type = PEAK_TYPE),
+        genome=config["genome"],
+        gtf=config["annotation"]
+    output:
+        annotations="results/annotatePeaks/{sample}_annot.txt",
+    threads: 2
+    params:
+        mode="",
+        extra=config["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
+    log:
+        "logs/homer_annotateSeparatePeaks/{sample}.log"
     wrapper:
         "v2.4.0/bio/homer/annotatePeaks"   
