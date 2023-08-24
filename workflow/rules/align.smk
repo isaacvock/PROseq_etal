@@ -5,11 +5,12 @@ if config["aligner"] == "bwa-mem2" :
         input:
             config["genome"],
         output:
-            "bwamem2_index/genome.0123",
-            "bwamem2_index/genome.amb",
-            "bwamem2_index/genome.ann",
-            "bwamem2_index/genome.bwt.2bit.64",
-            "bwamem2_index/genome.pac",
+            multiext(
+                "{}/genome".format(INDEX_PATH), 
+                ".amb", 
+                ".ann", 
+                ".bwt.2bit.64", 
+                ".pac"),
         log:
             "logs/index/index.log",
         wrapper:
@@ -20,13 +21,18 @@ if config["aligner"] == "bwa-mem2" :
         input:
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             # Index can be a list of (all) files created by bwa, or one of them
-            idx=multiext("bwamem2_index/genome", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
+            idx=multiext(
+                "{}/genome".format(str(config["indices"])), 
+                ".amb", 
+                ".ann", 
+                ".bwt.2bit.64", 
+                ".pac"),
         output:
             "results/align/{sample}.bam",
         log:
             "logs/align/{sample}.log",
         params:
-            extra=config["bwamem2_extra"],
+            extra=config["bwamem2_align_params"],
             sort=config["bwamem2_sort"],  # Can be 'none', 'samtools' or 'picard'.
             sort_order=config["bwamem2_sort_order"],  # Can be 'coordinate' (default) or 'queryname'.
             sort_extra=config["bwamem2_sort_extra"],  # Extra args for samtools/picard.
@@ -43,7 +49,7 @@ elif config["aligner" == "bowtie2"]:
             ref=config["genome"],
         output:
             multiext(
-                "bowtie2_index/genome",
+                "{}/genome".format(str(config["indices"])), 
                 expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),
@@ -66,7 +72,7 @@ elif config["aligner" == "bowtie2"]:
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             # Index can be a list of (all) files created by bwa, or one of them
             idx=multiext(
-                "bowtie2_index/genome",
+                "{}/genome".format(str(config["indices"])), 
                 expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
                 expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),

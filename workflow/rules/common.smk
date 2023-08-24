@@ -25,6 +25,14 @@ if config["aligner" == "bowtie2"]:
     else:
         INDEX_SUFFIX = "2"
 
+if config["indices"].endswith('/'):
+    INDEX_PATH = str(config["indices"])
+    INDEX_PATH = INDEX_PATH[:-1]
+else:
+    INDEX_PATH = str(config["indices"])
+
+
+
 
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]
