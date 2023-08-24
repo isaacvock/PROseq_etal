@@ -70,7 +70,6 @@ elif config["aligner" == "bowtie2"]:
     rule align:
         input:
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
-            # Index can be a list of (all) files created by bwa, or one of them
             idx=multiext(
                 "{}/genome".format(str(config["indices"])), 
                 expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
