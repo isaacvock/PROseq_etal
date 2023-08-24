@@ -73,6 +73,16 @@ rule sort_bg_min:
     shell:
         "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
+rule sort_bg:
+    input:
+        "results/genomecov/{sample}.bg"
+    output:
+        "results/sort_bg/{sample}_sorted.bg"
+    log:
+        "logs/sort_bg/{sample}.log"
+    shell:
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
+
 
 
 rule bg2bw_pos:
@@ -84,7 +94,7 @@ rule bg2bw_pos:
     params:
         config["bg2bw_params"]
     log:
-        "logs/bg2bw/{sample}.log"
+        "logs/bg2bw/{sample}_pos.log"
     wrapper:
         "v2.2.1/bio/ucsc/bedGraphToBigWig"
 
@@ -94,6 +104,19 @@ rule bg2bw_min:
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig/{sample}_min.bw"
+    params:
+        config["bg2bw_params"]
+    log:
+        "logs/bg2bw/{sample}_min.log"
+    wrapper:
+        "v2.2.1/bio/ucsc/bedGraphToBigWig"
+
+rule bg2bw:
+    input:
+        bedGraph="results/sort_bg/{sample}_sorted.bg",
+        chromsizes="results/genomecov/genome.chrom.sizes"
+    output:
+        "results/bigwig/{sample}.bw"
     params:
         config["bg2bw_params"]
     log:
