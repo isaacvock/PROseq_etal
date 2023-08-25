@@ -49,7 +49,7 @@ def get_input_fastqs(wildcards):
 # Figure out which samples are each enrichment's input sample
 def get_control_sample(wildcards):
     control_label = config["controls"][wildcards.treatment]
-    return config["samples"][control_label]
+    return expand("results/align/{control}.bam", control = control_label)
 
 # Check if fastq files are gzipped
 fastq_paths = config["samples"]
