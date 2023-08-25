@@ -21,7 +21,7 @@ if config["method"] == "ChIPseq":
                     "_peaks.gappedPeak"
                     )
         log:
-            "logs/macs2_callpeaks/callpeak.log"
+            "logs/macs2_callpeaks/{treatment}.log"
         params:
             config["callpeaks_params"]
         wrapper:
@@ -37,7 +37,7 @@ if config["method"] == "ChIPseq":
         params:
             extra=config["bdgcmp_FE_params"],
         log:
-            "logs/macs2_enrichment/{sample}.log"
+            "logs/macs2_enrichment/{treatment}.log"
         shell:
             """
             macs2 bdgcmp \
@@ -128,7 +128,7 @@ else:
                     "_peaks.gappedPeak"
                     )
         log:
-            "logs/macs2/callpeak.log"
+            "logs/macs2/{sample}.log"
         params:
             config["macs2_params"]
         wrapper:
