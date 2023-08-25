@@ -2,11 +2,12 @@ rule genomecov_plus:
     input:
         "results/align/{sample}.bam",
     output:
-        "results/genomecov/{sample}_pos.bg"
+        "results/genomecov_strand/{sample}_pos.bg"
     log:
-        "logs/genomecov/{sample}_pos.log"
+        "logs/genomecov_plus/{sample}_pos.log"
     params:
         "-bga -strand + {}".format(str(config["genomecov_params"]))
+    threads: 1
     wrapper:
         "v2.2.1/bio/bedtools/genomecov"
 
@@ -14,11 +15,12 @@ rule genomecov_minus:
     input:
         "results/align/{sample}.bam",
     output:
-        "results/genomecov/{sample}_min.bg"
+        "results/genomecov_strand/{sample}_min.bg"
     log:
-        "logs/genomecov/{sample}_min.log"
+        "logs/genomecov_min/{sample}_min.log"
     params:
         "-bga -strand - {}".format(str(config["genomecov_params"]))
+    threads: 1
     wrapper:
         "v2.2.1/bio/bedtools/genomecov"
 
@@ -31,6 +33,7 @@ rule genomecov:
         "logs/genomecov/{sample}.log"
     params:
         "-bg {}".format(str(config["genomecov_params"]))
+    threads: 1
     wrapper:
         "v2.2.1/bio/bedtools/genomecov"
 
@@ -55,21 +58,23 @@ rule chrom_sizes:
 
 rule sort_bg_pos:
     input:
-        "results/genomecov/{sample}_pos.bg"
+        "results/genomecov_strand/{sample}_pos.bg"
     output:
-        "results/sort_bg/{sample}_pos_sorted.bg"
+        "results/sort_bg_strand/{sample}_pos_sorted.bg"
     log:
-        "logs/sort_bg/{sample}_pos.log"
+        "logs/sort_bg_pos/{sample}_pos.log"
+    threads: 1
     shell:
         "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
 rule sort_bg_min:
     input:
-        "results/genomecov/{sample}_min.bg"
+        "results/genomecov_strand/{sample}_min.bg"
     output:
-        "results/sort_bg/{sample}_min_sorted.bg"
+        "results/sort_bg_strand/{sample}_min_sorted.bg"
     log:
-        "logs/sort_bg/{sample}_min.log"
+        "logs/sort_bg_min/{sample}_min.log"
+    threads: 1
     shell:
         "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
@@ -80,6 +85,7 @@ rule sort_bg:
         "results/sort_bg/{sample}_sorted.bg"
     log:
         "logs/sort_bg/{sample}.log"
+    threads: 1
     shell:
         "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
 
@@ -87,27 +93,29 @@ rule sort_bg:
 
 rule bg2bw_pos:
     input:
-        bedGraph="results/sort_bg/{sample}_pos_sorted.bg",
+        bedGraph="results/sort_bg_strand/{sample}_pos_sorted.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
-        "results/bigwig/{sample}_pos.bw"
+        "results/bigwig_strand/{sample}_pos.bw"
     params:
         config["bg2bw_params"]
     log:
-        "logs/bg2bw/{sample}_pos.log"
+        "logs/bg2bw_pos/{sample}_pos.log"
+    threads: 1
     wrapper:
         "v2.2.1/bio/ucsc/bedGraphToBigWig"
 
 rule bg2bw_min:
     input:
-        bedGraph="results/sort_bg/{sample}_min_sorted.bg",
+        bedGraph="results/sort_bg_strand/{sample}_min_sorted.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
-        "results/bigwig/{sample}_min.bw"
+        "results/bigwig_strand/{sample}_min.bw"
     params:
         config["bg2bw_params"]
     log:
-        "logs/bg2bw/{sample}_min.log"
+        "logs/bg2bw_min/{sample}_min.log"
+    threads: 1
     wrapper:
         "v2.2.1/bio/ucsc/bedGraphToBigWig"
 
@@ -121,6 +129,7 @@ rule bg2bw:
         config["bg2bw_params"]
     log:
         "logs/bg2bw/{sample}.log"
+    threads: 1
     wrapper:
         "v2.2.1/bio/ucsc/bedGraphToBigWig"
 
