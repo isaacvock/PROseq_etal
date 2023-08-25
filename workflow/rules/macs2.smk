@@ -4,7 +4,7 @@ if config["method"] == "ChIPseq":
     rule macs2_callpeak:
         input:
             treatment="results/align/{treatment}.bam",
-            control=expand("results/align/{control}.bam", control = get_control_sample)
+            control=expand("results/align/{control}.bam", control = get_control_sample),
         output:
             # all output-files must share the same basename and only differ by it's extension
             # Usable extensions (and which tools they implicitly call) are listed here:
@@ -69,7 +69,7 @@ if config["method"] == "ChIPseq":
     ### Sort BedGraph files uppercase letter before lowercase
     rule macs2_sort:
         input:
-            diff="results/macs2_enrichment/{treatment}_diff.bdg"
+            diff="results/macs2_enrichment/{treatment}_diff.bdg",
             fe="results/macs2_enrichment/{treatment}_FE.bdg"
         output:
             diff="results/macs2_enrichment/{treatment}_sorted_diff.bg",
