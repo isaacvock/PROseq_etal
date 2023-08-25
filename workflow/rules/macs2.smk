@@ -70,10 +70,10 @@ if config["method"] == "ChIPseq":
     rule macs2_sort:
         input:
             diff="results/macs2_enrichment/{treatment}_diff.bdg",
-            fe="results/macs2_enrichment/{treatment}_FE.bdg"
+            fe="results/macs2_enrichment/{treatment}_FE.bdg",
         output:
             diff="results/macs2_enrichment/{treatment}_sorted_diff.bg",
-            fe="results/macs2_enrichment/{treatment}_sorted_FE.bg"
+            fe="results/macs2_enrichment/{treatment}_sorted_FE.bg",
         log:
             "logs/macs2_enrichment/{treatment}_sort.log"
         shell:
