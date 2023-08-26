@@ -74,6 +74,10 @@ bwamem2_sort_order: "coordinate" # Can be 'coordinate' (default) or 'queryname'.
 bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem2_sort is not 'none'.
 
 
+### Samtools parameters
+samtools_params: ""
+
+
 ### bowtie2 parameters
 
 bowtie2_build_params: ""
