@@ -94,7 +94,7 @@ rule sort:
     input:
         "results/align/{sample}.bam"
     output:
-        "results/sorted/{sample}.bam"
+        "results/sorted_bam/{sample}.bam"
     log:
         "logs/sort/{sample}.log"
     params:
