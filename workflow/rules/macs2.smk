@@ -89,7 +89,7 @@ if config["method"] == "ChIPseq":
             bedGraph="results/macs2_sort/{treatment}_sorted_diff.bg",
             chromsizes="results/genomecov/genome.chrom.sizes"
         output:
-            "results/macs2_diff_bw{treatment}_diff.bw"
+            "results/macs2_diff_bw/{treatment}_diff.bw"
         params:
             config["bg2bw_params"]
         log:

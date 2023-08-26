@@ -68,4 +68,3 @@ else:
             expand("results/macs2_FE_bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
             expand("results/annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
             "results/annotatePeaks/merged_annot.txt"
-
