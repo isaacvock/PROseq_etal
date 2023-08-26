@@ -121,7 +121,7 @@ rule bg2bw_minus:
 
 rule bg2bw:
     input:
-        bedGraph="results/sort_bg/{sample}bg",
+        bedGraph="results/sort_bg/{sample}.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig/{sample}.bw"
