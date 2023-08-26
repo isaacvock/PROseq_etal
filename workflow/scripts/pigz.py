@@ -20,7 +20,7 @@ output = snakemake.output.unzipped_fqs
 if n == 1:
 
     shell(
-        "(pigz -d -p {snakemake.threads} {fastqs} > {output}) {log}"
+        "(pigz -d -p {snakemake.threads} -c {fastqs} > {output}) {log}"
     )   
 
 else:
@@ -31,11 +31,11 @@ else:
     out2 = output[1]
 
     shell(
-        "(pigz -d -p -c {snakemake.threads} {fastq1} > {out1}) {log}"
+        "(pigz -d -p {snakemake.threads} -c {fastq1} > {out1}) {log}"
     ) 
 
     shell(
-        "(pigz -d -p -c {snakemake.threads} {fastq2} > {out2}) {log}"
+        "(pigz -d -p {snakemake.threads} -c {fastq2} > {out2}) {log}"
     )  
 
 
