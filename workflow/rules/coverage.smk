@@ -60,7 +60,7 @@ rule sort_bg_plus:
     input:
         "results/genomecov_plus/{sample}.bg"
     output:
-        "results/sort_bg_plus/{sample}_sorted.bg"
+        "results/sort_bg_plus/{sample}.bg"
     log:
         "logs/sort_bg_plus/{sample}.log"
     threads: 1
@@ -71,7 +71,7 @@ rule sort_bg_minus:
     input:
         "results/genomecov_minus/{sample}.bg"
     output:
-        "results/sort_bg_minus/{sample}_sorted.bg"
+        "results/sort_bg_minus/{sample}.bg"
     log:
         "logs/sort_bg_minus/{sample}.log"
     threads: 1
@@ -93,7 +93,7 @@ rule sort_bg:
 
 rule bg2bw_plus:
     input:
-        bedGraph="results/sort_bg_plus/{sample}_sorted.bg",
+        bedGraph="results/sort_bg_plus/{sample}.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig_plus/{sample}.bw"
@@ -107,7 +107,7 @@ rule bg2bw_plus:
 
 rule bg2bw_minus:
     input:
-        bedGraph="results/sort_bg_minus/{sample}_sorted.bg",
+        bedGraph="results/sort_bg_minus/{sample}.bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig_minus/{sample}.bw"
@@ -121,7 +121,7 @@ rule bg2bw_minus:
 
 rule bg2bw:
     input:
-        bedGraph="results/sort_bg/{sample}_sorted.bg",
+        bedGraph="results/sort_bg/{sample}bg",
         chromsizes="results/genomecov/genome.chrom.sizes"
     output:
         "results/bigwig/{sample}.bw"
