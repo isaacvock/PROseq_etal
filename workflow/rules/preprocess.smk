@@ -31,8 +31,8 @@ if config["PE"]:
                 unpaired1="results/trimmed/{sample}.u1.fastq",
                 unpaired2="results/trimmed/{sample}.u2.fastq",
                 failed="results/trimmed/{sample}.failed.fastq",
-                html="results/trimmed/reports/{sample}.html",
-                json="results/trimmed/reports/{sample}.json"
+                html="results/reports/{sample}.html",
+                json="results/reports/{sample}.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
@@ -54,8 +54,8 @@ if config["PE"]:
                 unpaired1="results/trimmed/{sample}.u1.fastq",
                 unpaired2="results/trimmed/{sample}.u2.fastq",
                 failed="results/trimmed/{sample}.failed.fastq",
-                html="results/trimmed/reports/{sample}.html",
-                json="results/trimmed/reports/{sample}.json"
+                html="results/reports/{sample}.html",
+                json="results/reports/{sample}.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
@@ -97,8 +97,8 @@ else:
             output:
                 trimmed="results/trimmed/{sample}.fastq",
                 failed="results/trimmed/{sample}.failed.fastq",
-                html="results/trimmed/reports/{sample}.html",
-                json="results/trimmed/reports{sample}.json"
+                html="results/reports/{sample}.html",
+                json="results/reports{sample}.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
@@ -116,8 +116,8 @@ else:
             output:
                 trimmed="results/trimmed/{sample}.fastq",
                 failed="results/trimmed/{sample}.failed.fastq",
-                html="results/trimmed/reports/{sample}.html",
-                json="results/trimmed/reports{sample}.json"
+                html="results/reports/{sample}.html",
+                json="results/reports{sample}.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
