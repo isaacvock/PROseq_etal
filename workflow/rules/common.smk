@@ -54,12 +54,12 @@ def get_control_sample(wildcards):
 # Check if fastq files are gzipped
 fastq_paths = config["samples"]
 
-is_gz = True
+is_gz = False
 
-#for p in fastq_paths.values():
-#
-#    fastqs = sorted(glob.glob(f"{p}/*.fastq*"))
-#    test_gz = any(path.endswith('.fastq.gz') for path in fastqs)
-#    is_gz = any([is_gz, test_gz])
+for p in fastq_paths.values():
+
+    fastqs = sorted(glob.glob(f"{p}/*.fastq*"))
+    test_gz = any(path.endswith('.fastq.gz') for path in fastqs)
+    is_gz = any([is_gz, test_gz])
 
 
