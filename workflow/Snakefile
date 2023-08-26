@@ -64,8 +64,8 @@ else:
             expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = READ_NAMES),
             expand("results/align/{SID}.bam", SID = SAMP_NAMES),
             expand("results/bigwig/{SID}.bw", SID = SAMP_NAMES),
-            expand("results/macs2_bg2bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
-            expand("results/macs2_bg2bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
+            expand("results/macs2_diff_bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
+            expand("results/macs2_FE_bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
             expand("results/annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
             "results/annotatePeaks/merged_annot.txt"
 
