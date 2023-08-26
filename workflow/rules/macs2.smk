@@ -3,7 +3,7 @@ if config["method"] == "ChIPseq":
     ### Call peaks
     rule macs2_callpeak:
         input:
-            treatment="results/align/{treatment}.bam",
+            treatment="results/sorted_bam/{treatment}.bam",
             #control=expand("results/align/{control}.bam", control = get_control_sample),
             control=get_control_sample
         output:
@@ -125,7 +125,7 @@ else:
     ### Call peaks
     rule macs2_callpeak:
         input:
-            treatment="results/align/{sample}.bam",
+            treatment="results/sorted_bam/{sample}.bam",
         output:
             # all output-files must share the same basename and only differ by it's extension
             # Usable extensions (and which tools they implicitly call) are listed here:

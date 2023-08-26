@@ -1,6 +1,6 @@
 rule genomecov_plus:
     input:
-        "results/align/{sample}.bam",
+        "results/sorted_bam/{sample}.bam",
     output:
         "results/genomecov_plus/{sample}.bg"
     log:
@@ -13,7 +13,7 @@ rule genomecov_plus:
 
 rule genomecov_minus:
     input:
-        "results/align/{sample}.bam",
+        "results/sorted_bam/{sample}.bam",
     output:
         "results/genomecov_minus/{sample}.bg"
     log:
@@ -26,7 +26,7 @@ rule genomecov_minus:
 
 rule genomecov:
     input:
-        "results/align/{sample}.bam",
+        "results/sorted_bam/{sample}.bam",
     output:
         "results/genomecov/{sample}.bg"
     log:
@@ -40,7 +40,7 @@ rule genomecov:
 
 rule chrom_sizes:
     input:
-        expand("results/align/{sample_one}.bam", sample_one = SAMP_NAMES[1])
+        expand("results/sorted_bam/{sample_one}.bam", sample_one = SAMP_NAMES[1])
     output:
         "results/genomecov/genome.chrom.sizes",
     log:

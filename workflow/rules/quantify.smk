@@ -18,7 +18,7 @@ rule create_PI_gtf:
 
 rule quantify_pause:
     input:
-        bam="results/align/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
         gtf=config["PI_gtf"]
     output:
         counts="results/quantify/{sample}_pause.csv",
@@ -38,7 +38,7 @@ rule quantify_pause:
 
 rule quantify_genebody:
     input:
-        bam="results/align/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
         gtf=config["PI_gtf"]
     output:
         counts="results/quantify/{sample}_genebody.csv",
@@ -58,7 +58,7 @@ rule quantify_genebody:
 
 rule quantify_gene:
     input:
-        bam="results/align/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
         gtf=config["PI_gtf"]
     output:
         counts="results/quantify/{sample}_gene.csv",

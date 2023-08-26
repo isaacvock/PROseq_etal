@@ -88,3 +88,17 @@ elif config["aligner" == "bowtie2"]:
         threads: 20
         wrapper:
             "v2.2.1/bio/bwa-mem2/mem"
+
+# Sort bam files
+rule sort:
+    input:
+        "results/align/{sample}.bam"
+    output:
+        "results/sorted/{sample}.bam"
+    log:
+        "logs/sort/{sample}.log"
+    params:
+        extra=config["samtools_params"]
+    threads: 8
+    wrapper:
+        "v2.6.0/bio/samtools/sort"
