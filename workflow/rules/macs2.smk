@@ -77,7 +77,7 @@ if config["method"] == "ChIPseq":
     ### Sort BedGraph files uppercase letter before lowercase
     rule macs2_sort:
         input:
-            diff="relsg",
+            diff="results/macs2_differential/{treatment}_diff.bdg",
             fe="results/macs2_enrichment/{treatment}_FE.bdg",
         output:
             diff="results/macs2_sort/{treatment}_sorted_diff.bg",
