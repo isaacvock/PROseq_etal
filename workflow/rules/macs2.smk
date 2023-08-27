@@ -84,11 +84,13 @@ if config["method"] == "ChIPseq":
             fe="results/macs2_sort/{treatment}_sorted_FE.bg",
         conda:
             "../envs/macs2.yaml"
+        log:
+            "logs/macs2_sort/{treatment}.log"
         threads: 1
         shell:
             """
-            LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff}
-            LC_COLLATE=C sort -k1,1 -k2,2n {input.fe} > {output.fe}
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff} 2> {log}
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.fe} > {output.fe} 2> {log}
             """
 
     ### Convert bedGraph to bigWig

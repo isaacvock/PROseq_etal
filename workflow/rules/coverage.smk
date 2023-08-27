@@ -65,7 +65,7 @@ rule sort_bg_plus:
         "logs/sort_bg_plus/{sample}.log"
     threads: 1
     shell:
-        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output} 2> {log}"
 
 rule sort_bg_minus:
     input:
@@ -76,7 +76,7 @@ rule sort_bg_minus:
         "logs/sort_bg_minus/{sample}.log"
     threads: 1
     shell:
-        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output} 2> {log}"
 
 rule sort_bg:
     input:
@@ -87,7 +87,7 @@ rule sort_bg:
         "logs/sort_bg/{sample}.log"
     threads: 1
     shell:
-        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output}"
+        "LC_COLLATE=C sort -k1,1 -k2,2n {input} > {output} 2> {log}"
 
 
 
