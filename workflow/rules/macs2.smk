@@ -24,6 +24,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_callpeaks/{treatment}.log"
         params:
             config["callpeaks_params"]
+        threads: 1
         wrapper:
             "v2.4.0/bio/macs2/callpeak"
 
@@ -40,6 +41,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_enrichment/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
+        threads: 1
         shell:
             """
             macs2 bdgcmp \
@@ -62,6 +64,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_differential/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
+        threads: 1
         shell:
             """
             macs2 bdgcmp \
@@ -83,6 +86,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_sort/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
+        threads: 1
         shell:
             """
             LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff} 1> {log} 2>&1
@@ -100,6 +104,7 @@ if config["method"] == "ChIPseq":
             config["bg2bw_params"]
         log:
             "logs/diff_bg2bw/{treatment}.log"
+        threads: 1
         wrapper:
             "v2.2.1/bio/ucsc/bedGraphToBigWig"    
 
@@ -113,6 +118,7 @@ if config["method"] == "ChIPseq":
             config["bg2bw_params"]
         log:
             "logs/FE_bg2bw/{treatment}.log"
+        threads: 1
         wrapper:
             "v2.2.1/bio/ucsc/bedGraphToBigWig" 
 
