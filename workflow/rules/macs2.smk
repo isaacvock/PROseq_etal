@@ -100,8 +100,6 @@ if config["method"] == "ChIPseq":
             config["bg2bw_params"]
         log:
             "logs/diff_bg2bw/{treatment}.log"
-        conda:
-            "../envs/macs2.yaml"
         wrapper:
             "v2.2.1/bio/ucsc/bedGraphToBigWig"    
 
@@ -115,8 +113,6 @@ if config["method"] == "ChIPseq":
             config["bg2bw_params"]
         log:
             "logs/FE_bg2bw/{treatment}.log"
-        conda:
-            "../envs/macs2.yaml"
         wrapper:
             "v2.2.1/bio/ucsc/bedGraphToBigWig" 
 
