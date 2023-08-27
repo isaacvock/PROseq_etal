@@ -77,20 +77,18 @@ if config["method"] == "ChIPseq":
     ### Sort BedGraph files uppercase letter before lowercase
     rule macs2_sort:
         input:
-            diff="results/macs2_differential/{treatment}_diff.bdg",
+            diff="relsg",
             fe="results/macs2_enrichment/{treatment}_FE.bdg",
         output:
             diff="results/macs2_sort/{treatment}_sorted_diff.bg",
             fe="results/macs2_sort/{treatment}_sorted_FE.bg",
-        log:
-            "logs/macs2_sort/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
         threads: 1
         shell:
             """
-            LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff} 1> {log} 2>&1
-            LC_COLLATE=C sort -k1,1 -k2,2n {input.fe} > {output.fe} 1> {log} 2>&1
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.diff} > {output.diff}
+            LC_COLLATE=C sort -k1,1 -k2,2n {input.fe} > {output.fe}
             """
 
     ### Convert bedGraph to bigWig
