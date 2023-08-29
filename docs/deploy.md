@@ -1,8 +1,8 @@
 ## Setup
 
-There are 4 steps required to get up and running with bam2bakR
+There are 4 steps required to get up and running with PROseq_etal
 
-1. [Install conda (or mamba) on your system](#conda). This is the package manager that bam2bakR uses to make setting up the necessary dependencies a breeze.
+1. [Install conda (or mamba) on your system](#conda). This is the package manager that PROseq_etal uses to make setting up the necessary dependencies a breeze.
 1. [Deploy workflow](#deploy) with [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html)
 1. [Edit the config file](#config) (located in config/ directory of deployed/cloned repo) to your liking
 1. [Run it!](#run)
