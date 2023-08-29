@@ -97,19 +97,19 @@ The remaining somewhat more self-explanatory required parameters are:
 
 While at this point you can run RPOseq_etal as described in the general deployment documentation, this strategy will not make use of the immense amount of computational resources available at your fingertips as a Yale HPC user. 
 
-To make the most of what McCleary and other clusters have to offer, you need to specify a [profile for Snakemake](https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles). If you don't want to figure out how to do this from scratch, have no fear, I have already created and made available a profile I use for running Snakemake pipelines on McCleary. To use it, clone the repository containing the profile into the directory in which you will run PROseq_etal:
+To make the most of what McCleary and other clusters have to offer, it is best if you specify an in-depth [profile for Snakemake](https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles). If you don't want to figure out how to do this from scratch, have no fear, I have already created and made available a profile I use for running Snakemake pipelines on McCleary. To use it, clone the repository containing the profile into the directory in which you will run PROseq_etal:
 
 ``` bash
 git clone https://github.com/isaacvock/yale_profile.git
 ```
 
-You can then copy a shell script from this directory that can be used for launching the pipeline from a non-interactive node:
+You can then copy a shell script from this directory that can be used for launching the pipeline from a non-interactive node (so you don't have to sit there and watch the pipeline run):
 
 ``` bash
 cp yale_profile/run_slurm.sh ./
 ```
 
-PROseq_etal can then be run from your working directory with (first purging any loaded modules to reset the environment):
+PROseq_etal can then be run from your working directory with (first purging any loaded modules to reset the environment. Not strictly necessary but will eliminate an inconsequential warning message at a later step):
 
 ``` bash
 module purge
