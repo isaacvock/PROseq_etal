@@ -12,6 +12,7 @@
 ####### PARAMETERS YOU NEED TO SET #######
 
 ## Paths to fastq containing directories.
+  # Fastqs may be either unzipped or gzipped
 samples:
   WT_1: data/fastq/WT_1
   WT_2: data/fastq/WT_2
