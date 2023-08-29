@@ -16,7 +16,7 @@ Alignment output:
 MACS2 output:
 
 * `macs2_callpeak`: peak calls from MACS2
-  * This is the only MACS2 output if the `method` parameter in your config is set to `PROseq`.
+  - This is the only MACS2 output if the `method` parameter in your config is set to `PROseq`.
 * `macs2_differential`: output of `macs2 bdgcmp` comparison of Input to enrichment using subtraction comparison.
 * `macs2_enrichment`: output of `macs2 bdgcmp` comparison of Input to enrichment using fold difference comparison.
 * `macs2_sort`: sorted output from `macs2_differential` and `macs2_enrichment`; needed to run bedGraphtobigWig.
@@ -33,7 +33,7 @@ HOMER output:
 Coverage files:
 
 * `genomecov`: BedGraphs generated with `bedtools genomecov`.
-  * If `method` is `PROseq`, then separate plus and minus strand versions of all coverage files will be generated, with directories appended with `_plus` and `_minus` respectively.
+  - If `method` is `PROseq`, then separate plus and minus strand versions of all coverage files will be generated, with directories appended with `_plus` and `_minus` respectively.
 * `chrom_sizes`: Chromosome sizes used for bedGraphToBigWig.
 * `bg2bw`: BigWig versions of the coverage bedGraphs.
 
