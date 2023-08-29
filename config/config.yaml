@@ -74,7 +74,11 @@ indices: bwamem2_index
 
 # MACS2 callpeaks parameters
   # -f is automatically set to BAMPE if PE = TRUE 
-  # -g determines genome size and can
+  # -g sets genome size; macs2 has a number of presets:
+    # hs for h. sapiens
+    # mm for m. musculus
+    # ce for c. elegans
+    # dm for d. melanogaster
   # See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
 callpeaks_params: "-g hs"
 
