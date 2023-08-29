@@ -24,7 +24,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_callpeaks/{treatment}.log"
         params:
             macs2_params
-        threads: 1
+        threads: 4
         wrapper:
             "v2.4.0/bio/macs2/callpeak"
 
@@ -41,7 +41,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_enrichment/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
-        threads: 1
+        threads: 4
         shell:
             """
             macs2 bdgcmp \
@@ -64,7 +64,7 @@ if config["method"] == "ChIPseq":
             "logs/macs2_differential/{treatment}.log"
         conda:
             "../envs/macs2.yaml"
-        threads: 1
+        threads: 4
         shell:
             """
             macs2 bdgcmp \
@@ -143,6 +143,7 @@ else:
             "logs/macs2/{sample}.log"
         params:
             config["macs2_params"]
+        threads: 4
         wrapper:
             "v2.4.0/bio/macs2/callpeak"
 
