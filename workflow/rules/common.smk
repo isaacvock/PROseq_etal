@@ -64,8 +64,6 @@ for p in fastq_paths.values():
 
 
 # MACS2 peak calling -f parameter
-
-
 if config["PE"]:
     macs2_params = config["callpeaks_params"] + " -f BAMPE"
 else:
