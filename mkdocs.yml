@@ -3,6 +3,8 @@ site_url: https://example.come/
 nav:
   - Introduction: index.md
   - Running PROseq_etal: deploy.md
+  - PROseq_etal on Yale HPC: simon.md
+  - Alternative deployment strategies: alt.md
   - Output: output.md
   - FAQs: pitfalls.md
 theme: readthedocs
