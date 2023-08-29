@@ -71,7 +71,7 @@ indices: bwamem2_index
 ### Parameters that you will likely need to double check
 
 # MACS2 callpeaks parameters
-  # -f is autmoatically set to BAMPE if PE = TRUE 
+  # -f is automatically set to BAMPE if PE = TRUE 
   # -g determines genome size and can
 callpeaks_params: "-g hs"
 
@@ -81,6 +81,7 @@ findPeaks_style: "groseq"
 
 
 ### Other HOMER parameters
+  # See http://homer.ucsd.edu/homer/ for details
 
 # Optional parameters to set for homer makeTagDir
 makeTagDir_params: ""
@@ -96,6 +97,7 @@ annotatePeaks_params: ""
 
 
 ### Other MACS2 parameters
+  # See https://github.com/macs3-project/MACS/tree/master for details
 
 # Optional parmaeters to set for macs2 bdgcomp -m FE
 bdgcmp_FE_params: ""
@@ -105,23 +107,24 @@ bdgcmp_diff_params: ""
 
 
 ### fastqc parameters
+  # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
 # Extra options to pass to fastqc
 fastqc_params: "--quiet"
 
 
 ### fastp parameters
-
+  # See https://github.com/OpenGene/fastp for details
 
 # Adapters to pass to fastp (not strictly necessary as fastp can autodetect)
-fastp_adapters: ""
+fastp_adapters: "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
 # Extra parameters for fastp
 fastp_parameters: "" 
 
 
 ### bwa-mem2 parameters
-
+  # See https://github.com/bwa-mem2/bwa-mem2 for details
 
 # Do you want to automatically sort bam files produced by bwa-mem2?
   # Shouldn't be necessary as sorting is performed by pipeline automatically
@@ -138,12 +141,14 @@ bwamem2_align_params: ""
 
 
 ### Samtools parameters
+  # See http://www.htslib.org/doc/samtools-sort.html for details
 
 # Optional parameters to set for samtools sort
 samtools_params: ""
 
 
 ### bowtie2 parameters
+  # See https://github.com/BenLangmead/bowtie2 for details
 
 # Optional parameters to set for bowtie2 build (its index building function)
 bowtie2_build_params: ""
@@ -153,12 +158,15 @@ bowtie2_align_params: ""
 
 
 ### bedtools genomecov parameters
+  # See https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html for details
 
 # Optional parameters to set for bedtools genomecov
 genomecov_params: ""
 
 
 ### bedGraphToBigWig parameters
+  # See https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/ucsc/bedGraphToBigWig.html for details
+  # See http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/FOOTER.txt for more details
 
 # Optional parameters to set for bedGraphtoBigWig
 bg2bw_params: ""
