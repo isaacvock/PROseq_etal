@@ -23,7 +23,7 @@ if config["method"] == "ChIPseq":
         log:
             "logs/macs2_callpeaks/{treatment}.log"
         params:
-            config["callpeaks_params"]
+            macs2_params
         threads: 1
         wrapper:
             "v2.4.0/bio/macs2/callpeak"

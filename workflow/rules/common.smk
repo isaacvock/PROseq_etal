@@ -63,3 +63,11 @@ for p in fastq_paths.values():
     is_gz = any([is_gz, test_gz])
 
 
+# MACS2 peak calling -f parameter
+
+
+if config["PE"]:
+    macs2_param = config["callpeaks_params"] + " -f BAMPE"
+else:
+    macs2_param = config["callpeaks_params"]
+
