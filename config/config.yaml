@@ -1,4 +1,14 @@
-
+####### GENERAL INFORMATION ABOUT THIS CONFIG #######
+#
+# This config file allows you to specify a number of important pieces of information that
+# the PROseq_etal pipeline will require to run. It also allows you to set optional parameters
+# for all tools that PROseq_etal makes use of.
+#
+# File paths can either be absolute (e.g., ~/path/to/file/or/directory) or relative
+# to the directory in which you are calling the pipeline from (e.g., data/fastq/WT_1 in the 
+# example samples entry means to look in the data directory present in the directory
+# where you called `snakemake` to run the pipeline)
+#
 ####### PARAMETERS YOU NEED TO SET #######
 
 ## Paths to fastq containing directories.
@@ -34,14 +44,14 @@ strandedness: reverse
 genome: data/genome/genome.fasta
 
 # Path to annotation gtf file
-annotation: data/genome/genome.gtf
+annotation: data/annotation/genome.gtf
 
 # Path to pause index annotation (will be created if it does not exist)
   # Only relevant if method == PROseq
 PI_gtf: data/genome/genome_PI.gtf
 
 # Which aligner to use? 
-  # Options are: "bwa-mem2", "bowtie2", "star"
+  # Options are: "bwa-mem2" or "bowtie2"
 aligner: "bwa-mem2"
 
 # Path to directory containing indices
@@ -55,12 +65,43 @@ aligner: "bwa-mem2"
 indices: bwamem2_index
 
 
+
+####### OPTIONAL PARAMETERS FOR EACH TOOL USED #######
+
+### Parameters that you will likely need to double check
+
 # MACS2 callpeaks parameters
   # -f is autmoatically set to BAMPE if PE = TRUE 
   # -g determines genome size and can
 callpeaks_params: "-g hs"
 
-####### OPTIONAL PARAMETERS FOR EACH TOOL USED #######
+# HOMER's findPeaks peak finding style
+  # See http://homer.ucsd.edu/homer/ngs/peaks.html for options
+findPeaks_style: "groseq"
+
+
+### Other HOMER parameters
+
+# Optional parameters to set for homer makeTagDir
+makeTagDir_params: ""
+
+# Optional parameters to set for homer findPeaks
+findPeaks_params: ""
+
+# Optional parmaeters to set for homer mergePeaks
+mergePeaks_params: ""
+
+# Optional parameters to set for homer annotatePeaks
+annotatePeaks_params: ""
+
+
+### Other MACS2 parameters
+
+# Optional parmaeters to set for macs2 bdgcomp -m FE
+bdgcmp_FE_params: ""
+
+# Optional parmaters to set for macs2 bdgcomp -m subtract
+bdgcmp_diff_params: ""
 
 
 ### fastqc parameters
@@ -82,17 +123,17 @@ fastp_parameters: ""
 ### bwa-mem2 parameters
 
 
-# Do you want to automatically sort bam files produced by BWAMEM2?
+# Do you want to automatically sort bam files produced by bwa-mem2?
   # Shouldn't be necessary as sorting is performed by pipeline automatically
 bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
 
-# If sorting BWA_MEM2 output, how would you like to sort it?
+# If sorting bwa-mem2 output, how would you like to sort it?
 bwamem2_sort_order: "coordinate" # Can be 'coordinate' (default) or 'queryname'.'
 
-# Any additional parmaters to pass to tool used for optional sorting of BWAMEM2 output
+# Any additional parmaters to pass to tool used for optional sorting of bwa-mem2 output
 bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem2_sort is not 'none'.
 
-# Extra parameters to pass to bwamem2 align
+# Extra parameters to pass to bwa-mem2 mem (its alignment function)
 bwamem2_align_params: ""
 
 
@@ -104,7 +145,7 @@ samtools_params: ""
 
 ### bowtie2 parameters
 
-# Optional parameters to set for bowtie2 build
+# Optional parameters to set for bowtie2 build (its index building function)
 bowtie2_build_params: ""
 
 # Optional parameters to set for bowtie2 align
@@ -121,33 +162,3 @@ genomecov_params: ""
 
 # Optional parameters to set for bedGraphtoBigWig
 bg2bw_params: ""
-
-
-### HOMER parameters
-
-# Optional parameters to set for homer makeTagDir
-makeTagDir_params: ""
-
-# What peak finding style to use for homer findPeaks
-  # See http://homer.ucsd.edu/homer/ngs/peaks.html for options
-findPeaks_style: "groseq"
-
-# Optional parameters to set for homer findPeaks
-findPeaks_params: ""
-
-# Optional parmaeters to set for homer mergePeaks
-mergePeaks_params: "-d given"
-
-# Mode for merging peaks
-  # See http://homer.ucsd.edu/homer/ngs/mergePeaks.html for options
-annotatePeaks_mode: "rna"
-
-# Optional parameters to set for homer annotatePeaks
-annotatePeaks_params: ""
-
-
-### MACS2 parameters
-
-
-bdgcmp_FE_params: ""
-bdgcmp_diff_params: ""
