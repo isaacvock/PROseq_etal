@@ -162,7 +162,7 @@ If you check out `run_slurm.sh`, you will see the following simple shell script:
 #SBATCH --partition=day
 #SBATCH --job-name=PROseq
 #SBATCH --cpus-per-task=1
-#SBATCH --time=10:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=your.email@yale.edu
 
@@ -222,11 +222,11 @@ The next couple lines set the default resources to request:
 ``` yaml
 default-resources:
   - mem_mb=70000
-  - threads=8
+  - threads=20
   - time="4:00:00"
 ```
 
-This will set default values for `{resources.mem_mb}`, `{threads}`, and `{resources.time}`. So unless the pipeline specifies otherwise, 70 GB of RAM, 8 cpus, and 4 hours of runtime will be requested. Some rules in PROseq_etal sets the maximum amount of these resources you can request. For example, not all tools can use more than one cpu, so the rules implementing those tools will set the max value for `{threads}` to 1. For rules with the max number of threads allowed set, the number of cpus requested will be the mininmum of the max threads allowed and the number of cpus set in `default-resources`.
+This will set default values for `{resources.mem_mb}`, `{threads}`, and `{resources.time}`. So unless the pipeline specifies otherwise, 70 GB of RAM, 20 cpus, and 4 hours of runtime will be requested. Some rules in PROseq_etal sets the maximum amount of these resources you can request. For example, not all tools can use more than one cpu, so the rules implementing those tools will set the max value for `{threads}` to 1. For rules with the max number of threads allowed set, the number of cpus requested will be the mininmum of the max threads allowed and the number of cpus set in `default-resources`.
 
 Finally, a number of additional settings are specified. These are optional parameters that are effectively passed to the call to `snakemake` in `run_slurm.sh`:
 
