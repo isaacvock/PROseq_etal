@@ -73,16 +73,16 @@ In the `config/` directory you will find a file named `config.yaml`. If you open
 
 ``` yaml
 samples:
-  WT_1: data/samples/WT_replicate_1.bam
-  WT_2: data/samples/WT_replicate_2.bam
-  WT_ctl: data/samples/WT_nos4U.bam
-  KO_1: data/samples/KO_replicate_1.bam
-  KO_2: data/samples/KO_replicate_2.bam
-  KO_ctl: data/samples/KO_nos4U.bam
+  WT_1: data/fastq/WT_1
+  WT_2: data/fastq/WT_2
+  WT_ctl: data/fastq/WT_ctl
+  KO_1: data/fastq/KO_1
+  KO_2: data/fastq/KO_2
+  KO_ctl: data/fastq/KO_ctl
 ```
-`samples` is the list of sample IDs and paths to .bam files that you want to process. Delete the existing sample names and paths and add yours. The sample names in this example are `WT_1`, `WT_2`, `WT_ctl`, `KO_1`, `KO_2`, and `KO_ctl`. These are the sample names that will show up in the `sample` column of the output cB.csv file. The `:` is necessary to distinguish the sample name from what follows, the path to the relevant bam file. Note, the path is NOT an absolute path, it is relative to the directory that you deployed to (i.e., `workdir` in this example). Thus, in this example, the bam files are located in a directory called `samples` that is inside of a directory called `data` located in `workdir`. Your data can be wherever you want it to be, but it might be easiest if you put it in a `data` directory inside the bam2bakR directory as in this example. 
+`samples` is the list of sample IDs and paths to .bam files that you want to process. Delete the existing sample names and paths and add yours. The sample names in this example are `WT_1`, `WT_2`, `WT_ctl`, `KO_1`, `KO_2`, and `KO_ctl`. These are the sample names that will append many of the files output by PROseq_etal. The `:` is necessary to distinguish the sample name from what follows, the path to the relevant bam file. Note, the path can be absolute (e.g., ~/path/to/fastqs/) or relative to the directory that you deployed to (i.e., `workdir` in this example). In the example config, the paths specified are relative. Thus, in this example, the bam files are located in a directory called `samples` that is inside of a directory called `data` located in `workdir`. Your data can be wherever you want it to be, but it might be easiest if you put it in a `data` directory inside the PROseq_etal directory as in this example. 
 
-As another example, imagine that the `data` directory was in the directory that contains `workdir`, and that there was no `samples` subdirectory inside of `data`. In that case, the paths would look something like this:
+As another example, imagine that the `data` directory was in the directory that contains `workdir`, and that there was no `samples` subdirectory inside of `data`. In that case, the relative paths would look something like this:
 
 ``` yaml
 samples:
@@ -95,44 +95,39 @@ samples:
 ```
 where `../` means navigate up one directory. 
 
-The next parameter you have to set denotes the sample names of any -s4U control samples (i.e., samples that were not fed s4U or a similar metabolic label):
+The next parameter you have to set denotes the experimental method used:
 
 ``` yaml
-control_samples: ["WT_ctl", "KO_ctl"]
+method: "ChIPseq"
 ```
 
-In this case, the samples named WT_ctl and KO_ctl are the -s4U control samples. -s4U controls will be used to call any single nucleotide polymorphisms (SNPs) in your cell line so as to avoid conflating them with T-to-C mutations induced by the nucleotide recoding chemistry. 
+The current options are "ChIPseq" and "PROseq", with more to come! 
 
-The third crucial parmaeter immediately follows:
+The third parameter is only relevant if you are analyzing ChIPseq data, and it identifies the relevant Input control samples for each enrichment sample:
 
 ``` yaml
-annotation: data/annotation/GRCh38.gtf
+controls:
+  WT_1: WT_ctl
+  WT_2: WT_ctl
+  KO_1: KO_ctl
+  KO_2: KO_ctl
 ```
-This is the path to the GTF annotation file for the genome that reads were mapped to. The same rules apply when it comes to specifying this path.
+The "keys" (what is to the left of the ":") are sample IDs from `samples:`. The sample IDs in this section should only correspond to the IDs for enriched samples. The "values" (what is to the right of the ":") is the sample ID for the relevant Input sample. In this example, the sample labeled WT_ctl is the Input sample from which the WT_1 enrichment sample was derived. Fold enrichment tracks for WT_1 will be calculated using WT_ctl as the Input reference.
 
-Finally, the path to the genome fasta file that you used for alignment must also be specified:
+The remaining somewhat more self-explanatory required parameters are:
 
-``` yaml
-genome_fasta: data/genome/GRCh38.fasta
-```
+* `genome`: Path to genome fasta file to be used for alignment.
+* `aligner`: Determines which aligner will be used (options are "bwa-mem2" and "bowtie2").
+* `indices`: Path to aligner indices. These will be created at this path if not already present.
+* `annotation`: Path to annotation gtf file to be used by HTSeq.
+* `PI_gtf`: Path to pause site annotation gtf file to be used to calculate pause indices with HTSeq and custom scripts. This will be created automatically at this path if it does not already exist.
+* `strandedness`: HTSeq parameter specifying library strandedness. Options are "reverse", "yes", or "no". See config comments and/or [HTSeq documentation](https://htseq.readthedocs.io/en/master/htseqcount.html) for more details.
 
-The other parameters that can be altered are:
-
-* `strandedness`: whether the first read in a pair (or the only read if single-end) represents the original sequence of the RNA (F), or its reverse complement (R). For example, set this parameter to "F" if your library is an FR paired-end library, and "R" if it is an RF paired-end library.
-* `FORMAT`: whether the reads are paired-end (PE) or single-end (SE).
-* `mut_tracks`: the type of mutation (e.g., T-to-C mutations) that sequencing tracks will be colored by. If you are most interested in the T-to-C mutational content, then `mut_tracks` should be TC. If G-to-A, then `mut_tracks` should be GA. If both, then `mut_tracks` should be "TC,GA".
-* `minqual`: Minimum base quality to call it a mutation.
-* `keepcols`: Names of columns to keep in cB.csv output file. See [Output](output.md) for details of columns you can keep.
-* `spikename`: If spike-ins are present, this should be a string that is common to all gene_ids for spike-in transcripts in annotation gtf. For example, in Ensembl annotations for Drosophila melanogaster, all gene_ids start with "FBgn". Therefore, if you have Drosophila spike-ins, `spikename` should be "FBgn".
-* `normalize`: If True, then scale factor calculated with edgeR is used to normalize sequencing tracks.
-* `WSL`: whether you are running this on the Windows subsystem for linux (0 = yes; 1= no)
-
- 
-Edit the values in the config file as necessary and move on to the last step.
+ The remaining parmeters allow you to tune and alter the functionality of all tools used by PROseq_etal. The top of this set includes three parameters that are probably best to check before running the pipeline. See config comments and linked documentation for details. The remaining are purely optional but can allow you to modify default settings of any tool used. **You never have to set parameters specifying output files or number of threads to be used**; PROseq_etal will handle these automatically.
 
 ### Run it!<a name="run"></a>
 
-Once steps 1-3 are complete, bam2bakR can be run from the directory you deployed the workflow to as follows:
+Once steps 1-3 are complete, PROseq_etal can be run from the directory you deployed the workflow to as follows:
 
 ``` bash
 snakemake --cores all --use-conda

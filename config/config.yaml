@@ -21,6 +21,10 @@ samples:
   KO_2: data/fastq/KO_2
   KO_ctl: data/fastq/KO_ctl
 
+# Which experiment
+  # Options are: "ChIPseq" and "PROseq"
+method: "ChIPseq"
+
 ## Which sample IDs are inputs/controls for others?
   # Only relevant if method == ChIPseq
   # Key (e.g., WT_1) is the enrichment sample ID listed under samples:
@@ -30,12 +34,6 @@ controls:
   WT_2: WT_ctl
   KO_1: KO_ctl
   KO_2: KO_ctl
-
-### General information
-
-# Which experiment
-  # Options are: "ChIPseq" and "PROseq"
-method: "ChIPseq"
 
 # Paired end? 
   # Set to True or False, no double quotes
