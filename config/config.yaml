@@ -7,7 +7,7 @@
 # File paths can either be absolute (e.g., ~/path/to/file/or/directory) or relative
 # to the directory in which you are calling the pipeline from (e.g., data/fastq/WT_1 in the 
 # example samples entry means to look in the data directory present in the directory
-# where you called `snakemake` to run the pipeline). DON'T wrap directories in double quotes
+# where you called `snakemake` to run the pipeline).
 #
 ####### PARAMETERS YOU NEED TO SET #######
 
@@ -36,11 +36,17 @@ controls:
   # Options are: "ChIPseq" and "PROseq"
 method: "ChIPseq"
 
-# Paired end?
+# Paired end? 
+  # Set to True or False, no double quotes
 PE: True
 
 # Strandedness
-strandedness: reverse
+  # set to "reverse", "yes", or "no"
+  # reverse means that read 2 represents 5' to 3' sequence of original RNA (read 1 thus represents its reverse complement)
+  # yes means that read 1 represents 5' to 3' sequence of original RNA
+  # no means unstranded
+  # Used by HTSeq (see https://htseq.readthedocs.io/en/master/htseqcount.html for details)
+strandedness: "reverse"
 
 # Path to genome fasta file
 genome: data/genome/genome.fasta
