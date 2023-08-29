@@ -131,21 +131,21 @@ bdgcmp_diff_params: ""
 ### Other fastp parameters
   # See https://github.com/OpenGene/fastp for details
 
-# Extra parameters for fastp
+# Optional parameters to set for fastp
 fastp_parameters: "" 
 
 
 ### fastqc parameters
   # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
-# Extra options to pass to fastqc
+# Optional parameters to set for fastqc
 fastqc_params: ""
 
 
 ### bwa-mem2 parameters
   # See https://github.com/bwa-mem2/bwa-mem2 for details
 
-# Extra parameters to pass to bwa-mem2 mem (its alignment function)
+# Optional parameters to set for bwa-mem2 mem (its alignment function)
 bwamem2_align_params: ""
 
 # Do you want to automatically sort bam files produced by bwa-mem2?
@@ -155,7 +155,7 @@ bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
 # If sorting bwa-mem2 output, how would you like to sort it?
 bwamem2_sort_order: "coordinate" # Can be 'coordinate' (default) or 'queryname'.'
 
-# Any additional parmaters to pass to tool used for optional sorting of bwa-mem2 output
+# Optional parameters to set for tool used for optional sorting of bwa-mem2 output
 bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem2_sort is not 'none'.
 
 
