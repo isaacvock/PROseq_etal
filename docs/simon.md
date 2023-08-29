@@ -1,6 +1,41 @@
-# Running PROSeq_etal on Yale clusters
+# Running PROseq_etal on Yale clusters
 
 This page provides instructions for running PROseq_etal on McCleary and other Yale HPC clusters. Some of the information here is also presented in the [general deployment documentation](deploy.md), to make this a completely self-contained PROseq_etal tutorial for Simon lab members and other Yale HPC users.
+
+## Quickstart
+
+All of the steps necessary to deploy the pipeline are discussed in great detail below. Here, I will present a super succinct description of what needs to be done, with all necessary code included:
+
+``` bash
+# CREATE ENVIRONMENT
+salloc
+module load miniconda
+mamba create -c conda-forge -c bioconda --name deploy_snakemake snakemake snakedeploy
+
+# CREATE AND NAVIGATE TO WORKING DIRECTORY
+mkdir path/to/working/directory
+cd path/to/working/directory
+
+# DEPLOY PIPELINE TO YOUR WORKING DIRECTORY
+conda activate deploy_snakemake
+snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git . --branch main
+
+###
+# EDIT CONFIG FILE 
+###
+
+# COPY PROFILE TO OPTIMIZE DEPLOYMENT ON YALE HPC
+git clone https://github.com/isaacvock/yale_profile.git
+cp yale_profile/run_slurm.sh ./
+
+###
+# EDIT RUN_SLURM.SH AND PROFILE AS NECESSARY
+###
+
+# RUN PIPELINE
+module purge
+sbatch run_slurm.sh
+```
 
 ## Setup
 
