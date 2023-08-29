@@ -3,7 +3,7 @@ rule homer_makeTagDir:
     input:
         bam="results/align/{sample}.bam",
     output:
-        directory("results/tagDir/{sample}")
+        directory("results/homer_tagDir/{sample}")
     params:
         extra=config["makeTagDir_params"]
     threads: 1
@@ -19,10 +19,10 @@ if config["findPeaks_style"] == "groseq":
     ### Find transcripts
     rule homer_findPeaks:
         input:
-            tag="results/tagDir/{sample}",
+            tag="results/homer_tagDir/{sample}",
         output:
-            transcripts="results/findPeaks/{sample}_transcripts.txt",
-            gtf="results/findPeaks/{sample}.gtf"
+            transcripts="results/homer_findPeaks/{sample}_transcripts.txt",
+            gtf="results/homer_findPeaks/{sample}.gtf"
         params:
             style="groseq",
             extra=config["findPeaks_params"]
@@ -39,9 +39,9 @@ else:
     ### Find peaks
     rule homer_findPeaks:
         input:
-            tag="results/tagDir/{sample}",
+            tag="results/homer_tagDir/{sample}",
         output:
-            "results/findPeaks/{sample}_peaks.txt"
+            "results/homer_findPeaks/{sample}_peaks.txt"
         params:
             style=config["findPeaks_style"],
             extra=config["findPeaks_params"]
@@ -55,25 +55,25 @@ else:
 rule homer_mergePeaks:
     input:
         # input peak files
-        expand("results/findPeaks/{SID}_{type}.txt", SID = SAMP_NAMES, type = PEAK_TYPE)
+        expand("results/homer_findPeaks/{SID}_{type}.txt", SID = SAMP_NAMES, type = PEAK_TYPE)
     output:
-        "results/mergePeaks/merged.peaks"
+        "results/homer_mergePeaks/merged.peaks"
     params:
         extra=config["mergePeaks_params"]  # optional params, see homer manual
     threads: 1
     log:
-        "logs/mergePeaks/mergePeaks.log"
+        "logs/homer_mergePeaks/mergePeaks.log"
     wrapper:
         "v2.4.0/bio/homer/mergePeaks"
 
 
 rule homer_annotatePeaks:
     input:
-        peaks="results/mergePeaks/merged.peaks",
+        peaks="results/homer_mergePeaks/merged.peaks",
         genome=config["genome"],
         gtf=config["annotation"]
     output:
-        annotations="results/annotatePeaks/merged_annot.txt",
+        annotations="results/homer_annotatePeaks/merged_annot.txt",
     threads: 2
     params:
         mode="",
@@ -85,11 +85,11 @@ rule homer_annotatePeaks:
 
 rule homer_annotateSeparatePeaks:
     input:
-        peaks=expand("results/findPeaks/{{sample}}_{type}.txt", type = PEAK_TYPE),
+        peaks=expand("results/homer_findPeaks/{{sample}}_{type}.txt", type = PEAK_TYPE),
         genome=config["genome"],
         gtf=config["annotation"]
     output:
-        annotations="results/annotatePeaks/{sample}_annot.txt",
+        annotations="results/homer_annotatePeaks/{sample}_annot.txt",
     threads: 2
     params:
         mode="",
