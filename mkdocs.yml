@@ -1,5 +1,5 @@
 site_name: PROseq_etal
-site_url: https://example.come/
+site_url: https://proseq-etal.readthedocs.io/en/latest/
 nav:
   - Introduction: index.md
   - Running PROseq_etal: deploy.md
