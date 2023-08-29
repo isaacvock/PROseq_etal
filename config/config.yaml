@@ -7,7 +7,7 @@
 # File paths can either be absolute (e.g., ~/path/to/file/or/directory) or relative
 # to the directory in which you are calling the pipeline from (e.g., data/fastq/WT_1 in the 
 # example samples entry means to look in the data directory present in the directory
-# where you called `snakemake` to run the pipeline)
+# where you called `snakemake` to run the pipeline). DON'T wrap directories in double quotes
 #
 ####### PARAMETERS YOU NEED TO SET #######
 
@@ -86,6 +86,12 @@ callpeaks_params: "-g hs"
   # See http://homer.ucsd.edu/homer/ngs/peaks.html for options
 findPeaks_style: "histone"
 
+# Adapters to pass to fastp 
+  # Not strictly necessary as fastp can autodetect. Autodetection is more accurate for paired-end data
+  # For paired-end data with widely used Illumina TruSeq adapters, this could be: 
+  # "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+fastp_adapters: ""
+
 
 ### Other HOMER parameters
   # See http://homer.ucsd.edu/homer/ for details
@@ -117,16 +123,11 @@ bdgcmp_diff_params: ""
   # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
 # Extra options to pass to fastqc
-fastqc_params: "--quiet"
+fastqc_params: ""
 
 
 ### fastp parameters
   # See https://github.com/OpenGene/fastp for details
-
-# Adapters to pass to fastp 
-  # Not strictly necessary as fastp can autodetect; this is more accurate for PE data
-  # Example is for paired-end data with widely used Illumina TruSeq adapeters
-fastp_adapters: "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
 # Extra parameters for fastp
 fastp_parameters: "" 
