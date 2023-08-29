@@ -135,6 +135,9 @@ fastp_parameters: ""
 ### bwa-mem2 parameters
   # See https://github.com/bwa-mem2/bwa-mem2 for details
 
+# Extra parameters to pass to bwa-mem2 mem (its alignment function)
+bwamem2_align_params: ""
+
 # Do you want to automatically sort bam files produced by bwa-mem2?
   # Shouldn't be necessary as sorting is performed by pipeline automatically
 bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
@@ -144,9 +147,6 @@ bwamem2_sort_order: "coordinate" # Can be 'coordinate' (default) or 'queryname'.
 
 # Any additional parmaters to pass to tool used for optional sorting of bwa-mem2 output
 bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem2_sort is not 'none'.
-
-# Extra parameters to pass to bwa-mem2 mem (its alignment function)
-bwamem2_align_params: ""
 
 
 ### Samtools parameters
