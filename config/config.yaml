@@ -128,18 +128,18 @@ bdgcmp_FE_params: ""
 bdgcmp_diff_params: ""
 
 
+### Other fastp parameters
+  # See https://github.com/OpenGene/fastp for details
+
+# Extra parameters for fastp
+fastp_parameters: "" 
+
+
 ### fastqc parameters
   # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
 # Extra options to pass to fastqc
 fastqc_params: ""
-
-
-### fastp parameters
-  # See https://github.com/OpenGene/fastp for details
-
-# Extra parameters for fastp
-fastp_parameters: "" 
 
 
 ### bwa-mem2 parameters
