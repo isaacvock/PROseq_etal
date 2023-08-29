@@ -1,4 +1,4 @@
-## Running PROSeq_etal on Yale clusters
+# Running PROSeq_etal on Yale clusters
 
 This page provides instructions for running PROseq_etal on McCleary and other Yale HPC clusters. Some of the information here is also presented in the [general deployment documentation](deploy.md), to make this a completely self-contained PROseq_etal tutorial for Simon lab members and other Yale HPC users.
 
