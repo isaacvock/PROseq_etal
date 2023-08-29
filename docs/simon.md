@@ -115,7 +115,7 @@ controls:
   KO_1: KO_ctl
   KO_2: KO_ctl
 ```
-The "keys" (what is to the left of the ":") are sample IDs from `samples:`. The sample IDs in this section should only correspond to the IDs for enriched samples. The "values" (what is to the right of the ":") is the sample ID for the relevant Input sample. In this example, the sample labeled WT_ctl is the Input sample from which the WT_1 enrichment sample was derived. Fold enrichment tracks for WT_1 will be calculated using WT_ctl as the Input reference.
+The "keys" (what is to the left of the ":") are sample IDs from `samples:`. The sample IDs in this section should only correspond to the IDs for enriched samples. The "values" (what is to the right of the ":") is the sample ID for the relevant Input sample. In this example, the sample labeled `WT_ctl` is the Input sample from which the `WT_1` enrichment sample was derived. Fold enrichment tracks for `WT_1` will be calculated using `WT_ctl` as the Input reference.
 
 The remaining somewhat more self-explanatory required parameters are:
 
