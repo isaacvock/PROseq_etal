@@ -123,7 +123,8 @@ fastqc_params: "--quiet"
 ### fastp parameters
   # See https://github.com/OpenGene/fastp for details
 
-# Adapters to pass to fastp (not strictly necessary as fastp can autodetect)
+# Adapters to pass to fastp 
+  # Not strictly necessary as fastp can autodetect; this is more accurate for PE data
   # Example is for paired-end data with widely used Illumina TruSeq adapeters
 fastp_adapters: "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
