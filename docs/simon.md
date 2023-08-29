@@ -1,2 +1,217 @@
 ## Running PROSeq_etal on Yale clusters
 
+This page provides instructions for running PROseq_etal on McCleary and other Yale HPC clusters. Some of the information here is also presented in the [general deployment documentation](deploy.md), to make this a completely self-contained PROseq_etal tutorial for Simon lab members and other Yale HPC users.
+
+## Setup
+
+As YCRC has already installed miniconda on all clusters, there are 3 steps required to get up and running with PROseq_etal on Yale HPC:
+
+1. [Deploy workflow](#deploy) with [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html)
+1. [Edit the config file](#config) (located in config/ directory of deployed/cloned repo) to your liking
+1. [Run it!](#run)
+
+### Deploy workflow<a name="deploy"></a>
+
+PROseq_etal can be deployed using the tool [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html). This is often more convenient than cloning the full repository locally. To get started with Snakedeploy, you first need to create a simple conda environment with Snakemake and Snakedeploy:
+
+
+``` bash
+salloc
+module load miniconda
+mamba create -c conda-forge -c bioconda --name deploy_snakemake snakemake snakedeploy
+```
+
+Next, create a directory that you want to run PROseq_etal in (I'll refer to it as `workdir`) and move into it. This is best kept in your scratch60 directory to avoid using too much project directory disk space:
+``` bash
+mkdir workdir
+cd workdir
+```
+
+Now, activate the `deploy_snakemake` environment and deploy the workflow as follows:
+
+``` bash
+conda activate deploy_snakemake
+snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git . --branch main
+```
+
+`snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git` copies the content of the `config` directory in the PROseq_etal Github repo into the directoy specified (`.`, which means current directory, i.e., `workdir` in this example). It also creates a directory called `workflow` that contains a singular Snakefile that instructs Snakemake to use the workflow hosted on the main branch (that is what `--branch main` determines) of the PROseq_etal Github repo. `--branch main` can be replaced with any other existing branch.
+
+### Edit the config file<a name="config"></a>
+In the `config/` directory you will find a file named `config.yaml`. If you open it in a text editor, you will see several parameters which you can alter to your heart's content. The first parameter that you have to set is at the top of the file:
+
+``` yaml
+samples:
+  WT_1: data/fastq/WT_1
+  WT_2: data/fastq/WT_2
+  WT_ctl: data/fastq/WT_ctl
+  KO_1: data/fastq/KO_1
+  KO_2: data/fastq/KO_2
+  KO_ctl: data/fastq/KO_ctl
+```
+`samples` is the list of sample IDs and paths to .bam files that you want to process. Delete the existing sample names and paths and add yours. The sample names in this example are `WT_1`, `WT_2`, `WT_ctl`, `KO_1`, `KO_2`, and `KO_ctl`. These are the sample names that will append many of the files output by PROseq_etal. The `:` is necessary to distinguish the sample name from what follows, the path to the relevant bam file. Note, the path can be absolute (e.g., ~/path/to/fastqs/) or relative to the directory that you deployed to (i.e., `workdir` in this example). In the example config, the paths specified are relative. Thus, in this example, the bam files are located in a directory called `samples` that is inside of a directory called `data` located in `workdir`. Your data can be wherever you want it to be, but it might be easiest if you put it in a `data` directory inside the PROseq_etal directory as in this example. 
+
+As another example, imagine that the `data` directory was in the directory that contains `workdir`, and that there was no `samples` subdirectory inside of `data`. In that case, the relative paths would look something like this:
+
+``` yaml
+samples:
+  WT_1: ../data/WT_replicate_1.bam
+  WT_2: ../data/WT_replicate_2.bam
+  WT_ctl: ../data/WT_nos4U.bam
+  KO_1: ../data/KO_replicate_1.bam
+  KO_2: ../data/KO_replicate_2.bam
+  KO_ctl: ../data/KO_nos4U.bam
+```
+where `../` means navigate up one directory. 
+
+The next parameter you have to set denotes the experimental method used:
+
+``` yaml
+method: "ChIPseq"
+```
+
+The current options are "ChIPseq" and "PROseq", with more to come! 
+
+The third parameter is only relevant if you are analyzing ChIPseq data, and it identifies the relevant Input control samples for each enrichment sample:
+
+``` yaml
+controls:
+  WT_1: WT_ctl
+  WT_2: WT_ctl
+  KO_1: KO_ctl
+  KO_2: KO_ctl
+```
+The "keys" (what is to the left of the ":") are sample IDs from `samples:`. The sample IDs in this section should only correspond to the IDs for enriched samples. The "values" (what is to the right of the ":") is the sample ID for the relevant Input sample. In this example, the sample labeled WT_ctl is the Input sample from which the WT_1 enrichment sample was derived. Fold enrichment tracks for WT_1 will be calculated using WT_ctl as the Input reference.
+
+The remaining somewhat more self-explanatory required parameters are:
+
+* `genome`: Path to genome fasta file to be used for alignment.
+* `aligner`: Determines which aligner will be used (options are "bwa-mem2" and "bowtie2").
+* `indices`: Path to aligner indices. These will be created at this path if not already present.
+* `annotation`: Path to annotation gtf file to be used by HTSeq.
+* `PI_gtf`: Path to pause site annotation gtf file to be used to calculate pause indices with HTSeq and custom scripts. This will be created automatically at this path if it does not already exist.
+* `strandedness`: HTSeq parameter specifying library strandedness. Options are "reverse", "yes", or "no". See config comments and/or [HTSeq documentation](https://htseq.readthedocs.io/en/master/htseqcount.html) for more details.
+
+ The remaining parmeters allow you to tune and alter the functionality of all tools used by PROseq_etal. The top of this set includes three parameters that are probably best to check before running the pipeline. See config comments and linked documentation for details. The remaining are purely optional but can allow you to modify default settings of any tool used. **You never have to set parameters specifying output files or number of threads to be used**; PROseq_etal will handle these automatically.
+
+### Run it!<a name="run"></a>
+
+While at this point you can run RPOseq_etal as described in the general deployment documentation, this strategy will not make use of the immense amount of computational resources available at your fingertips as a Yale HPC user. 
+
+To make the most of what McCleary and other clusters have to offer, you need to specify a [profile for Snakemake](https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles). If you don't want to figure out how to do this from scratch, have no fear, I have already created and made available a profile I use for running Snakemake pipelines on McCleary. To use it, clone the repository containing the profile into the directory in which you will run PROseq_etal:
+
+``` bash
+git clone https://github.com/isaacvock/yale_profile.git
+```
+
+You can then copy a shell script from this directory that can be used for launching the pipeline from a non-interactive node:
+
+``` bash
+cp yale_profile/run_slurm.sh ./
+```
+
+PROseq_etal can then be run from your working directory with (first purging any loaded modules to reset the environment):
+
+``` bash
+module purge
+sbatch run_slurm.sh
+```
+
+### Description of the run script
+
+If you check out `run_slurm.sh`, you will see the following simple shell script:
+
+``` bash
+#!/bin/bash
+#SBATCH --partition=day
+#SBATCH --job-name=PROseq
+#SBATCH --cpus-per-task=1
+#SBATCH --time=10:00:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=your.email@yale.edu
+
+module purge
+
+module load miniconda
+
+conda activate deploy_snakemake
+
+conda config --set channel_priority strict
+
+snakemake --profile yale_profile/ --rerun-triggers mtime
+```
+
+The first line specifies the interpreter to use. This is a bash script, so the bash interpreter is specified.
+
+The set of `#SBATCH` lines are resource requests. You'll recognize many of them from the discussion of the profile below. For details about all available job request options, check out [YCRC's documentation](https://docs.ycrc.yale.edu/clusters-at-yale/job-scheduling/). Of unique note are the last two: 
+
+1. `#SBATCH --mail-type=ALL` tells the cluster to send you emails when the job starts and finishes.
+1. `#SBATCH --mail-user=your.email@yale.edu` is the email address that will receive the above mentioned emails. Change this to be your email, or delete these two lines entirely if you don't want to receive any such emails.
+
+The next three lines sets up the environment. First, all loaded modules are purged to start from a fresh slate and avoid dependency conflicts. Next, miniconda is loaded so that we can activate conda environments. Finally, the `deploy_snakemake` conda environment that we made earlier is activated.
+
+`conda config --set channel_priority strict` ensures that installed dependencies are the exact ones requested.
+
+Finally, Snakemake is run, telling it to use the profile present in the `yale_profile` directory. `--rerun-triggers mtime` makes it so that if you need to restart the pipeline, the criterion for whether a step needs to be rerun is that its input hasn't been modified since you last run the pipeline. This avoids some oddities that can arise when using custom scripts in the pipeline; see [this Issue](https://github.com/snakemake/snakemake/issues/1694) for more details.
+
+### Description of the profile
+
+What is in the `yale_profile` directory though? If you peek inside, you will see three files: `config.yaml`, `run_slurm.sh`, `status-sacct-robust.sh`, and a README. `config.yaml` contains all the information that SnaThekemake will use to request jobs on the cluster with slurm. If you check out its contents, the first section specifies the code that will be run to request a job:
+
+``` yaml
+cluster:
+  mkdir -p logs/{rule} &&
+  sbatch
+    --partition=day
+    --cpus-per-task={threads}
+    --mem={resources.mem_mb}
+    --job-name=smk-{rule}-{wildcards}
+    --output=logs/{rule}/{rule}-{wildcards}-%j.out
+    --time={resources.time}
+    --parsable
+```
+
+The first line tells the cluster to create a directory that will capture any messages emitted by the cluster (e.g., information about what went wrong if a rule fails). Next is the command that is run to request a job to run each rule in. Rules are what each step of a Snakemake pipeline are called. The lines in this example are:
+
+* `--partition=day`: name of the partition to submit your job to. On McCleary, this will usually be day. Edit this to request submission to a different partition.
+* `--cpus-per-task={threads}`: number of cpus to request. `{threads}` is a Snakemake-specified parameter that will detect the number of cores provided to the pipeline. DON'T EDIT THIS!
+* `--mem={resources.mem_mb}`: amount of RAM to request. `{resources.mem_mb}` will be defined later in the file. DON'T EDIT THIS!
+* `--job-name=smk-{rule}-{wildcards}`: name to be given to requested job. `{rule}` is the name of the Snakemake rule the job is being requested for and `{wildcards}` is another Snakemake-specific parameter that will distinguish different instances of the same rule. For example, `{wildcards}` might be the sample ID for the fastq files being aligned, since each sample is run in parallel whenever possible. DON'T EDIT THIS!
+* `--output=logs/{rule}/{rule}-{wildcards}-%j.out`: path to where messages from the cluster will be sent. DON'T EDIT THIS!
+* `--time={resources.time}`: amount of runtime to request. `{resources.time}` will be defined later in the file. DON'T EDIT THIS!
+* `--parsable`: allows the `status-sacct-robust.sh` to do what it does to track the status of the submitted job.
+
+The next couple lines set the default resources to request:
+
+``` yaml
+default-resources:
+  - mem_mb=70000
+  - threads=8
+  - time="4:00:00"
+```
+
+This will set default values for `{resources.mem_mb}`, `{threads}`, and `{resources.time}`. So unless the pipeline specifies otherwise, 70 GB of RAM, 8 cpus, and 4 hours of runtime will be requested. Some rules in PROseq_etal sets the maximum amount of these resources you can request. For example, not all tools can use more than one cpu, so the rules implementing those tools will set the max value for `{threads}` to 1. For rules with the max number of threads allowed set, the number of cpus requested will be the mininmum of the max threads allowed and the number of cpus set in `default-resources`.
+
+Finally, a number of additional settings are specified. These are optional parameters that are effectively passed to the call to `snakemake` in `run_slurm.sh`:
+
+``` yaml
+restart-times: 0
+max-jobs-per-second: 0.055
+latency-wait: 60
+jobs: 200
+keep-going: True
+rerun-incomplete: True
+printshellcmds: True
+use-conda: True
+cluster-status: status-sacct-robust.sh
+```
+
+All available options are documented [here](https://snakemake.readthedocs.io/en/stable/executing/cli.html). The settings in this example file are:
+
+* `restart-times`: Number of times to try to rerun a job that failed. Weird things can happen on clusters that may cause a job to fail, and rerunning will often resolve these problems. A far more common source of pipeline failures though is user input error, which a job restart can never solve. Therefore, I like to keep this at 0, meaning once a job fails, the pipeline will eventually. A fantastic perk of Snakemake is that once you have diagnosed the problem, you can restart the pipeline by running it exactly as described above. Snakemake won't rerun steps for which the output has been successfully generated, and will thus pick up right where you left off! 
+* `max-jobs-per-second`: Max number of jobs that can be submitted by one user per second. I got this from Yale HPC documentation, so don't edit this!
+* `latency-wait`: Wait given seconds if an output file of a job is not present after the job finished. This helps prevent pipeline crashes that can sometimes arise due to latency
+* `jobs`: Max number of jobs to allow running in parallel
+* `keep-going`: If True, than if one job fails, don't immediately kill the pipeline. Instead, let all jobs run that don't require the failed job's intended output.
+* `rerun-incomplete`: If True, then if some of the output of a rule is recognized as "incomplete", rerun the rule.
+* `printshellcmds`: If True, print out the shell commands that will be executed.
+* `use-conda`: If True, use conda to automatically install dependencies when first running the pipeline.
