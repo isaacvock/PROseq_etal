@@ -22,6 +22,8 @@ samples:
 
 ## Which sample IDs are inputs/controls for others?
   # Only relevant if method == ChIPseq
+  # Key (e.g., WT_1) is the enrichment sample ID listed under samples:
+  # Value (e.g., WT_ctl) is the Input sample ID for the corresponding enrichment sample
 controls:
   WT_1: WT_ctl
   WT_2: WT_ctl
@@ -32,7 +34,7 @@ controls:
 
 # Which experiment
   # Options are: "ChIPseq" and "PROseq"
-method: "PROseq"
+method: "ChIPseq"
 
 # Paired end?
 PE: True
@@ -73,11 +75,12 @@ indices: bwamem2_index
 # MACS2 callpeaks parameters
   # -f is automatically set to BAMPE if PE = TRUE 
   # -g determines genome size and can
+  # See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
 callpeaks_params: "-g hs"
 
 # HOMER's findPeaks peak finding style
   # See http://homer.ucsd.edu/homer/ngs/peaks.html for options
-findPeaks_style: "groseq"
+findPeaks_style: "histone"
 
 
 ### Other HOMER parameters
@@ -117,6 +120,7 @@ fastqc_params: "--quiet"
   # See https://github.com/OpenGene/fastp for details
 
 # Adapters to pass to fastp (not strictly necessary as fastp can autodetect)
+  # Example is for paired-end data with widely used Illumina TruSeq adapeters
 fastp_adapters: "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
 # Extra parameters for fastp
