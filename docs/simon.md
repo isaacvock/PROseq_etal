@@ -6,11 +6,11 @@ This page provides instructions for running PROseq_etal on McCleary and other Ya
 
 As YCRC has already installed miniconda on all clusters, there are 3 steps required to get up and running with PROseq_etal on Yale HPC:
 
-1. [Deploy workflow](#deploy) with [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html)
-1. [Edit the config file](#config) (located in config/ directory of deployed/cloned repo) to your liking
-1. [Run it!](#run)
+1. [Deploy workflow](#deploy_s) with [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html)
+1. [Edit the config file](#config_s) (located in config/ directory of deployed/cloned repo) to your liking
+1. [Run it!](#run_s)
 
-### Deploy workflow<a name="deploy"></a>
+### Deploy workflow<a name="deploy_s"></a>
 
 PROseq_etal can be deployed using the tool [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html). This is often more convenient than cloning the full repository locally. To get started with Snakedeploy, you first need to create a simple conda environment with Snakemake and Snakedeploy:
 
@@ -36,7 +36,7 @@ snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git . --bra
 
 `snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git` copies the content of the `config` directory in the PROseq_etal Github repo into the directoy specified (`.`, which means current directory, i.e., `workdir` in this example). It also creates a directory called `workflow` that contains a singular Snakefile that instructs Snakemake to use the workflow hosted on the main branch (that is what `--branch main` determines) of the PROseq_etal Github repo. `--branch main` can be replaced with any other existing branch.
 
-### Edit the config file<a name="config"></a>
+### Edit the config file<a name="config_s"></a>
 In the `config/` directory you will find a file named `config.yaml`. If you open it in a text editor, you will see several parameters which you can alter to your heart's content. The first parameter that you have to set is at the top of the file:
 
 ``` yaml
@@ -93,7 +93,7 @@ The remaining somewhat more self-explanatory required parameters are:
 
  The remaining parmeters allow you to tune and alter the functionality of all tools used by PROseq_etal. The top of this set includes three parameters that are probably best to check before running the pipeline. See config comments and linked documentation for details. The remaining are purely optional but can allow you to modify default settings of any tool used. **You never have to set parameters specifying output files or number of threads to be used**; PROseq_etal will handle these automatically.
 
-### Run it!<a name="run"></a>
+### Run it!<a name="run_s"></a>
 
 While at this point you can run RPOseq_etal as described in the general deployment documentation, this strategy will not make use of the immense amount of computational resources available at your fingertips as a Yale HPC user. 
 
@@ -118,7 +118,7 @@ sbatch run_slurm.sh
 
 ## Additional details
 
-### Description of the run script
+### Description of the run script<a name="runscript"></a>
 
 If you check out `run_slurm.sh`, you will see the following simple shell script:
 
@@ -155,7 +155,7 @@ The next three lines sets up the environment. First, all loaded modules are purg
 
 Finally, Snakemake is called, telling it to use the profile present in the `yale_profile` directory. `--rerun-triggers mtime` makes it so that if you need to restart the pipeline, the criterion for whether a step needs to be rerun is that its input hasn't been modified since you last run the pipeline. This avoids some oddities that can arise when using custom scripts in the pipeline; see [this Issue](https://github.com/snakemake/snakemake/issues/1694) for more details.
 
-### Description of the profile
+### Description of the profile<a name="profile"></a>
 
 Other than `run_slurm.sh`, what is in the `yale_profile` directory? If you peek inside, you will see three additional files: `config.yaml`, `status-sacct-robust.sh`, and a README. `config.yaml` contains all the information that Snakemake will use to request jobs on the cluster with slurm. If you check out its contents, the first section specifies the code that will be run to request a job:
 
