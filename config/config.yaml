@@ -40,23 +40,8 @@ method: "ChIPseq"
   # Set to True or False, no double quotes
 PE: True
 
-# Strandedness
-  # set to "reverse", "yes", or "no"
-  # reverse means that read 2 represents 5' to 3' sequence of original RNA (read 1 thus represents its reverse complement)
-  # yes means that read 1 represents 5' to 3' sequence of original RNA
-  # no means unstranded
-  # Used by HTSeq (see https://htseq.readthedocs.io/en/master/htseqcount.html for details)
-strandedness: "reverse"
-
 # Path to genome fasta file
 genome: data/genome/genome.fasta
-
-# Path to annotation gtf file
-annotation: data/annotation/genome.gtf
-
-# Path to pause index annotation (will be created if it does not exist)
-  # Only relevant if method == PROseq
-PI_gtf: data/genome/genome_PI.gtf
 
 # Which aligner to use? 
   # Options are: "bwa-mem2" or "bowtie2"
@@ -72,6 +57,20 @@ aligner: "bwa-mem2"
   # directories). 
 indices: bwamem2_index
 
+# Path to annotation gtf file
+annotation: data/annotation/genome.gtf
+
+# Path to pause index annotation (will be created if it does not exist)
+  # Only relevant if method == PROseq
+PI_gtf: data/genome/genome_PI.gtf
+
+# Strandedness
+  # set to "reverse", "yes", or "no"
+  # reverse means that read 2 represents 5' to 3' sequence of original RNA (read 1 thus represents its reverse complement)
+  # yes means that read 1 represents 5' to 3' sequence of original RNA
+  # no means unstranded
+  # Used by HTSeq (see https://htseq.readthedocs.io/en/master/htseqcount.html for details)
+strandedness: "reverse"
 
 
 ####### OPTIONAL PARAMETERS FOR EACH TOOL USED #######
