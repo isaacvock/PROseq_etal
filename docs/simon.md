@@ -116,6 +116,8 @@ module purge
 sbatch run_slurm.sh
 ```
 
+## Additional details
+
 ### Description of the run script
 
 If you check out `run_slurm.sh`, you will see the following simple shell script:
@@ -151,11 +153,11 @@ The next three lines sets up the environment. First, all loaded modules are purg
 
 `conda config --set channel_priority strict` ensures that installed dependencies are the exact ones requested.
 
-Finally, Snakemake is run, telling it to use the profile present in the `yale_profile` directory. `--rerun-triggers mtime` makes it so that if you need to restart the pipeline, the criterion for whether a step needs to be rerun is that its input hasn't been modified since you last run the pipeline. This avoids some oddities that can arise when using custom scripts in the pipeline; see [this Issue](https://github.com/snakemake/snakemake/issues/1694) for more details.
+Finally, Snakemake is called, telling it to use the profile present in the `yale_profile` directory. `--rerun-triggers mtime` makes it so that if you need to restart the pipeline, the criterion for whether a step needs to be rerun is that its input hasn't been modified since you last run the pipeline. This avoids some oddities that can arise when using custom scripts in the pipeline; see [this Issue](https://github.com/snakemake/snakemake/issues/1694) for more details.
 
 ### Description of the profile
 
-What is in the `yale_profile` directory though? If you peek inside, you will see three files: `config.yaml`, `run_slurm.sh`, `status-sacct-robust.sh`, and a README. `config.yaml` contains all the information that SnaThekemake will use to request jobs on the cluster with slurm. If you check out its contents, the first section specifies the code that will be run to request a job:
+Other than `run_slurm.sh`, what is in the `yale_profile` directory? If you peek inside, you will see three additional files: `config.yaml`, `status-sacct-robust.sh`, and a README. `config.yaml` contains all the information that Snakemake will use to request jobs on the cluster with slurm. If you check out its contents, the first section specifies the code that will be run to request a job:
 
 ``` yaml
 cluster:
@@ -215,3 +217,6 @@ All available options are documented [here](https://snakemake.readthedocs.io/en/
 * `rerun-incomplete`: If True, then if some of the output of a rule is recognized as "incomplete", rerun the rule.
 * `printshellcmds`: If True, print out the shell commands that will be executed.
 * `use-conda`: If True, use conda to automatically install dependencies when first running the pipeline.
+* `cluster-status`: specifies path to script to keep an eye on the status of every job requested. 
+
+I won't discuss the details of `status-sacct-robust.sh`, as you will likely never need to mess with it. More information about it can be found from where I got it and the framework for this entire profile, which is [this awesome repository](https://github.com/jdblischak/smk-simple-slurm) on simple Snakemake profiles for slurm.
