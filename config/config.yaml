@@ -179,3 +179,29 @@ genomecov_params: ""
 
 # Optional parameters to set for bedGraphtoBigWig
 bg2bw_params: ""
+
+
+##### LINKS TO SNAKEMAKE WRAPPERS USED #####
+  # Can be useful to see how optional parameters get passed to these tools
+
+# bwa-mem2 wrappers: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bwa-mem2.html
+  # BWA-MEM2 INDEX and BWA-MEM2 used
+
+# bowtie2 wrapeprs: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bowtie2.html
+  # Both available wrappers used
+
+# samtools sort wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/samtools/sort.html
+
+# fastp wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastp.html
+
+# fastqc wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastqc.html
+
+# deeptools bamcoverage wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/deeptools/bamcoverage.html
+
+# homer wrappers: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/homer.html
+  # ANNOTATEPEAKS, MAKETAGDIRECTORY, and MERGEPEAKS used
+  # Used a modified version of FINDPEAKS (see scripts/findPeaks.py for script)
+
+# macs2 callpeak wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html
+
+# bedGraphtobigwig wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/ucsc/bedGraphToBigWig.html
