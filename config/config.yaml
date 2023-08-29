@@ -210,7 +210,7 @@ bg2bw_params: ""
 
 # homer wrappers: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/homer.html
   # ANNOTATEPEAKS, MAKETAGDIRECTORY, and MERGEPEAKS used
-  # Used a modified version of FINDPEAKS (see scripts/findPeaks.py for script)
+  # Used a modified version of FINDPEAKS (see workflow/scripts/findPeaks.py for script)
 
 # macs2 callpeak wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html
 
