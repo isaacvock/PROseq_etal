@@ -10,7 +10,7 @@ There are 4 steps required to get up and running with PROseq_etal
 The remaining documentation on this page will describe each of these steps in greater detail and point you to additional documentation that might be useful.
 
 ### Install conda (or mamba)<a name="conda"></a>
-[Conda](https://docs.conda.io/projects/conda/en/latest/index.html) is a package/environment management system. [Mamba](https://mamba.readthedocs.io/en/latest/) is a newer, faster, C++ reimplementation of conda. While often associated with Python package management, lots of software, including all of the TimeLapse pipeline dependencies, can be installed with these package managers. They have pretty much the same syntax and can do the same things, so I highly suggest using Mamba in place of Conda whenever possible. 
+[Conda](https://docs.conda.io/projects/conda/en/latest/index.html) is a package/environment management system. [Mamba](https://mamba.readthedocs.io/en/latest/) is a newer, faster, C++ reimplementation of conda. While often associated with Python package management, lots of software, including all of the PROseq_etal pipeline dependencies, can be installed with these package managers. They have pretty much the same syntax and can do the same things, so I highly suggest using Mamba in place of Conda whenever possible. 
 
 One way to install Mamba is to first install Conda following the instructions at [this link](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Then you can call:
 
@@ -46,14 +46,14 @@ answer with `yes`. Prepending to PATH means that after closing your current term
 
 ### Deploy workflow<a name="deploy"></a>
 
-Version 1.0.1 of bam2bakR is now compatible with deployment using the tool [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html). To get started with Snakedeploy, you first need to create a simple conda environment with Snakemake and Snakedeploy:
+PROseq_etal can be deployed using the tool [Snakedeploy](https://snakedeploy.readthedocs.io/en/latest/index.html). This is often more convenient than cloning the full repository locally. To get started with Snakedeploy, you first need to create a simple conda environment with Snakemake and Snakedeploy:
 
 
 ``` bash
 mamba create -c conda-forge -c bioconda --name deploy_snakemake snakemake snakedeploy
 ```
 
-Next, create a directory that you want to run bam2bakR in (I'll refer to it as `workdir`) and move into it:
+Next, create a directory that you want to run PROseq_etal in (I'll refer to it as `workdir`) and move into it:
 ``` bash
 mkdir workdir
 cd workdir
