@@ -79,6 +79,9 @@ indices: bwamem2_index
     # mm for m. musculus
     # ce for c. elegans
     # dm for d. melanogaster
+  # Currently, --bdg and --broad are also automatically set to create bedGraphs and broad peaks files, respectively
+    # Therefore, do not redundantly set these
+    # If method == PROseq, then only --broad is set as there is no "input" to compare to in PRO-seq experiments
   # See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
 callpeaks_params: "-g hs"
 
