@@ -40,3 +40,5 @@ Coverage files:
 HTSeq quantification (PRO-seq only):
 
 * `quantify/`: Calculation of gene body and pause site coverages using HTSeq, as well as pause indices calculated using a custom R script.
+
+There is also a `logs/` directory created in the working directory of the pipeline. This includes directories named after each rule in the pipeline, and log files from the execution of each of these rules. This is where you should go to get information about what went wrong if you run into pipeline failures.
