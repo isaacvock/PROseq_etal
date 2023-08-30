@@ -137,6 +137,6 @@ rule all:
         "results/homer_annotatePeaks/merged_annot.txt"
 ```
 
-This rule is much simpler than the other example I showed. It only has an input block and nothing else! This is a common trick to essentially say "these are all of the outputs I want to generate". Therefore, Snakemake will run whatever rules are necessary to generate these files. It effectively starts from these desired inputs and works backwards, figuring out which steps need to be run to achieve this final goal. 
+This rule is much simpler than the other example I showed. It only has an input block and nothing else! This is a common trick to essentially say "these are all of the files I want to generate". Therefore, Snakemake will run whatever rules are necessary to generate these files. It effectively starts from these desired inputs and works backwards, figuring out which steps need to be run to achieve this final goal. 
 
 
