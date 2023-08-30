@@ -7,6 +7,18 @@ This page discusses advice for running the pipeline, as well as information abou
 * If the pipeline fails due to time out of a rule, or because you purposely cancelled its jobs prematurely, the directory in which you ran the pipeline can become "locked". You'll know when this happens because trying to rerun the pipeline will yield an error saying something along the lines of "the directory is locked". To unlock it, activate an environment with Snakemake installed and run `snakemake --unlock` inside the locked directory. 
 * If something goes wrong, make sure to check both the .log and .out files. The former usually contains the output of running a particular tool (e.g., bwa-mem2), and this is often most useful for identifying the source of a problem. In some cases though, such logs of the output of a tool are not possible to capture, leaving the .out file to capture any relevant error messages.
 * If running the pipeline within scratch60, parts of the conda environments created by the pipeline can get deleted in the 60 day time period. You can tell this is the case when log files suggest that the relevant software is not available (e.g., "samtools: command not found"). You can force the pipeline to recreate the conda environemnts by deleting the hidden `.snakemake/` directory contained in your working directory (the directory in which you ran the pipeline): `rm -r .snakemake`
+* One plus of using Snakedeploy to deploy PROseq_etal is that you don't have to manually update the pipeline. If you are tracking the main branch of the repository, then you will always be running the most up-to-date code on that branch. There can be a bit of a lag (a couple minutes at the most) between updates being made to a branch, and those changes being registered by a Snakedeploy deployed workflow. Be mindful of this if you are trying to run the pipeline with recently made changes.
+* As PROseq_etal matures, it will gain new branches and tags (the latter of which are old branches saved for posterity and reproducibilites sake). At any time, you can change which branch of the pipeline you are using by going into the `workflow/` directory created when you first deploy the workflow with Snakedeploy. Inside, you will find a lone, rather concise Snakefile. The meat of it will look like:
+
+    ``` python
+    module PROseq_etal:
+        snakefile:
+            github("isaacvock/PROseq_etal", path="workflow/Snakefile", branch = "main")
+        config:
+            config
+    ```
+
+    You can change `branch = "main"` to whatever existing branch you please.
 
 ## Structure of the pipeline
 
