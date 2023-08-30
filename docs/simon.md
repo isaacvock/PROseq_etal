@@ -24,7 +24,7 @@ snakedeploy deploy-workflow https://github.com/isaacvock/PROseq_etal.git . --bra
 # EDIT CONFIG FILE (need to do once for each new dataset)
 ###
 
-# COPY PROFILE TO OPTIMIZE DEPLOYMENT ON YALE HPC (double check before each pipeline run)
+# COPY PROFILE TO OPTIMIZE DEPLOYMENT ON YALE HPC (only need to do once)
 git clone https://github.com/isaacvock/yale_profile.git
 cp yale_profile/run_slurm.sh ./
 
