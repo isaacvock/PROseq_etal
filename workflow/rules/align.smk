@@ -108,10 +108,10 @@ rule alignment_stats:
     input:
         "results/align/{sample}.bam",
     output:
-        "results/alignment_stats/{sample}.bam.flagstat",
+        "results/alignment_stats/{sample}.bamstats",
     log:
         "logs/alignment_stats/{sample}.log",
     params:
-        extra=config["samtools_flagstat_params"],  # optional params string
+        extra=config["bamtools_params"],  # optional params string
     wrapper:
-        "v2.6.0/bio/samtools/flagstat"
+        "v2.6.0/bio/bamtools/stats"
