@@ -102,3 +102,16 @@ rule sort:
     threads: 8
     wrapper:
         "v2.6.0/bio/samtools/sort"
+
+# Get alignment stats
+rule alignment_stats:
+    input:
+        "results/align/{sample}.bam",
+    output:
+        "results/alignment_stats/{sample}.bam.flagstat",
+    log:
+        "logs/alignment_stats/{sample}.log",
+    params:
+        extra=config["samtools_flagstat_params"],  # optional params string
+    wrapper:
+        "v2.6.0/bio/samtools/flagstat"

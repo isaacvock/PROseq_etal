@@ -163,6 +163,9 @@ bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem
 # Optional parameters to set for samtools sort
 samtools_params: ""
 
+# Optional parameters to set for samtools flagstat
+samtools_flagstat_params: ""
+
 
 ### bowtie2 parameters
   # See https://github.com/BenLangmead/bowtie2 for details
