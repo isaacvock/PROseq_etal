@@ -113,5 +113,6 @@ rule alignment_stats:
         "logs/alignment_stats/{sample}.log",
     params:
         extra=config["bamtools_params"],  # optional params string
+    threads: 1
     wrapper:
         "v2.6.0/bio/bamtools/stats"
