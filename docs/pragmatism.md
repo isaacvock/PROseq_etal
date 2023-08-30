@@ -93,11 +93,36 @@ The params block specifies any additional parameters you want to specify for the
 
 The log block specifies the location of a file that is meant to capture the output of any tool run in this rule. This includes all messages output by the tool as it is running, and any errors that crop up.
 
+The threads block specifies the maximum number of "threads" (basically cpus) that this rule will make use of. If you provide more cpus to this rule, only this many will be used, allowing the remaining cpus to be used for other jobs. In this case, MACS2 is not explicitly multithreaded, but is able to make use of multiple CPUs due to the BLAS library used by the numpy package.
+
 The conda block specifies the location of a yaml file specifying a conda environment in which to run this step. If you use the `--use-conda` option when running Snakemake, this will cause all such conda environments to be automatically created the first time you run the pipeline. This helps ensure reproducibility of the pipeline.
 
+Finally there is the shell block, which specifies the shell code you want to run. The shell block is not strictly necessary and can be placed with a scripts block to run Python scripts, or a run block to run raw Python code. The code inside this block does one thing: runs MACS2's bedGraph comparison tool. Information in each of the blocks can be used in the shell block using `{block_name.item_name}`, where `block_name` in this case can either be `input`, `output`, `params`, `log`, `conda` (though pretty much never this), and `{threads}`. If a block has multiple named items (e.g., `treatment=...`), the the name specified to the left of the equal sign can be supplied as the `item_name`. The last bit of the shell code (`1> {log} 2>&1`) says to write stdout and stderr to the specified log file, which captures all messages created by running this tool.
 
+In PROseq_etal, I have made extensive use of the Snakemake wrapper repository, a collection of pre-specified Snakemake rules that you can easily insert into your own pipeline to make use of a number of popular bioinformatic tools. A rule making use of a wrapper looks like:
 
-The first rule to be aware of is called the "target rule" and is specified in the main Snakefile in the `workflow/` directory of the pipeline:
+``` python
+# Run fastqc on trimmed fastqs
+rule fastqc:
+    input:
+        "results/trimmed/{sample}.{read}.fastq"
+    output:
+        html="results/fastqc/{sample}_r{read}.html",
+        zip="results/fastqc/{sample}_r{read}_fastqc.zip"
+    log:
+        "logs/fastqc/{sample}_r{read}.log"
+    params:
+        extra = config["fastqc_params"]
+    resources:
+        mem_mb = 9000 
+    threads: 4
+    wrapper:
+        "v2.2.1/bio/fastqc"
+```
+
+In this particular case, the main difference is that the shell block has been replaced by a wrapper block, which specifies the exact version of the wrapper you want to use. Implicitly, this also defines a conda environment to create upon the first run of the pipeline. As a fun aside, this rule includes a second unique features, which is a resources block that sets a max on the amount of RAM that can be requested for this step.
+
+I mentioned that a rule will only be run if its output is "required to generate the final desired output of the entire pipeline". How is this determined though? Snakemake has to be provied a so-called "target rule", and the pipeline will run all rules necessary to generate the input for that target rule. The pipeline will finish when this target rule's output is generated. By default, the first rule in the main Snakefile is considered the target rule. Therefore, the first rule defined in the Snakefile located in the `workflow/` directory of the pipeline looks like (at least for the ChIP-seq option):
 
 ``` python
 rule all:
@@ -112,6 +137,6 @@ rule all:
         "results/homer_annotatePeaks/merged_annot.txt"
 ```
 
-This rule 
+This rule is much simpler than the other example I showed. It only has an input block and nothing else! This is a common trick to essentially say "these are all of the outputs I want to generate". Therefore, Snakemake will run whatever rules are necessary to generate these files. It effectively starts from these desired inputs and works backwards, figuring out which steps need to be run to achieve this final goal. 
 
 
