@@ -1,7 +1,7 @@
-# Tips and Tricks
+This page discusses advice for running the pipeline, as well as information about how the pipeline is structured. This can be useful for understanding the inner workings of the pipeline.
 
 
-## General suggestions
+## Pipeline usage tips
 
 * Save a copy of the PROseq_etal config file along with the output of the pipeline. This can facilitate rerunning the pipeline on datasets you already ran it on once.
 * If the pipeline fails due to time out of a rule, or because you purposely cancelled its jobs prematurely, the directory in which you ran the pipeline can become "locked". You'll know when this happens because trying to rerun the pipeline will yield an error saying something along the lines of "the directory is locked". To unlock it, activate an environment with Snakemake installed and run `snakemake --unlock` inside the locked directory. 
