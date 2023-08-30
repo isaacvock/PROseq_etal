@@ -15,7 +15,7 @@ The pipeline includes the following steps:
 1. Sort bam files with [samtools](http://www.htslib.org/doc/samtools-sort.html)
 1. Generate coverage files
     * Bedgraph files created with [bedtools](https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html)
-    * Bigwig files created with [bedGraphtobigWig](https://www.encodeproject.org/software/bedgraphtobigwig/)
+    * BigWig files created with [bedGraphtoBigWig](https://www.encodeproject.org/software/bedgraphtobigwig/)
 1. Call peaks with [MACS2](https://github.com/macs3-project/MACS/tree/master)
     * If processing ChIP-seq data, fold-enrichment relative to Input is also computed with MACS2
     * In addition, for ChIP-seq data, fold-enrichment bedGraphs are converted to bigWigs
