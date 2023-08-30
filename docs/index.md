@@ -19,7 +19,7 @@ The pipeline includes the following steps:
 1. Call peaks with [MACS2](https://github.com/macs3-project/MACS/tree/master)
     * If processing ChIP-seq data, fold-enrichment relative to Input is also computed with MACS2
     * In addition, for ChIP-seq data, fold-enrichment bedGraphs are converted to bigWigs
-1. Identify and annotate transcripts with [HOMER](http://homer.ucsd.edu/homer/) (PRO-seq DATA ONLY)
+1. Identify and annotate peaks/transcripts with [HOMER](http://homer.ucsd.edu/homer/)
 1. Quantify gene body and pause site coverage with [HTSeq](https://htseq.readthedocs.io/en/master/htseqcount.html) (PRO-seq DATA ONLY)
     * Pause indices are also calculated with a custom R script
 
