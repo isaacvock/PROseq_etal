@@ -1,5 +1,6 @@
-This page discusses advice for running the pipeline, as well as information about how the pipeline is structured. This can be useful for understanding the inner workings of the pipeline.
+# Tips and Snakemake Information
 
+This page includes some suggestions for how to work with PROseq_etal and simliar Snakemake pipelines. It also introduces some basic Snakemake concepts, such as rules, wildcards, and how the desired final output is specified, with examples of all of these from the PROseq_etal pipeline.
 
 ## Pipeline usage tips
 
