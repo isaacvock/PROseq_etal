@@ -10,15 +10,15 @@ This page discusses advice for running the pipeline, as well as information abou
 * One plus of using Snakedeploy to deploy PROseq_etal is that you don't have to manually update the pipeline. If you are tracking the main branch of the repository, then you will always be running the most up-to-date code on that branch. There can be a bit of a lag (a couple minutes at the most) between updates being made to a branch, and those changes being registered by a Snakedeploy deployed workflow. Be mindful of this if you are trying to run the pipeline with recently made changes.
 * As PROseq_etal matures, it will gain new branches and tags (the latter of which are old branches saved for posterity and reproducibilites sake). At any time, you can change which branch of the pipeline you are using by going into the `workflow/` directory created when you first deploy the workflow with Snakedeploy. Inside, you will find a lone, rather concise Snakefile. The meat of it will look like:
 
-    ``` python
-    module PROseq_etal:
-        snakefile:
-            github("isaacvock/PROseq_etal", path="workflow/Snakefile", branch = "main")
-        config:
-            config
-    ```
+``` python
+module PROseq_etal:
+    snakefile:
+        github("isaacvock/PROseq_etal", path="workflow/Snakefile", branch = "main")
+    config:
+        config
+```
 
-    You can change `branch = "main"` to whatever existing branch you please.
+>You can change `branch = "main"` to whatever existing branch you please.
 
 ## Structure of the pipeline
 
