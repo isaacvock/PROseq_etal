@@ -89,6 +89,12 @@ and will generate the following output:
 * `"results/macs2_enrichment/KO_1_FE.bdg"`
 * `"results/macs2_enrichment/KO_2_FE.bdg"`
 
+The params block specifies any additional parameters you want to specify for the tool(s) that you will be running in this rule. In this case, `config["bdgcmp_FE_params"]` means to use the value specified in the `bdgcmp_FE_params` parameter of the user's config file. In PROseq_etal, I make extensive use of this block to allow users to tune the performance of every single tool used by the pipeline.
+
+The log block specifies the location of a file that is meant to capture the output of any tool run in this rule. This includes all messages output by the tool as it is running, and any errors that crop up.
+
+The conda block specifies the location of a yaml file specifying a conda environment in which to run this step. If you use the `--use-conda` option when running Snakemake, this will cause all such conda environments to be automatically created the first time you run the pipeline. This helps ensure reproducibility of the pipeline.
+
 
 
 The first rule to be aware of is called the "target rule" and is specified in the main Snakefile in the `workflow/` directory of the pipeline:
