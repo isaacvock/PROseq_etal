@@ -165,7 +165,8 @@ samtools_params: ""
 
 
 ### Bamtools parameters
-
+  # See https://stab.st-andrews.ac.uk/wiki/index.php/Bamtools for details
+  
 # Optional parameters to set for bamtools stat
 bamtools_params: ""
 
