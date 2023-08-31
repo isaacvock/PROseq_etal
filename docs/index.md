@@ -12,6 +12,7 @@ The pipeline includes the following steps:
 1. Align fastqs
     * Can use [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2) or [bowtie2](https://github.com/BenLangmead/bowtie2)
     * Alignment indices can also be built automatically if not provided by user
+    * Alignment statistics are generated with [bamtools](https://github.com/pezmaster31/bamtools)
 1. Sort bam files with [samtools](http://www.htslib.org/doc/samtools-sort.html)
 1. Generate coverage files
     * Bedgraph files created with [bedtools](https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html)
