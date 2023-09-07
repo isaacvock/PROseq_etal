@@ -41,7 +41,7 @@ if config["aligner"] == "bwa-mem2" :
             "v2.2.1/bio/bwa-mem2/mem"
 
 
-elif config["aligner" == "bowtie2"]:
+elif config["aligner"] == "bowtie2":
 
     # Index
     rule index:
