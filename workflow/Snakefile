@@ -55,6 +55,7 @@ if config["method"] == "PROseq":
             expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
             expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
             expand("results/macs2_callpeak/{SID}_peaks.xls", SID = SAMP_NAMES),
+            expand("results/annotate_{peaktype}Peaks/{TID}_annot.txt", peaktype= PEAK_TYPE, TID = TREATMENT_NAMES),
             "results/homer_annotatePeaks/merged_annot.txt"
 
 
@@ -70,5 +71,5 @@ else:
             expand("results/macs2_diff_bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
             expand("results/macs2_FE_bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
             expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
-            expand("results/annotate_broadPeaks/{TID}_annot.txt", TID = TREATMENT_NAMES),
+            expand("results/annotate_{peaktype}Peaks/{TID}_annot.txt", peaktype= PEAK_TYPE, TID = TREATMENT_NAMES),
             "results/homer_annotatePeaks/merged_annot.txt"

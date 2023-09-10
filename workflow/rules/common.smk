@@ -69,3 +69,13 @@ if config["PE"]:
 else:
     macs2_params = config["callpeaks_params"]
 
+
+# Peak type to be called MACS2
+if config["macs2_narrow"]:
+
+    PEAK_TYPE = "narrow"
+
+else:
+
+    PEAK_TYPE = "broad"
+
