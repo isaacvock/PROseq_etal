@@ -1,32 +1,66 @@
 
 if config["method"] == "ChIPseq":
-    ### Call peaks
-    rule macs2_callpeak:
-        input:
-            treatment="results/sorted_bam/{treatment}.bam",
-            #control=expand("results/align/{control}.bam", control = get_control_sample),
-            control=get_control_sample
-        output:
-            # all output-files must share the same basename and only differ by it's extension
-            # Usable extensions (and which tools they implicitly call) are listed here:
-            #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
-            multiext("results/macs2_callpeak/{treatment}",
-                    "_peaks.xls",   ### required
-                    ### optional output files
-                    # these output extensions internally set the --bdg or -B option:
-                    "_treat_pileup.bdg",
-                    "_control_lambda.bdg",
-                    # these output extensions internally set the --broad option:
-                    "_peaks.broadPeak",
-                    "_peaks.gappedPeak"
-                    )
-        log:
-            "logs/macs2_callpeaks/{treatment}.log"
-        params:
-            macs2_params
-        threads: 4
-        wrapper:
-            "v2.4.0/bio/macs2/callpeak"
+
+    if[config["macs2_narrow"]]:
+
+        ### Call peaks
+        rule macs2_callpeak:
+            input:
+                treatment="results/sorted_bam/{treatment}.bam",
+                #control=expand("results/align/{control}.bam", control = get_control_sample),
+                control=get_control_sample
+            output:
+                # all output-files must share the same basename and only differ by it's extension
+                # Usable extensions (and which tools they implicitly call) are listed here:
+                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
+                multiext("results/macs2_callpeak/{treatment}",
+                        "_peaks.xls",   ### required
+                        # these output extensions internally set the --bdg or -B option:
+                        "_treat_pileup.bdg",
+                        "_control_lambda.bdg",
+                        # Narrow peaks
+                        "_peaks.narrowPeak",
+                        "_summits.bed"
+                        )
+            log:
+                "logs/macs2_callpeaks/{treatment}.log"
+            params:
+                macs2_params
+            threads: 4
+            wrapper:
+                "v2.6.0/bio/macs2/callpeak"
+
+
+    else:
+
+            ### Call peaks
+        rule macs2_callpeak:
+            input:
+                treatment="results/sorted_bam/{treatment}.bam",
+                #control=expand("results/align/{control}.bam", control = get_control_sample),
+                control=get_control_sample
+            output:
+                # all output-files must share the same basename and only differ by it's extension
+                # Usable extensions (and which tools they implicitly call) are listed here:
+                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
+                multiext("results/macs2_callpeak/{treatment}",
+                        "_peaks.xls",   ### required
+                        ### optional output files
+                        # these output extensions internally set the --bdg or -B option:
+                        "_treat_pileup.bdg",
+                        "_control_lambda.bdg",
+                        # these output extensions internally set the --broad option:
+                        "_peaks.broadPeak",
+                        "_peaks.gappedPeak"
+                        )
+            log:
+                "logs/macs2_callpeaks/{treatment}.log"
+            params:
+                macs2_params
+            threads: 4
+            wrapper:
+                "v2.6.0/bio/macs2/callpeak"
+
 
     ### Create fold enrichment track
     rule macs2_enrichment:
@@ -124,26 +158,56 @@ if config["method"] == "ChIPseq":
 
 else:
 
-    ### Call peaks
-    rule macs2_callpeak:
-        input:
-            treatment="results/sorted_bam/{sample}.bam",
-        output:
-            # all output-files must share the same basename and only differ by it's extension
-            # Usable extensions (and which tools they implicitly call) are listed here:
-            #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
-            multiext("results/macs2_callpeak/{sample}"
-                    "_peaks.xls",   ### required
-                    ### optional output files
-                    # these output extensions internally set the --broad option:
-                    "_peaks.broadPeak",
-                    "_peaks.gappedPeak"
-                    )
-        log:
-            "logs/macs2/{sample}.log"
-        params:
-            config["macs2_params"]
-        threads: 4
-        wrapper:
-            "v2.4.0/bio/macs2/callpeak"
+    if[config["macs2_narrow"]]:
+
+        ### Call peaks
+        rule macs2_callpeak:
+            input:
+                treatment="results/sorted_bam/{treatment}.bam",
+                #control=expand("results/align/{control}.bam", control = get_control_sample),
+                control=get_control_sample
+            output:
+                # all output-files must share the same basename and only differ by it's extension
+                # Usable extensions (and which tools they implicitly call) are listed here:
+                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
+                multiext("results/macs2_callpeak/{treatment}",
+                        "_peaks.xls",   ### required
+                        # Narrow peaks
+                        "_peaks.narrowPeak",
+                        "_summits.bed"
+                        )
+            log:
+                "logs/macs2_callpeaks/{treatment}.log"
+            params:
+                macs2_params
+            threads: 4
+            wrapper:
+                "v2.6.0/bio/macs2/callpeak"
+
+
+    else:
+
+            ### Call peaks
+        rule macs2_callpeak:
+            input:
+                treatment="results/sorted_bam/{treatment}.bam",
+                #control=expand("results/align/{control}.bam", control = get_control_sample),
+                control=get_control_sample
+            output:
+                # all output-files must share the same basename and only differ by it's extension
+                # Usable extensions (and which tools they implicitly call) are listed here:
+                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
+                multiext("results/macs2_callpeak/{treatment}",
+                        "_peaks.xls",   ### required
+                        # these output extensions internally set the --broad option:
+                        "_peaks.broadPeak",
+                        "_peaks.gappedPeak"
+                        )
+            log:
+                "logs/macs2_callpeaks/{treatment}.log"
+            params:
+                macs2_params
+            threads: 4
+            wrapper:
+                "v2.6.0/bio/macs2/callpeak"
 

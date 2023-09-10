@@ -83,9 +83,9 @@ strandedness: "reverse"
     # mm for m. musculus
     # ce for c. elegans
     # dm for d. melanogaster
-  # Currently, --bdg and --broad are also automatically set to create bedGraphs and broad peaks files, respectively
+  # Currently, --bdg (and optionally --broad) are also automatically set to create bedGraphs (and optionally broadPeaks) files
     # Therefore, do not redundantly set these
-    # If method == PROseq, then only --broad is set as there is no "input" to compare to in PRO-seq experiments
+    # If method == PROseq, then only --broad is (optionally) set as there is no "input" to compare to in PRO-seq experiments
   # See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
 callpeaks_params: "-g hs"
 
@@ -115,8 +115,8 @@ mergePeaks_params: ""
 # Optional parameters to set for homer annotatePeaks
 annotatePeaks_params: ""
 
-# Optional parameters to set for homer annotatePeaks with broadPeaks from MACS2
-annotate_broadPeaks_params: ""
+# Optional parameters to set for homer annotatePeaks with peaks from MACS2
+annotate_macs2Peaks_params: ""
 
 ### Other MACS2 parameters
   # See https://github.com/macs3-project/MACS/tree/master for details
@@ -126,6 +126,9 @@ bdgcmp_FE_params: ""
 
 # Optional parmaters to set for macs2 bdgcomp -m subtract
 bdgcmp_diff_params: ""
+
+# If True, call narrow peaks. If False, call broad peaks
+macs2_narrow: True
 
 
 ### Other fastp parameters
