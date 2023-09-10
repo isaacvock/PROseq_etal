@@ -115,6 +115,8 @@ mergePeaks_params: ""
 # Optional parameters to set for homer annotatePeaks
 annotatePeaks_params: ""
 
+# Optional parameters to set for homer annotatePeaks with broadPeaks from MACS2
+annotate_broadPeaks_params: ""
 
 ### Other MACS2 parameters
   # See https://github.com/macs3-project/MACS/tree/master for details

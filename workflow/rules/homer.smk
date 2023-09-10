@@ -74,14 +74,14 @@ rule homer_annotatePeaks:
         gtf=config["annotation"]
     output:
         annotations="results/homer_annotatePeaks/merged_annot.txt",
-    threads: 2
+    threads: 4
     params:
         mode="",
         extra=config["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
     log:
         "logs/homer_annotatePeaks/annotatePeaks.log"
     wrapper:
-        "v2.4.0/bio/homer/annotatePeaks"   
+        "v2.6.0/bio/homer/annotatePeaks"   
 
 rule homer_annotateSeparatePeaks:
     input:
@@ -90,7 +90,7 @@ rule homer_annotateSeparatePeaks:
         gtf=config["annotation"]
     output:
         annotations="results/homer_annotatePeaks/{sample}_annot.txt",
-    threads: 2
+    threads: 4
     params:
         mode="",
         extra=config["annotatePeaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
