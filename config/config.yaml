@@ -95,7 +95,7 @@ findPeaks_style: "histone"
 
 # Adapters to pass to fastp 
   # Not strictly necessary as fastp can autodetect. Autodetection is more accurate for paired-end data
-  # For paired-end data with widely used Illumina TruSeq adapters, this could be: 
+  # For paired-end data with widely used Illumina TruSeq adapters, this would be: 
   # "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 fastp_adapters: ""
 
