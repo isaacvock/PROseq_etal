@@ -126,7 +126,7 @@ The remaining somewhat more self-explanatory required parameters are:
 * `PI_gtf`: Path to pause site annotation gtf file to be used to calculate pause indices with HTSeq and custom scripts. This will be created automatically at this path if it does not already exist.
 * `strandedness`: HTSeq parameter specifying library strandedness. Options are "reverse", "yes", or "no". See config comments and/or [HTSeq documentation](https://htseq.readthedocs.io/en/master/htseqcount.html) for more details.
 
- The remaining parmeters allow you to tune and alter the functionality of all tools used by PROseq_etal. The top of this set includes three parameters that are probably best to check before running the pipeline. See config comments and linked documentation for details. The remaining are purely optional but can allow you to modify default settings of any tool used. **You never have to set parameters specifying output files or number of threads to be used**; PROseq_etal will handle these automatically.
+ The remaining optional parmeters allow you to tune and alter the functionality of all tools used by PROseq_etal. The top of this set includes three parameters that are probably best to check before running the pipeline. See config comments and linked documentation for details. The remaining are purely optional but can allow you to modify default settings of any tool used. **You never have to set parameters specifying output files or number of threads to be used**; PROseq_etal will handle these automatically.
 
 ### Run it!<a name="run_s"></a>
 
