@@ -30,6 +30,8 @@ HOMER output:
 * `homer_findPeaks/`: Peaks called by HOMER.
 * `homer_mergePeaks/`: Merged HOMER peaks, merged with HOMER.
 * `homer_annotatePeaks/`:  HOMER called peaks annotated by HOMER. Both the separate and merged peaks are annotated.
+* `annotate_narrowPeaks`: MACS2 called peaks annotated by HOMER.
+  - If config file parameter `macs2_narrow` is set to `False`, then this directory will be replaced by `annotate_broadPeaks`.
 
 Coverage files:   
 
