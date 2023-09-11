@@ -2,7 +2,7 @@ if[config["macs2_narrow"]]:
 
     rule annotate_narrowPeaks:
         input:
-            bed_graph="results/macs2_callpeak/{treatment}_peaks.narrowPeak",
+            peaks="results/macs2_callpeak/{treatment}_peaks.narrowPeak",
             genome=config["genome"],
             gtf=config["annotation"]
         output:
@@ -20,7 +20,7 @@ else:
 
     rule annotate_broadPeaks:
         input:
-            bed_graph="results/macs2_callpeak/{treatment}_peaks.broadPeak",
+            peaks="results/macs2_callpeak/{treatment}_peaks.broadPeak",
             genome=config["genome"],
             gtf=config["annotation"]
         output:
