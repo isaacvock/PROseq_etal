@@ -74,7 +74,7 @@ strandedness: "reverse"
 
 ####### OPTIONAL PARAMETERS FOR EACH TOOL USED #######
 
-### Parameters that you will likely need to double check
+##### PARAMETERS YOU SHOULD DOUBLE CHECK #####
 
 # MACS2 callpeaks parameters
   # -f is automatically set to BAMPE if PE = TRUE 
@@ -100,7 +100,7 @@ findPeaks_style: "histone"
 fastp_adapters: ""
 
 
-### Other HOMER parameters
+##### OTHER HOMER PARAMETERS #####
   # See http://homer.ucsd.edu/homer/ for details
 
 # Optional parameters to set for homer makeTagDir
@@ -118,7 +118,9 @@ annotatePeaks_params: ""
 # Optional parameters to set for homer annotatePeaks with peaks from MACS2
 annotate_macs2Peaks_params: ""
 
-### Other MACS2 parameters
+
+
+##### OTHER MACS2 PARAMETERS #####
   # See https://github.com/macs3-project/MACS/tree/master for details
 
 # Optional parmaeters to set for macs2 bdgcomp -m FE
@@ -131,21 +133,24 @@ bdgcmp_diff_params: ""
 macs2_narrow: True
 
 
-### Other fastp parameters
+
+##### OTHER FASTP PARAMETERS #####
   # See https://github.com/OpenGene/fastp for details
 
 # Optional parameters to set for fastp
 fastp_parameters: "" 
 
 
-### fastqc parameters
+
+##### FASTQC PARAMETERS #####
   # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
 # Optional parameters to set for fastqc
 fastqc_params: ""
 
 
-### bwa-mem2 parameters
+
+##### BWA-MEM2 PARAMETERS ######
   # See https://github.com/bwa-mem2/bwa-mem2 for details
 
 # Optional parameters to set for bwa-mem2 mem (its alignment function)
@@ -162,20 +167,24 @@ bwamem2_sort_order: "coordinate" # Can be 'coordinate' (default) or 'queryname'.
 bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem2_sort is not 'none'.
 
 
-### Samtools parameters
+
+##### SAMTOOLS PARAMETERS ######
   # See http://www.htslib.org/doc/samtools-sort.html for details
 
 # Optional parameters to set for samtools sort
 samtools_params: ""
 
 
-### Bamtools parameters
+
+##### BAMTOOLS PARAMETERS ######
   # See https://stab.st-andrews.ac.uk/wiki/index.php/Bamtools for details
   
 # Optional parameters to set for bamtools stat
 bamtools_params: ""
 
-### bowtie2 parameters
+
+
+##### BOWTIE2 PARAMETERS #####
   # See https://github.com/BenLangmead/bowtie2 for details
 
 # Optional parameters to set for bowtie2 build (its index building function)
@@ -185,19 +194,22 @@ bowtie2_build_params: ""
 bowtie2_align_params: ""
 
 
-### bedtools genomecov parameters
+
+##### BEDTOOLS PARAMETERS #####
   # See https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html for details
 
 # Optional parameters to set for bedtools genomecov
 genomecov_params: ""
 
 
-### bedGraphToBigWig parameters
+
+##### BEDGRAPHTOBIGWIG PARAMETERS #####
   # See https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/ucsc/bedGraphToBigWig.html for details
   # See http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/FOOTER.txt for more details
 
 # Optional parameters to set for bedGraphtoBigWig
 bg2bw_params: ""
+
 
 
 ##### LINKS TO SNAKEMAKE WRAPPERS USED #####
