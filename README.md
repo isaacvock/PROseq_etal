@@ -1,5 +1,5 @@
 # PROseq_etal
-Snakemake workflow pipeline for processing PRO-seq and ChIP-seq data. Support for other modalities (NET-seq/ATAC-seq/etc.) will likely be added in the future
+Snakemake workflow pipeline for processing PRO-seq and ChIP-seq data. Support for other modalities (NET-seq/ATAC-seq/etc.) will likely be added in the future.
 
 ## Getting Started
 
