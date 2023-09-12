@@ -1,4 +1,4 @@
-if[config["macs2_narrow"]]:
+if config["macs2_narrow"]:
 
     rule annotate_narrowPeaks:
         input:

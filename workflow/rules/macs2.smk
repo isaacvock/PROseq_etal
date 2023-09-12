@@ -1,7 +1,7 @@
 
 if config["method"] == "ChIPseq":
 
-    if[config["macs2_narrow"]]:
+    if config["macs2_narrow"]:
 
         ### Call peaks
         rule macs2_callpeak:
@@ -158,7 +158,7 @@ if config["method"] == "ChIPseq":
 
 else:
 
-    if[config["macs2_narrow"]]:
+    if config["macs2_narrow"]:
 
         ### Call peaks
         rule macs2_callpeak:
