@@ -163,14 +163,13 @@ else:
         ### Call peaks
         rule macs2_callpeak:
             input:
-                treatment="results/sorted_bam/{treatment}.bam",
+                treatment="results/sorted_bam/{sample}.bam",
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
-                control=get_control_sample
             output:
                 # all output-files must share the same basename and only differ by it's extension
                 # Usable extensions (and which tools they implicitly call) are listed here:
                 #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
-                multiext("results/macs2_callpeak/{treatment}",
+                multiext("results/macs2_callpeak/{sample}",
                         "_peaks.xls",   ### required
                         # Narrow peaks
                         "_peaks.narrowPeak",
@@ -190,14 +189,13 @@ else:
             ### Call peaks
         rule macs2_callpeak:
             input:
-                treatment="results/sorted_bam/{treatment}.bam",
+                treatment="results/sorted_bam/{sample}.bam",
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
-                control=get_control_sample
             output:
                 # all output-files must share the same basename and only differ by it's extension
                 # Usable extensions (and which tools they implicitly call) are listed here:
                 #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
-                multiext("results/macs2_callpeak/{treatment}",
+                multiext("results/macs2_callpeak/{sample}",
                         "_peaks.xls",   ### required
                         # these output extensions internally set the --broad option:
                         "_peaks.broadPeak",
