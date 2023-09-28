@@ -38,55 +38,57 @@ options(echo = as.logical(opt$echocode))
 gtf <- rtracklayer::import(opt$input)
 
 # Identify pause sites
-    # pause site start = 100 bases upstream of most upstream TSS (or 1, if TSS is less than a start of 100 nt)
-    # pause site end = pause site start + :
-        # 500 if 500 < (width of longest transcript)/2
-        # round(width of longest transcript/2) if this is > 60 and < 500
-        # 60 if (width of longest transcript/2) < 60
-        # width of longest transcript - 1 if this is < 60
+# pause site start = 100 bases upstream of most upstream TSS (or 1, if TSS is less than a start of 100 nt)
+# pause site end = pause site start + :
+# 500 if 500 < (width of longest transcript)/2
+# round(width of longest transcript/2) if this is > 60 and < 500
+# 60 if (width of longest transcript/2) < 60
+# width of longest transcript - 1 if this is < 60
 PI <- as_tibble(gtf) %>%
   group_by(gene_id, strand) %>%
   summarise(seqnames = unique(seqnames)[1],
-            start = pmax(min(start) - 100, 1),
-            end = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1),
+            PI_start = pmax(min(start) - 100, 1),
+            PI_end = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1),
             source = unique(source)[1],
             type = "pause",
             score = NA,
             phase = NA,
             transcript_id = NA) %>%
-  mutate(width = end - start)
+  mutate(width = PI_end - PI_start)
 
+
+as_tibble(gtf) %>% filter(gene_id == "MSTRG.10141")
 
 # Identify gene bodies (downstream of pause site)
 gene_body <- as_tibble(gtf) %>%
   group_by(gene_id, strand) %>%
   summarise(seqnames = unique(seqnames)[1],
-            start = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1) + 1,
-            end = max(end),
+            gene_start = pmax(min(start) - 100, 1) + pmin(pmax(round(pmin(500, max(width)/2)), 60), max(end) - 1) + 1,
+            gene_end = max(end),
             source = unique(source)[1],
             type = "gene_body",
             score = NA,
             phase = NA,
             transcript_id = NA) %>%
-  mutate(width = end - start)
+  mutate(width = gene_end - gene_start)
 
 
 
 ## Turn pause site and gene body info into GenomicRanges for export
 
 gene_body_gr <- GRanges(seqnames = Rle(gene_body$seqnames),
-        ranges = IRanges(gene_body$start, end = gene_body$end, 
-                         names = 1:nrow(gene_body)),
-        strand = Rle(gene_body$strand),
-        source = "PacBio",
-        type = "gene_body",
-        score = NA,
-        phase = NA,
-        transcript_id = NA,
-        gene_id = gene_body$gene_id)
+                        ranges = IRanges(gene_body$gene_start, end = gene_body$gene_end, 
+                                         names = 1:nrow(gene_body)),
+                        strand = Rle(gene_body$strand),
+                        source = "PacBio",
+                        type = "gene_body",
+                        score = NA,
+                        phase = NA,
+                        transcript_id = NA,
+                        gene_id = gene_body$gene_id)
 
 PI_gr <- GRanges(seqnames = Rle(PI$seqnames),
-                 ranges = IRanges(PI$start, end = PI$end, 
+                 ranges = IRanges(PI$PI_start, end = PI$PI_end, 
                                   names = 1:nrow(PI)),
                  strand = Rle(PI$strand),
                  source = "PacBio",
