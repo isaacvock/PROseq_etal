@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches_ignore: []
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Linting
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_ChIP/config.yaml --lint"
+
+  run-workflow:
+    runs-on: ubuntu-latest
+    needs:
+      - linting
+      - formatting
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Test workflow (ChIP-seq)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_ChIP/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
+    - name: Test workflow (PRO-seq)
+      uses: snakemake/snakemake-github-action@v1.22.0
+      with:
+        directory: .test
+        snakefile: workflow/Snakefile
+        args: "--configfile .test/config_PROseq/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
