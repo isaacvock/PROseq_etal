@@ -176,7 +176,7 @@ else:
                         "_summits.bed"
                         )
             log:
-                "logs/macs2_callpeaks/{treatment}.log"
+                "logs/macs2_callpeaks/{sample}.log"
             params:
                 macs2_params
             threads: 4
@@ -202,7 +202,7 @@ else:
                         "_peaks.gappedPeak"
                         )
             log:
-                "logs/macs2_callpeaks/{treatment}.log"
+                "logs/macs2_callpeaks/{sample}.log"
             params:
                 macs2_params
             threads: 4
