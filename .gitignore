@@ -22,3 +22,4 @@
 !.test/data/*
 !.test/config_ChIP/*
 !.test/config_PROseq/*
+!.github/*
