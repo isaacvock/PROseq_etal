@@ -14,6 +14,8 @@ else: # Else, use peaks
     # Treatment = enrichment
 if config["method"] == "ChIPseq":
     TREATMENT_NAMES = list(config['controls'].keys())
+else:
+    TREATMENT_NAMES = ""
 
 # Determine how many fastqs to look for
 if config["PE"]:
