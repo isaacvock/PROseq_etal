@@ -30,6 +30,6 @@ else:
             mode="",
             extra=config["annotate_macs2Peaks_params"]  # optional params, see http://homer.ucsd.edu/homer/ngs/annotation.html
         log:
-            "logs/annotate_narrowPeaks/{treatment}.log"
+            "logs/annotate_broadPeaks/{treatment}.log"
         wrapper:
             "v2.6.0/bio/homer/annotatePeaks"

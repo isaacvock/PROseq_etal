@@ -12,7 +12,7 @@ if config["aligner"] == "bwa-mem2" :
                 ".bwt.2bit.64", 
                 ".pac"),
         log:
-            "logs/index/index.log",
+            "logs/index/index_bwamem2.log",
         wrapper:
             "v2.2.1/bio/bwa-mem2/index"
 
@@ -30,7 +30,7 @@ if config["aligner"] == "bwa-mem2" :
         output:
             "results/align/{sample}.bam",
         log:
-            "logs/align/{sample}.log",
+            "logs/align/{sample}_bwamem2.log",
         params:
             extra=config["bwamem2_align_params"],
             sort=config["bwamem2_sort"],  # Can be 'none', 'samtools' or 'picard'.
@@ -58,7 +58,7 @@ elif config["aligner"] == "bowtie2":
                 expand(".rev.1.bt{suffix}", suffix = INDEX_SUFFIX),
             ),
         log:
-            "logs/index/index.log",
+            "logs/index/index_bowtie2.log",
         params:
             extra=config["bowtie2_build_params"],  # optional parameters
         threads: 10
@@ -82,7 +82,7 @@ elif config["aligner"] == "bowtie2":
         output:
             "results/align/{sample}.bam",
         log:
-            "logs/align/{sample}.log",
+            "logs/align/{sample}_bowtie2.log",
         params:
             extra=config["bowtie2_align_params"],
         threads: 20

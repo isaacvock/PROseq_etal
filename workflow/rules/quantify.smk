@@ -13,7 +13,7 @@ rule create_PI_gtf:
     shell:
         r"""
         chmod +x {params.rscript}
-        {params.rscript} -o {output} -i {input}
+        {params.rscript} -o {output} -i {input} 1> {log} 2>&1
         """
 
 rule quantify_pause:
@@ -27,13 +27,13 @@ rule quantify_pause:
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify/{sample}_quantify_pause.log"
+        "logs/quantify_pause/{sample}.log"
     threads: 1
     shell:
         """
         htseq-count -t pause -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts} {input.bam} {input.gtf}
+        -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
 rule quantify_genebody:
@@ -46,14 +46,14 @@ rule quantify_genebody:
         strand=config["strandedness"]
     threads: 1
     log:
-        "logs/quantify/{sample}_quantify_genebody.log"
+        "logs/quantify_genebody/{sample}.log"
     conda:
         "../envs/quantify.yaml"
     shell:
         """
         htseq-count -t gene_body -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts} {input.bam} {input.gtf}
+        -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
 rule quantify_gene:
@@ -67,13 +67,13 @@ rule quantify_gene:
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify/{sample}_quantify_gene.log"
+        "logs/quantify_gene/{sample}.log"
     threads: 1
     shell:
         """
         htseq-count -t transcript -m union -s {params.strand} \
         -r pos -p bam --add-chromosome-info \
-        -c {output.counts} {input.bam} {input.gtf}
+        -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
 rule calc_PI:
@@ -93,5 +93,5 @@ rule calc_PI:
     shell:
         r"""
         chmod +x {params.rscript}
-        {params.rscript} -p {input.pause} -g {input.gb} -a {input.gtf} -o {output.PI}
+        {params.rscript} -p {input.pause} -g {input.gb} -a {input.gtf} -o {output.PI} 1> {log} 2>&1
         """

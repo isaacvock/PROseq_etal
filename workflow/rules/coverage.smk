@@ -44,7 +44,7 @@ rule chrom_sizes:
     output:
         "results/genomecov/genome.chrom.sizes",
     log:
-        "logs/chrom_sizes/chrom_sizes.out"
+        "logs/chrom_sizes/chrom_sizes.log"
     conda:
         "../envs/chrom.yaml"
     params:
@@ -53,7 +53,7 @@ rule chrom_sizes:
     shell:
         """
         chmod +x {params.shellscript}
-        {params.shellscript} {input} {output}
+        {params.shellscript} {input} {output} 1> {log} 2>&1
         """
 
 rule sort_bg_plus:
