@@ -6,9 +6,9 @@ SAMP_NAMES = list(config['samples'].keys())
 
 # If PROseq method, use groseq peaks finding style in HOMER
 if config["findPeaks_style"] == "groseq":
-    PEAK_TYPE = "transcripts"
+    HOMER_PEAK_TYPE = "transcripts"
 else: # Else, use peaks
-    PEAK_TYPE = "peaks"
+    HOMER_PEAK_TYPE = "peaks"
 
 # Need to figure out which sample names are enrichments and which are inputs
     # Treatment = enrichment
@@ -73,9 +73,9 @@ else:
 # Peak type to be called MACS2
 if config["macs2_narrow"]:
 
-    PEAK_TYPE = "narrow"
+    MACS2_PEAK_TYPE = "narrow"
 
 else:
 
-    PEAK_TYPE = "broad"
+    MACS2_PEAK_TYPE = "broad"
 

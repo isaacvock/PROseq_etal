@@ -55,7 +55,7 @@ else:
 rule homer_mergePeaks:
     input:
         # input peak files
-        expand("results/homer_findPeaks/{SID}_{type}.txt", SID = SAMP_NAMES, type = PEAK_TYPE)
+        expand("results/homer_findPeaks/{SID}_{type}.txt", SID = SAMP_NAMES, type = HOMER_PEAK_TYPE)
     output:
         "results/homer_mergePeaks/merged.peaks"
     params:
@@ -85,7 +85,7 @@ rule homer_annotatePeaks:
 
 rule homer_annotateSeparatePeaks:
     input:
-        peaks=expand("results/homer_findPeaks/{{sample}}_{type}.txt", type = PEAK_TYPE),
+        peaks=expand("results/homer_findPeaks/{{sample}}_{type}.txt", type = HOMER_PEAK_TYPE),
         genome=config["genome"],
         gtf=config["annotation"]
     output:
