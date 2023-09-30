@@ -50,12 +50,12 @@ elif config["aligner"] == "bowtie2":
         output:
             multiext(
                 "{}/genome".format(INDEX_PATH), 
-                expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".4.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".rev.1.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".rev.1.bt{suffix}", suffix = INDEX_SUFFIX),
+                ".1.bt{}".format(INDEX_SUFFIX),
+                ".2.bt{}".format(INDEX_SUFFIX),
+                ".3.bt{}".format(INDEX_SUFFIX),
+                ".4.bt{}".format(INDEX_SUFFIX),
+                ".rev.1.bt{}".format(INDEX_SUFFIX),
+                ".rev.2.bt{}".format(INDEX_SUFFIX),
             ),
         log:
             "logs/index/index_bowtie2.log",
@@ -72,12 +72,12 @@ elif config["aligner"] == "bowtie2":
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             idx=multiext(
                 "{}/genome".format(INDEX_PATH), 
-                expand(".1.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".2.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".3.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".4.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".rev.1.bt{suffix}", suffix = INDEX_SUFFIX),
-                expand(".rev.1.bt{suffix}", suffix = INDEX_SUFFIX),
+                ".1.bt{}".format(INDEX_SUFFIX),
+                ".2.bt{}".format(INDEX_SUFFIX),
+                ".3.bt{}".format(INDEX_SUFFIX),
+                ".4.bt{}".format(INDEX_SUFFIX),
+                ".rev.1.bt{}".format(INDEX_SUFFIX),
+                ".rev.2.bt{}".format(INDEX_SUFFIX),
             ),
         output:
             "results/align/{sample}.bam",
