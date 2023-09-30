@@ -87,7 +87,7 @@ elif config["aligner"] == "bowtie2":
             extra=config["bowtie2_align_params"],
         threads: 20
         wrapper:
-            "v2.2.1/bio/bwa-mem2/mem"
+            "v2.6.0/bio/bowtie2/align"
 
 # Sort bam files
 rule sort:
