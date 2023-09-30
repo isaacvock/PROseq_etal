@@ -69,7 +69,7 @@ elif config["aligner"] == "bowtie2":
     # Align
     rule align:
         input:
-            reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
+            sample=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
             idx=multiext(
                 "{}/genome".format(INDEX_PATH), 
                 ".1.bt{}".format(INDEX_SUFFIX),
