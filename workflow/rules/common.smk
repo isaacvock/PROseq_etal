@@ -29,7 +29,7 @@ else:
 # Bowtie2 has two different alignment index suffixes, so gotta figure out which will apply
 if config["aligner"] == "bowtie2":
 
-    if config["bowtie2_build_params"].str.contains("large-index"):
+    if "large-index" in config["bowtie2_build_params"]:
         INDEX_SUFFIX = "21"
     else:
         INDEX_SUFFIX = "2"
