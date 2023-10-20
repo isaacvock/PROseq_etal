@@ -13,6 +13,7 @@ module load miniconda
 mamba create -c conda-forge -c bioconda --name deploy_snakemake snakemake snakedeploy
 
 # CREATE AND NAVIGATE TO WORKING DIRECTORY (only need to do once)
+  # This should be in palmer_scratch or project directory if on Yale McCleary; not the home directory!!
 mkdir path/to/working/directory
 cd path/to/working/directory
 
