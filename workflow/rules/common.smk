@@ -36,11 +36,15 @@ if config["aligner"] == "bowtie2":
 
 # Make life easier for users and catch if they add a '/' at the end of their path
 # to alignment indices. If so, remove it to avoid double '/' 
-if config["indices"].endswith('/'):
-    INDEX_PATH = str(config["indices"])
-    INDEX_PATH = INDEX_PATH[:-1]
-else:
-    INDEX_PATH = str(config["indices"])
+
+# if config["indices"].endswith('/'):
+#     INDEX_PATH = str(config["indices"])
+#     INDEX_PATH = INDEX_PATH[:-1]
+# else:
+#     INDEX_PATH = str(config["indices"])
+
+# Might be totally unnecessary
+INDEX_PATH = str(config["indices"])
 
 # Get input fastq files for first step
 def get_input_fastqs(wildcards):
