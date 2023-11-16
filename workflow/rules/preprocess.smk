@@ -76,10 +76,10 @@ else:
             input:
                 sample=expand("results/unzipped/{{sample}}.{read}.fastq", read = READS),
             output:
-                trimmed="results/trimmed/{sample}.fastq",
-                failed="results/trimmed/{sample}.failed.fastq",
-                html="results/reports/{sample}.html",
-                json="results/reports{sample}.json"
+                trimmed="results/trimmed/{sample}.1.fastq",
+                failed="results/trimmed/{sample}.1.failed.fastq",
+                html="results/reports/{sample}.1.html",
+                json="results/reports{sample}.1.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
@@ -95,10 +95,10 @@ else:
             input:
                 sample=get_input_fastqs
             output:
-                trimmed="results/trimmed/{sample}.fastq",
-                failed="results/trimmed/{sample}.failed.fastq",
-                html="results/reports/{sample}.html",
-                json="results/reports{sample}.json"
+                trimmed="results/trimmed/{sample}.1.fastq",
+                failed="results/trimmed/{sample}.1.failed.fastq",
+                html="results/reports/{sample}.1.html",
+                json="results/reports{sample}.1.json"
             log:
                 "logs/fastp/{sample}.log"
             params:
