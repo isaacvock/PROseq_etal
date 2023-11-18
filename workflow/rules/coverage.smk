@@ -8,19 +8,15 @@ rule genomecov_plus:
         "logs/genomecov_plus/{sample}.log"
     params:
         extra="-bga -strand + {}".format(str(config["genomecov_params"])),
-        normalize=NORMALIZE
+        normalize=NORMALIZE,
+        shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
         "../envs/coverage.smk"
     shell:
         """
-        if [ {params.normalize} = "True" ]; then
-            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
-        else
-            normVal='1'
-        fi
-
-        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        chmod +x {params.shellscript}
+        {params.shellscript} {params.normalize} {wildcards.sample} {input} {output} {params.extra} 1> {log} 2>&1
         """
 
 rule genomecov_minus:
@@ -33,19 +29,15 @@ rule genomecov_minus:
         "logs/genomecov_minus/{sample}.log"
     params:
         extra="-bga -strand - {}".format(str(config["genomecov_params"])),
-        normalize=NORMALIZE
+        normalize=NORMALIZE,
+        shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
         "../envs/coverage.smk"
     shell:
         """
-        if [ {params.normalize} = "True" ]; then
-            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
-        else
-            normVal='1'
-        fi
-
-        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        chmod +x {params.shellscript}
+        {params.shellscript} {params.normalize} {wildcards.sample} {input} {output} {params.extra} 1> {log} 2>&1
         """
 
 rule genomecov:
@@ -58,19 +50,15 @@ rule genomecov:
         "logs/genomecov/{sample}.log"
     params:
         extra="-bg {}".format(str(config["genomecov_params"])),
-        normalize=NORMALIZE
+        normalize=NORMALIZE,
+        shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
         "../envs/coverage.smk"
     shell:
         """
-        if [ {params.normalize} = "True" ]; then
-            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
-        else
-            normVal='1'
-        fi
-
-        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        chmod +x {params.shellscript}
+        {params.shellscript} {params.normalize} {wildcards.sample} {input} {output} {params.extra} 1> {log} 2>&1
         """
 
 
