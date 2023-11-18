@@ -70,6 +70,11 @@ strandedness: "reverse"
 
 ##### PARAMETERS YOU SHOULD DOUBLE CHECK #####
 
+# String common to all spike-in gene names
+  # If no spike-in, should be "\"\"", i.e., and empty string
+spikename: "\"\""
+
+
 # MACS2 callpeaks parameters
   # -f is automatically set to BAMPE if PE = TRUE 
   # -g sets genome size; macs2 has a number of presets:
