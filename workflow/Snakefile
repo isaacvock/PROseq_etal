@@ -36,6 +36,7 @@ include: "rules/quantify.smk"
 include: "rules/homer.smk"
 include: "rules/macs2.smk"
 include: "rules/annotate.smk"
+include: "rules/normalize.smk"
 
 
 

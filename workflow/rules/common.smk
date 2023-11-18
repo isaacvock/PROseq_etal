@@ -83,3 +83,13 @@ else:
 
     MACS2_PEAK_TYPE = "broad"
 
+# Normalize?
+if config["method"] == "PROseq":
+    
+    NORMALIZE = True
+
+else:
+
+    NORMALIZE = False
+
+

@@ -1,41 +1,77 @@
 rule genomecov_plus:
     input:
-        "results/sorted_bam/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
+        scale="results/normalize/scale"
     output:
         "results/genomecov_plus/{sample}.bg"
     log:
         "logs/genomecov_plus/{sample}.log"
     params:
-        "-bga -strand + {}".format(str(config["genomecov_params"]))
+        extra="-bga -strand + {}".format(str(config["genomecov_params"])),
+        normalize=NORMALIZE
     threads: 1
-    wrapper:
-        "v2.2.1/bio/bedtools/genomecov"
+    conda:
+        "../envs/coverage.smk"
+    shell:
+        """
+        if [ {params.normalize} = "True" ]; then
+            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
+        else
+            normVal='1'
+        fi
+
+        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        """
 
 rule genomecov_minus:
     input:
-        "results/sorted_bam/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
+        scale="results/normalize/scale"
     output:
         "results/genomecov_minus/{sample}.bg"
     log:
         "logs/genomecov_minus/{sample}.log"
     params:
-        "-bga -strand - {}".format(str(config["genomecov_params"]))
+        extra="-bga -strand - {}".format(str(config["genomecov_params"])),
+        normalize=NORMALIZE
     threads: 1
-    wrapper:
-        "v2.2.1/bio/bedtools/genomecov"
+    conda:
+        "../envs/coverage.smk"
+    shell:
+        """
+        if [ {params.normalize} = "True" ]; then
+            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
+        else
+            normVal='1'
+        fi
+
+        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        """
 
 rule genomecov:
     input:
-        "results/sorted_bam/{sample}.bam",
+        bam="results/sorted_bam/{sample}.bam",
+        scale="results/normalize/scale"
     output:
         "results/genomecov/{sample}.bg"
     log:
         "logs/genomecov/{sample}.log"
     params:
-        "-bg {}".format(str(config["genomecov_params"]))
+        extra="-bg {}".format(str(config["genomecov_params"])),
+        normalize=NORMALIZE
     threads: 1
-    wrapper:
-        "v2.2.1/bio/bedtools/genomecov"
+    conda:
+        "../envs/coverage.smk"
+    shell:
+        """
+        if [ {params.normalize} = "True" ]; then
+            normVal=$(awk -v sam={wildcards.sample} '$1 == sam {print $2}' {input.scale})
+        else
+            normVal='1'
+        fi
+
+        genomeCoverageBed {params.extra} -scale $normVal {input.bam} > {output} 2>&1
+        """
 
 
 rule chrom_sizes:
