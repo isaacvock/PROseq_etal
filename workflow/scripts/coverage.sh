@@ -10,4 +10,4 @@ else
     normVal='1'
 fi
 
-bedtools genomecov "$params" -scale $normVal "$input" > "$output"
+bedtools genomecov "$params" -scale $normVal -ibam "$input" > "$output"
