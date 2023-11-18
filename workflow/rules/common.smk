@@ -30,7 +30,7 @@ else:
 if config["aligner"] == "bowtie2":
 
     if "large-index" in config["bowtie2_build_params"]:
-        INDEX_SUFFIX = "21"
+        INDEX_SUFFIX = "2l"
     else:
         INDEX_SUFFIX = "2"
 
