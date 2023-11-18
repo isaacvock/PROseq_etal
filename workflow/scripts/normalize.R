@@ -17,6 +17,7 @@ library(optparse)
 library(readr)
 library(dplyr)
 library(tidyr)
+library(data.table)
 library(edgeR)
 library(MASS)
 
