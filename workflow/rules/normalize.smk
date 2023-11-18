@@ -31,7 +31,7 @@ else:
         input:
             expand("results/sorted_bam/{SID}.bam", SID = SAMP_NAMES)
         output:
-            "results/normalization/scale"
+            "results/normalize/scale"
         log:
             "logs/normalize/normalize.log"
         threads: 1
