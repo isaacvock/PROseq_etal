@@ -10,4 +10,4 @@ else
     normVal='1'
 fi
 
-genomeCoverageBed "$params" -scale $normVal "$input" > "$output"
+bedtools genomecov "$params" -scale $normVal "$input" > "$output"

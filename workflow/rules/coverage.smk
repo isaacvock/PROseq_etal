@@ -12,7 +12,7 @@ rule genomecov_plus:
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
-        "../envs/coverage.smk"
+        "../envs/coverage.yaml"
     shell:
         """
         chmod +x {params.shellscript}
@@ -33,7 +33,7 @@ rule genomecov_minus:
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
-        "../envs/coverage.smk"
+        "../envs/coverage.yaml"
     shell:
         """
         chmod +x {params.shellscript}
@@ -54,7 +54,7 @@ rule genomecov:
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
     conda:
-        "../envs/coverage.smk"
+        "../envs/coverage.yaml"
     shell:
         """
         chmod +x {params.shellscript}
