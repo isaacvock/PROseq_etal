@@ -59,7 +59,7 @@ master <- tibble()
 # dirs <- opt$dirs %>% str_split(',') %>% unlist()
 
 # Screw it, going to hardcode directory cause I can
-dirs <- paste0(getwd(), "results/quantify/")
+dirs <- paste0(getwd(), "/results/quantify/")
 print(dirs)
 
 samplefiles <- list.files(path = dirs,
