@@ -39,6 +39,7 @@ Coverage files:
     - If `method` is `PROseq`, then separate plus and minus strand versions of all coverage files will be generated, with directories appended with `_plus` and `_minus` respectively.
 * `chrom_sizes/`: Chromosome sizes used for bedGraphToBigWig.
 * `bg2bw/`: BigWig versions of the coverage bedGraphs.
+* `normalize/`: Normalization scale factors used to scale the coverage graphs. Can use spikeins by providing a string unique to all gene names from the spike-in annotation to the `spikename` config parameter.
 
 HTSeq quantification (PRO-seq only):
 
