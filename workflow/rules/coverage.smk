@@ -16,7 +16,7 @@ rule genomecov_plus:
     shell:
         """
         chmod +x {params.shellscript}
-        {params.shellscript} {params.normalize} {wildcards.sample} {input.bam} {output} {params.extra} 1> {log} 2>&1
+        {params.shellscript} "{params.normalize}" "{wildcards.sample}" "{input.bam}" "{output}" "{params.extra}" 1> {log} 2>&1
         """
 
 rule genomecov_minus:
@@ -37,7 +37,7 @@ rule genomecov_minus:
     shell:
         """
         chmod +x {params.shellscript}
-        {params.shellscript} {params.normalize} {wildcards.sample} {input.bam} {output} {params.extra} 1> {log} 2>&1
+        {params.shellscript} "{params.normalize}" "{wildcards.sample}" "{input.bam}" "{output}" "{params.extra}" 1> {log} 2>&1
         """
 
 rule genomecov:
@@ -58,7 +58,7 @@ rule genomecov:
     shell:
         """
         chmod +x {params.shellscript}
-        {params.shellscript} {params.normalize} {wildcards.sample} {input.bam} {output} {params.extra} 1> {log} 2>&1
+        {params.shellscript} "{params.normalize}" "{wildcards.sample}" "{input.bam}" "{output}" "{params.extra}" 1> {log} 2>&1
         """
 
 
