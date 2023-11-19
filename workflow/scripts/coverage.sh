@@ -1,7 +1,7 @@
-normalize="$1"
-sample="$2"
-input="$3"
-output="$4"
+normalize=$1
+sample=$2
+input=$3
+output=$4
 params=$5
 
 if [ "$normalize" = "True" ]; then
@@ -10,4 +10,4 @@ else
     normVal='1'
 fi
 
-bedtools genomecov $params -scale $normVal -ibam "$input" > "$output"
+bedtools genomecov $params -scale $normVal -ibam $input > "$output"
