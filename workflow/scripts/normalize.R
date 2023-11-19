@@ -63,7 +63,7 @@ dirs <- paste0(getwd(), "/results/quantify/")
 print(dirs)
 
 samplefiles <- list.files(path = dirs,
-                            pattern = '*genebody.csv',
+                            pattern = '*gene.csv',
                             recursive = FALSE)
 
 ## Martin's old code that doesn't work in my workflow
@@ -72,7 +72,7 @@ samplenames <- paste0(dirs, samplefiles)
 
 print(samplenames)
 # Actual sample name wildcards
-snames <- gsub("_genebody.csv", "", samplefiles)
+snames <- gsub("_gene.csv", "", samplefiles)
 #snames <- gsub("htseq*", "", snames)
 
 
