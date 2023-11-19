@@ -7,7 +7,7 @@ rule genomecov_plus:
     log:
         "logs/genomecov_plus/{sample}.log"
     params:
-        extra="-bga -strand + {}".format(str(config["genomecov_params"])),
+        extra=GC_PLUS,
         normalize=NORMALIZE,
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
@@ -28,7 +28,7 @@ rule genomecov_minus:
     log:
         "logs/genomecov_minus/{sample}.log"
     params:
-        extra="-bga -strand - {}".format(str(config["genomecov_params"])),
+        extra=GC_MINUS,
         normalize=NORMALIZE,
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1
@@ -49,7 +49,7 @@ rule genomecov:
     log:
         "logs/genomecov/{sample}.log"
     params:
-        extra="-bg {}".format(str(config["genomecov_params"])),
+        extra=GC,
         normalize=NORMALIZE,
         shellscript = workflow.source_path("../scripts/coverage.sh")
     threads: 1

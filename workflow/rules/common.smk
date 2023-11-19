@@ -93,3 +93,16 @@ else:
     NORMALIZE = False
 
 
+### Deal with annoying string formatting in bedtools shell scripts
+
+# + strand proecssing
+GC_PLUS = "-bga -strand + {}".format(str(config["genomecov_params"]))
+GC_PLUS = GC_PLUS.strip()
+
+# - strand processing
+GC_MINUS = "-bga -strand - {}".format(str(config["genomecov_params"]))
+GC_MINUS = GC_MINUS.strip()
+
+# no strand
+GC = "-bga {}".format(str(config["genomecov_params"]))
+GC = GC.strip()
