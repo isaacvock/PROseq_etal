@@ -139,7 +139,8 @@ if (sum(is.finite(scale)) == length(scale)){
     x <- mean(scale)/scale
 
     sdf <- tibble(sample = snames,
-                scale = x)
+                scale = x) %>%
+                mutate(scale = ifelse(is.na(scale) | is.nan(scale) | is.infinite(scale), 1, scale))
 
     print(sdf)
 
