@@ -3,7 +3,9 @@ Snakemake workflow pipeline for processing PRO-seq and ChIP-seq data. Support fo
 
 ## Getting Started
 
-Head over to [PROseq_etal's website](https://proseq-etal.readthedocs.io/en/latest/) for in-depth instructions for running the pipeline, as well as additional documentation!
+Head over to the [documentation](https://pipelinedocs.readthedocs.io/en/latest/) describing how to run Snakemake pipelines like PROseq_etal, as well as information specific to PROseq_etal's configuration and output.
+
+Here is a link to [the old PROseq_etal's website](https://proseq-etal.readthedocs.io/en/latest/) for posterity's sake. Only the general purpose one-stop-documentation-shop will remain up-to-date.
 
 ## Status
 
