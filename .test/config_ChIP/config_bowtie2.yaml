@@ -7,8 +7,8 @@
 # File paths can either be absolute (e.g., ~/path/to/file/or/directory) or relative
 # to the directory in which you are calling the pipeline from (e.g., data/fastq/WT_1 in the 
 # example samples entry means to look in the data directory present in the directory
-# where you called `snakemake` to run the pipeline).
-#
+# where you called `snakemake` to run the pipeline). File paths can be wrapped in single or double quotes,
+# or not wrapped at all; Snakemake interprets all as strings.
 ####### PARAMETERS YOU NEED TO SET #######
 
 ## Paths to fastq containing directories.
