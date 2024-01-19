@@ -27,25 +27,25 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Test workflow (ChIP-seq)
-      uses: snakemake/snakemake-github-action@v1.22.0
+      uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
       with:
         directory: .test
         snakefile: workflow/Snakefile
         args: "--configfile .test/config_ChIP/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
     - name: Test workflow (ChIP-seq bowtie2)
-      uses: snakemake/snakemake-github-action@v1.22.0
+      uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
       with:
         directory: .test
         snakefile: workflow/Snakefile
         args: "--configfile .test/config_ChIP/config_bowtie2.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
     - name: Test workflow (PRO-seq)
-      uses: snakemake/snakemake-github-action@v1.22.0
+      uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
       with:
         directory: .test
         snakefile: workflow/Snakefile
         args: "--configfile .test/config_PROseq/config.yaml --use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
     - name: Test workflow (PRO-seq bowtie2)
-      uses: snakemake/snakemake-github-action@v1.22.0
+      uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
       with:
         directory: .test
         snakefile: workflow/Snakefile
