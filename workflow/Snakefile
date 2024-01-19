@@ -72,6 +72,6 @@ else:
             expand("results/bigwig/{SID}.bw", SID = SAMP_NAMES),
             expand("results/macs2_diff_bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
             expand("results/macs2_FE_bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
-            expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
+            #expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
             expand("results/annotate_{peaktype}Peaks/{TID}_annot.txt", peaktype= MACS2_PEAK_TYPE, TID = TREATMENT_NAMES),
-            "results/homer_annotatePeaks/merged_annot.txt"
+            #"results/homer_annotatePeaks/merged_annot.txt"
