@@ -1,6 +1,6 @@
 ##### RULES FOR NORMALIZING TRACKS
 ### Structure (OPTION 1):
-# 
+#
 
 # Use pause-index HTseq run (gene-wide) to get normalization factors
 
@@ -8,13 +8,13 @@ if config["method"] == "PROseq":
 
     rule normalize:
         input:
-            expand("results/quantify/{SID}_genebody.csv", SID = SAMP_NAMES)
+            expand("results/quantify/{SID}_genebody.csv", SID=SAMP_NAMES),
         output:
-            "results/normalize/scale"
+            "results/normalize/scale",
         log:
-            "logs/normalize/normalize.log"
+            "logs/normalize/normalize.log",
         params:
-            rscript=workflow.source_path("../scripts/normalize.R")
+            rscript=workflow.source_path("../scripts/normalize.R"),
         threads: 1
         conda:
             "../envs/normalize.yaml"
@@ -29,11 +29,11 @@ else:
 
     rule normalize:
         input:
-            expand("results/sorted_bam/{SID}.bam", SID = SAMP_NAMES)
+            expand("results/sorted_bam/{SID}.bam", SID=SAMP_NAMES),
         output:
-            "results/normalize/scale"
+            "results/normalize/scale",
         log:
-            "logs/normalize/normalize.log"
+            "logs/normalize/normalize.log",
         threads: 1
         shell:
             """

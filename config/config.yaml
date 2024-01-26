@@ -12,63 +12,63 @@
 ####### PARAMETERS YOU NEED TO SET #######
 
 ## Paths to fastq containing directories.
-  # Fastqs may be either unzipped or gzipped
+# Fastqs may be either unzipped or gzipped
 samples:
-  WT_1: data/fastq/WT_1
-  WT_2: data/fastq/WT_2
-  WT_ctl: data/fastq/WT_ctl
-  KO_1: data/fastq/KO_1
-  KO_2: data/fastq/KO_2
-  KO_ctl: data/fastq/KO_ctl
+	WT_1: data/fastq/WT_1
+	WT_2: data/fastq/WT_2
+	WT_ctl: data/fastq/WT_ctl
+	KO_1: data/fastq/KO_1
+	KO_2: data/fastq/KO_2
+	KO_ctl: data/fastq/KO_ctl
 
 # Which experiment
-  # Options are: "ChIPseq" and "PROseq"
+# Options are: "ChIPseq" and "PROseq"
 method: "ChIPseq"
 
 ## Which sample IDs are inputs/controls for others?
-  # Only relevant if method == ChIPseq
-  # Key (e.g., WT_1) is the enrichment sample ID listed under samples:
-  # Value (e.g., WT_ctl) is the Input sample ID for the corresponding enrichment sample
+# Only relevant if method == ChIPseq
+# Key (e.g., WT_1) is the enrichment sample ID listed under samples:
+# Value (e.g., WT_ctl) is the Input sample ID for the corresponding enrichment sample
 controls:
-  WT_1: WT_ctl
-  WT_2: WT_ctl
-  KO_1: KO_ctl
-  KO_2: KO_ctl
+	WT_1: WT_ctl
+	WT_2: WT_ctl
+	KO_1: KO_ctl
+	KO_2: KO_ctl
 
 # Paired end? 
-  # Set to True or False, no double quotes
+# Set to True or False, no double quotes
 PE: True
 
 # Path to genome fasta file
 genome: data/genome/genome.fasta
 
 # Which aligner to use? 
-  # Options are: "bwa-mem2" or "bowtie2"
+# Options are: "bwa-mem2" or "bowtie2"
 aligner: "bwa-mem2"
 
 # Path to directory containing indices
-  # Indices will be built automatically if not present
-  # I would suggest naming this "aligner"_index, though any
-  # directory path name will do (avoid results/...; the 
-  # results/ directory is where the pipeline output will be created,
-  # so probably better to avoid specifying a path there that might
-  # clash with the names of one of the other automatically created
-  # directories). 
+# Indices will be built automatically if not present
+# I would suggest naming this "aligner"_index, though any
+# directory path name will do (avoid results/...; the 
+# results/ directory is where the pipeline output will be created,
+# so probably better to avoid specifying a path there that might
+# clash with the names of one of the other automatically created
+# directories). 
 indices: bwamem2_index
 
 # Path to annotation gtf file
 annotation: data/annotation/genome.gtf
 
 # Path to pause index annotation (will be created if it does not exist)
-  # Only relevant if method == PROseq
+# Only relevant if method == PROseq
 PI_gtf: data/genome/genome_PI.gtf
 
 # Strandedness
-  # set to "reverse", "yes", or "no"
-  # reverse means that read 2 represents 5' to 3' sequence of original RNA (read 1 thus represents its reverse complement)
-  # yes means that read 1 represents 5' to 3' sequence of original RNA
-  # no means unstranded
-  # Used by HTSeq (see https://htseq.readthedocs.io/en/master/htseqcount.html for details)
+# set to "reverse", "yes", or "no"
+# reverse means that read 2 represents 5' to 3' sequence of original RNA (read 1 thus represents its reverse complement)
+# yes means that read 1 represents 5' to 3' sequence of original RNA
+# no means unstranded
+# Used by HTSeq (see https://htseq.readthedocs.io/en/master/htseqcount.html for details)
 strandedness: "reverse"
 
 
@@ -77,36 +77,36 @@ strandedness: "reverse"
 ##### PARAMETERS YOU SHOULD DOUBLE CHECK #####
 
 # String common to all spike-in gene names
-  # If no spike-in, should be "\"\"", i.e., and empty string
+# If no spike-in, should be "\"\"", i.e., and empty string
 spikename: "\"\""
 
 
 # MACS2 callpeaks parameters
-  # -f is automatically set to BAMPE if PE = TRUE 
-  # -g sets genome size; macs2 has a number of presets:
-    # hs for h. sapiens
-    # mm for m. musculus
-    # ce for c. elegans
-    # dm for d. melanogaster
-  # Currently, --bdg (and optionally --broad) are also automatically set to create bedGraphs (and optionally broadPeaks) files
-    # Therefore, do not redundantly set these
-    # If method == PROseq, then only --broad is (optionally) set as there is no "input" to compare to in PRO-seq experiments
-  # See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
+# -f is automatically set to BAMPE if PE = TRUE 
+# -g sets genome size; macs2 has a number of presets:
+	# hs for h. sapiens
+	# mm for m. musculus
+	# ce for c. elegans
+	# dm for d. melanogaster
+# Currently, --bdg (and optionally --broad) are also automatically set to create bedGraphs (and optionally broadPeaks) files
+	# Therefore, do not redundantly set these
+	# If method == PROseq, then only --broad is (optionally) set as there is no "input" to compare to in PRO-seq experiments
+# See https://github.com/macs3-project/MACS/blob/master/docs/callpeak.md for more options
 callpeaks_params: "-g hs"
 
 # HOMER's findPeaks peak finding style
-  # See http://homer.ucsd.edu/homer/ngs/peaks.html for options
+# See http://homer.ucsd.edu/homer/ngs/peaks.html for options
 findPeaks_style: "histone"
 
 # Adapters to pass to fastp 
-  # Not strictly necessary as fastp can autodetect. Autodetection is more accurate for paired-end data
-  # For paired-end data with widely used Illumina TruSeq adapters, this would be: 
-  # "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+# Not strictly necessary as fastp can autodetect. Autodetection is more accurate for paired-end data
+# For paired-end data with widely used Illumina TruSeq adapters, this would be: 
+# "--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 fastp_adapters: ""
 
 
 ##### OTHER HOMER PARAMETERS #####
-  # See http://homer.ucsd.edu/homer/ for details
+# See http://homer.ucsd.edu/homer/ for details
 
 # Optional parameters to set for homer makeTagDir
 makeTagDir_params: ""
@@ -126,7 +126,7 @@ annotate_macs2Peaks_params: ""
 
 
 ##### OTHER MACS2 PARAMETERS #####
-  # See https://github.com/macs3-project/MACS/tree/master for details
+# See https://github.com/macs3-project/MACS/tree/master for details
 
 # Optional parmaeters to set for macs2 bdgcomp -m FE
 bdgcmp_FE_params: ""
@@ -140,7 +140,7 @@ macs2_narrow: True
 
 
 ##### OTHER FASTP PARAMETERS #####
-  # See https://github.com/OpenGene/fastp for details
+# See https://github.com/OpenGene/fastp for details
 
 # Optional parameters to set for fastp
 fastp_parameters: "" 
@@ -148,7 +148,7 @@ fastp_parameters: ""
 
 
 ##### FASTQC PARAMETERS #####
-  # See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
+# See https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ for details
 
 # Optional parameters to set for fastqc
 fastqc_params: ""
@@ -156,13 +156,13 @@ fastqc_params: ""
 
 
 ##### BWA-MEM2 PARAMETERS ######
-  # See https://github.com/bwa-mem2/bwa-mem2 for details
+# See https://github.com/bwa-mem2/bwa-mem2 for details
 
 # Optional parameters to set for bwa-mem2 mem (its alignment function)
 bwamem2_align_params: ""
 
 # Do you want to automatically sort bam files produced by bwa-mem2?
-  # Shouldn't be necessary as sorting is performed by pipeline automatically
+# Shouldn't be necessary as sorting is performed by pipeline automatically
 bwamem2_sort: "none" # Can be 'none', 'samtools', or 'picard'
 
 # If sorting bwa-mem2 output, how would you like to sort it?
@@ -174,7 +174,7 @@ bwamem2_sort_extra: "" # Extra args for samtools/picard, relevant only if bwamem
 
 
 ##### SAMTOOLS PARAMETERS ######
-  # See http://www.htslib.org/doc/samtools-sort.html for details
+# See http://www.htslib.org/doc/samtools-sort.html for details
 
 # Optional parameters to set for samtools sort
 samtools_params: ""
@@ -182,15 +182,15 @@ samtools_params: ""
 
 
 ##### BAMTOOLS PARAMETERS ######
-  # See https://stab.st-andrews.ac.uk/wiki/index.php/Bamtools for details
-  
+# See https://stab.st-andrews.ac.uk/wiki/index.php/Bamtools for details
+
 # Optional parameters to set for bamtools stat
 bamtools_params: ""
 
 
 
 ##### BOWTIE2 PARAMETERS #####
-  # See https://github.com/BenLangmead/bowtie2 for details
+# See https://github.com/BenLangmead/bowtie2 for details
 
 # Optional parameters to set for bowtie2 build (its index building function)
 bowtie2_build_params: ""
@@ -201,7 +201,7 @@ bowtie2_align_params: ""
 
 
 ##### BEDTOOLS PARAMETERS #####
-  # See https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html for details
+# See https://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html for details
 
 # Optional parameters to set for bedtools genomecov
 genomecov_params: ""
@@ -209,8 +209,8 @@ genomecov_params: ""
 
 
 ##### BEDGRAPHTOBIGWIG PARAMETERS #####
-  # See https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/ucsc/bedGraphToBigWig.html for details
-  # See http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/FOOTER.txt for more details
+# See https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/ucsc/bedGraphToBigWig.html for details
+# See http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/FOOTER.txt for more details
 
 # Optional parameters to set for bedGraphtoBigWig
 bg2bw_params: ""
@@ -218,13 +218,13 @@ bg2bw_params: ""
 
 
 ##### LINKS TO SNAKEMAKE WRAPPERS USED #####
-  # Can be useful to see how optional parameters get passed to these tools
+# Can be useful to see how optional parameters get passed to these tools
 
 # bwa-mem2 wrappers: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bwa-mem2.html
-  # BWA-MEM2 INDEX and BWA-MEM2 used
+# BWA-MEM2 INDEX and BWA-MEM2 used
 
 # bowtie2 wrapeprs: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/bowtie2.html
-  # Both available wrappers used
+# Both available wrappers used
 
 # samtools sort wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/samtools/sort.html
 
@@ -235,8 +235,8 @@ bg2bw_params: ""
 # deeptools bamcoverage wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/deeptools/bamcoverage.html
 
 # homer wrappers: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/homer.html
-  # ANNOTATEPEAKS, MAKETAGDIRECTORY, and MERGEPEAKS used
-  # Used a modified version of FINDPEAKS (see workflow/scripts/findPeaks.py for script)
+# ANNOTATEPEAKS, MAKETAGDIRECTORY, and MERGEPEAKS used
+# Used a modified version of FINDPEAKS (see workflow/scripts/findPeaks.py for script)
 
 # macs2 callpeak wrapper: https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html
 

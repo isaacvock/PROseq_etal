@@ -1,4 +1,4 @@
-if config["aligner"] == "bwa-mem2" :
+if config["aligner"] == "bwa-mem2":
 
     # Index
     rule index:
@@ -6,11 +6,8 @@ if config["aligner"] == "bwa-mem2" :
             config["genome"],
         output:
             multiext(
-                "{}/genome".format(INDEX_PATH), 
-                ".amb", 
-                ".ann", 
-                ".bwt.2bit.64", 
-                ".pac"),
+                "{}/genome".format(INDEX_PATH), ".amb", ".ann", ".bwt.2bit.64", ".pac"
+            ),
         log:
             "logs/index/index_bwamem2.log",
         wrapper:
@@ -19,14 +16,11 @@ if config["aligner"] == "bwa-mem2" :
     # Align
     rule align:
         input:
-            reads=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
+            reads=expand("results/trimmed/{{sample}}.{read}.fastq", read=READS),
             # Index can be a list of (all) files created by bwa, or one of them
             idx=multiext(
-                "{}/genome".format(INDEX_PATH), 
-                ".amb", 
-                ".ann", 
-                ".bwt.2bit.64", 
-                ".pac"),
+                "{}/genome".format(INDEX_PATH), ".amb", ".ann", ".bwt.2bit.64", ".pac"
+            ),
         output:
             "results/align/{sample}.bam",
         log:
@@ -40,7 +34,6 @@ if config["aligner"] == "bwa-mem2" :
         wrapper:
             "v2.2.1/bio/bwa-mem2/mem"
 
-
 elif config["aligner"] == "bowtie2":
 
     # Index
@@ -49,7 +42,7 @@ elif config["aligner"] == "bowtie2":
             ref=config["genome"],
         output:
             multiext(
-                "{}/genome".format(INDEX_PATH), 
+                "{}/genome".format(INDEX_PATH),
                 ".1.bt{}".format(INDEX_SUFFIX),
                 ".2.bt{}".format(INDEX_SUFFIX),
                 ".3.bt{}".format(INDEX_SUFFIX),
@@ -65,13 +58,12 @@ elif config["aligner"] == "bowtie2":
         wrapper:
             "v2.5.0/bio/bowtie2/build"
 
-
     # Align
     rule align:
         input:
-            sample=expand("results/trimmed/{{sample}}.{read}.fastq", read = READS),
+            sample=expand("results/trimmed/{{sample}}.{read}.fastq", read=READS),
             idx=multiext(
-                "{}/genome".format(INDEX_PATH), 
+                "{}/genome".format(INDEX_PATH),
                 ".1.bt{}".format(INDEX_SUFFIX),
                 ".2.bt{}".format(INDEX_SUFFIX),
                 ".3.bt{}".format(INDEX_SUFFIX),
@@ -89,19 +81,21 @@ elif config["aligner"] == "bowtie2":
         wrapper:
             "v2.6.0/bio/bowtie2/align"
 
+
 # Sort bam files
 rule sort:
     input:
-        "results/align/{sample}.bam"
+        "results/align/{sample}.bam",
     output:
-        "results/sorted_bam/{sample}.bam"
+        "results/sorted_bam/{sample}.bam",
     log:
-        "logs/sort/{sample}.log"
+        "logs/sort/{sample}.log",
     params:
-        extra=config["samtools_params"]
+        extra=config["samtools_params"],
     threads: 8
     wrapper:
         "v2.6.0/bio/samtools/sort"
+
 
 # Get alignment stats
 rule alignment_stats:

@@ -1,5 +1,3 @@
-
-
 from snakemake.utils import min_version
 
 ##### set minimum snakemake version #####
@@ -39,7 +37,6 @@ include: "rules/annotate.smk"
 include: "rules/normalize.smk"
 
 
-
 ##### Target rule ######
 
 
@@ -47,31 +44,46 @@ if config["method"] == "PROseq":
 
     rule all:
         input:
-            expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = READ_NAMES),
-            expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = READ_NAMES),
-            expand("results/align/{SID}.bam", SID = SAMP_NAMES),
-            expand("results/alignment_stats/{SID}.bamstats", SID = SAMP_NAMES),
-            expand("results/bigwig_plus/{SID}.bw", SID = SAMP_NAMES),
-            expand("results/bigwig_minus/{SID}.bw", SID = SAMP_NAMES),
-            expand("results/quantify/{SID}_gene.csv", SID = SAMP_NAMES),
-            expand("results/calc_PI/{SID}_PI.csv", SID = SAMP_NAMES),
-            expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
-            expand("results/macs2_callpeak/{SID}_peaks.xls", SID = SAMP_NAMES),
-            expand("results/annotate_{peaktype}Peaks/{TID}_annot.txt", peaktype= MACS2_PEAK_TYPE, TID = SAMP_NAMES),
-            "results/homer_annotatePeaks/merged_annot.txt"
-
+            expand("results/fastqc/{SID}_{read}.html", SID=SAMP_NAMES, read=READ_NAMES),
+            expand(
+                "results/fastqc/{SID}_{read}_fastqc.zip",
+                SID=SAMP_NAMES,
+                read=READ_NAMES,
+            ),
+            expand("results/align/{SID}.bam", SID=SAMP_NAMES),
+            expand("results/alignment_stats/{SID}.bamstats", SID=SAMP_NAMES),
+            expand("results/bigwig_plus/{SID}.bw", SID=SAMP_NAMES),
+            expand("results/bigwig_minus/{SID}.bw", SID=SAMP_NAMES),
+            expand("results/quantify/{SID}_gene.csv", SID=SAMP_NAMES),
+            expand("results/calc_PI/{SID}_PI.csv", SID=SAMP_NAMES),
+            expand("results/homer_annotatePeaks/{SID}_annot.txt", SID=SAMP_NAMES),
+            expand("results/macs2_callpeak/{SID}_peaks.xls", SID=SAMP_NAMES),
+            expand(
+                "results/annotate_{peaktype}Peaks/{TID}_annot.txt",
+                peaktype=MACS2_PEAK_TYPE,
+                TID=SAMP_NAMES,
+            ),
+            "results/homer_annotatePeaks/merged_annot.txt",
 
 else:
 
     rule all:
-        input: 
-            expand("results/fastqc/{SID}_{read}.html", SID = SAMP_NAMES, read = READ_NAMES),
-            expand("results/fastqc/{SID}_{read}_fastqc.zip", SID = SAMP_NAMES, read = READ_NAMES),
-            expand("results/align/{SID}.bam", SID = SAMP_NAMES),
-            expand("results/alignment_stats/{SID}.bamstats", SID = SAMP_NAMES),
-            expand("results/bigwig/{SID}.bw", SID = SAMP_NAMES),
-            expand("results/macs2_diff_bw/{TID}_diff.bw", TID = TREATMENT_NAMES),
-            expand("results/macs2_FE_bw/{TID}_FE.bw", TID = TREATMENT_NAMES),
+        input:
+            expand("results/fastqc/{SID}_{read}.html", SID=SAMP_NAMES, read=READ_NAMES),
+            expand(
+                "results/fastqc/{SID}_{read}_fastqc.zip",
+                SID=SAMP_NAMES,
+                read=READ_NAMES,
+            ),
+            expand("results/align/{SID}.bam", SID=SAMP_NAMES),
+            expand("results/alignment_stats/{SID}.bamstats", SID=SAMP_NAMES),
+            expand("results/bigwig/{SID}.bw", SID=SAMP_NAMES),
+            expand("results/macs2_diff_bw/{TID}_diff.bw", TID=TREATMENT_NAMES),
+            expand("results/macs2_FE_bw/{TID}_FE.bw", TID=TREATMENT_NAMES),
             #expand("results/homer_annotatePeaks/{SID}_annot.txt", SID = SAMP_NAMES),
-            expand("results/annotate_{peaktype}Peaks/{TID}_annot.txt", peaktype= MACS2_PEAK_TYPE, TID = TREATMENT_NAMES),
+            expand(
+                "results/annotate_{peaktype}Peaks/{TID}_annot.txt",
+                peaktype=MACS2_PEAK_TYPE,
+                TID=TREATMENT_NAMES,
+            ),
             #"results/homer_annotatePeaks/merged_annot.txt"

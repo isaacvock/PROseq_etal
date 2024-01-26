@@ -2,13 +2,13 @@ rule create_PI_gtf:
     input:
         config["annotation"],
     output:
-        config["PI_gtf"]
+        config["PI_gtf"],
     params:
-        rscript=workflow.source_path("../scripts/create_PI_gtf.R")
+        rscript=workflow.source_path("../scripts/create_PI_gtf.R"),
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/create_PI_gtf/create_PI_gtf.log"
+        "logs/create_PI_gtf/create_PI_gtf.log",
     threads: 1
     shell:
         r"""
@@ -16,18 +16,19 @@ rule create_PI_gtf:
         {params.rscript} -o {output} -i {input} 1> {log} 2>&1
         """
 
+
 rule quantify_pause:
     input:
         bam="results/sorted_bam/{sample}.bam",
-        gtf=config["PI_gtf"]
+        gtf=config["PI_gtf"],
     output:
         counts="results/quantify/{sample}_pause.csv",
     params:
-        strand=config["strandedness"]
+        strand=config["strandedness"],
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify_pause/{sample}.log"
+        "logs/quantify_pause/{sample}.log",
     threads: 1
     shell:
         """
@@ -36,17 +37,18 @@ rule quantify_pause:
         -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
+
 rule quantify_genebody:
     input:
         bam="results/sorted_bam/{sample}.bam",
-        gtf=config["PI_gtf"]
+        gtf=config["PI_gtf"],
     output:
         counts="results/quantify/{sample}_genebody.csv",
     params:
-        strand=config["strandedness"]
+        strand=config["strandedness"],
     threads: 1
     log:
-        "logs/quantify_genebody/{sample}.log"
+        "logs/quantify_genebody/{sample}.log",
     conda:
         "../envs/quantify.yaml"
     shell:
@@ -56,18 +58,19 @@ rule quantify_genebody:
         -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
+
 rule quantify_gene:
     input:
         bam="results/sorted_bam/{sample}.bam",
-        gtf=config["PI_gtf"]
+        gtf=config["PI_gtf"],
     output:
         counts="results/quantify/{sample}_gene.csv",
     params:
-        strand=config["strandedness"]
+        strand=config["strandedness"],
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/quantify_gene/{sample}.log"
+        "logs/quantify_gene/{sample}.log",
     threads: 1
     shell:
         """
@@ -76,19 +79,20 @@ rule quantify_gene:
         -c {output.counts} {input.bam} {input.gtf} 1> {log} 2>&1
         """
 
+
 rule calc_PI:
     input:
         pause="results/quantify/{sample}_pause.csv",
         gb="results/quantify/{sample}_genebody.csv",
-        gtf=config["PI_gtf"]
+        gtf=config["PI_gtf"],
     output:
         PI="results/calc_PI/{sample}_PI.csv",
     conda:
         "../envs/quantify.yaml"
     log:
-        "logs/calc_PI/{sample}.log"
+        "logs/calc_PI/{sample}.log",
     params:
-        rscript=workflow.source_path("../scripts/calculate_PI.R")
+        rscript=workflow.source_path("../scripts/calculate_PI.R"),
     threads: 1
     shell:
         r"""
