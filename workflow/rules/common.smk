@@ -1,4 +1,5 @@
 import glob
+import os
 
 FASTQ_SUFFIXES = (".fastq", ".fastq.gz", ".fq", ".fq.gz")
 GZIPPED_FASTQ_SUFFIXES = (".fastq.gz", ".fq.gz")
@@ -82,6 +83,34 @@ if config["PE"]:
     macs2_params = config["callpeaks_params"] + " -f BAMPE"
 else:
     macs2_params = config["callpeaks_params"]
+
+
+def _has_macs2_flag(params, *flags):
+    return any(flag in params.split() for flag in flags)
+
+
+def get_macs2_callpeak_params(broad=False, bdg=False):
+    params = macs2_params.strip()
+
+    if broad and not _has_macs2_flag(params, "--broad"):
+        params = f"{params} --broad".strip()
+    elif not broad and _has_macs2_flag(params, "--broad"):
+        raise ValueError(
+            "Remove --broad from callpeaks_params when macs2_narrow is True."
+        )
+
+    if bdg and not _has_macs2_flag(params, "--bdg", "-B"):
+        params = f"{params} --bdg".strip()
+    elif not bdg and _has_macs2_flag(params, "--bdg", "-B"):
+        raise ValueError(
+            "Remove --bdg/-B from callpeaks_params unless bedGraph outputs are declared."
+        )
+
+    return params
+
+
+def get_macs2_callpeak_outdir(wildcards, output):
+    return os.path.dirname(output[0])
 
 
 # Peak type to be called MACS2
