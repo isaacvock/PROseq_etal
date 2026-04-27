@@ -1,26 +1,25 @@
 if config["aligner"] == "bwa-mem2":
 
+    BWAMEM2_INDEX_PREFIX = "{}/genome".format(INDEX_PATH)
+    BWAMEM2_INDEX_EXTENSIONS = (".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac")
+
     # Index
     rule index:
         input:
             config["genome"],
         output:
-            multiext(
-                "{}/genome".format(INDEX_PATH), ".amb", ".ann", ".bwt.2bit.64", ".pac"
-            ),
+            multiext(BWAMEM2_INDEX_PREFIX, *BWAMEM2_INDEX_EXTENSIONS),
         log:
             "logs/index/index_bwamem2.log",
         wrapper:
-            "v2.2.1/bio/bwa-mem2/index"
+            "v9.4.1/bio/bwa-mem2/index"
 
     # Align
     rule align:
         input:
             reads=expand("results/trimmed/{{sample}}.{read}.fastq", read=READS),
             # Index can be a list of (all) files created by bwa, or one of them
-            idx=multiext(
-                "{}/genome".format(INDEX_PATH), ".amb", ".ann", ".bwt.2bit.64", ".pac"
-            ),
+            idx=multiext(BWAMEM2_INDEX_PREFIX, *BWAMEM2_INDEX_EXTENSIONS),
         output:
             "results/align/{sample}.bam",
         log:
@@ -32,7 +31,7 @@ if config["aligner"] == "bwa-mem2":
             sort_extra=config["bwamem2_sort_extra"],  # Extra args for samtools/picard.
         threads: 20
         wrapper:
-            "v2.2.1/bio/bwa-mem2/mem"
+            "v9.4.1/bio/bwa-mem2/mem"
 
 elif config["aligner"] == "bowtie2":
 
