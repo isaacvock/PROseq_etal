@@ -78,7 +78,7 @@ for p in fastq_paths.values():
     is_gz = any([is_gz, test_gz])
 
 
-# MACS2 peak calling -f parameter
+# MACS peak calling -f parameter
 if config["PE"]:
     macs2_params = config["callpeaks_params"] + " -f BAMPE"
 else:
@@ -113,7 +113,7 @@ def get_macs2_callpeak_outdir(wildcards, output):
     return os.path.dirname(output[0])
 
 
-# Peak type to be called MACS2
+# Peak type to be called by MACS
 if config["macs2_narrow"]:
     MACS2_PEAK_TYPE = "narrow"
 

@@ -9,8 +9,6 @@ if config["method"] == "ChIPseq":
                 control=get_control_sample,
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{treatment}",
                     "_peaks.xls",
@@ -29,7 +27,7 @@ if config["method"] == "ChIPseq":
                 "../envs/macs2.yaml"
             shell:
                 """
-                macs2 callpeak \
+                macs3 callpeak \
                     -t {input.treatment:q} \
                     -c {input.control:q} \
                     --outdir {params.outdir:q} \
@@ -47,8 +45,6 @@ if config["method"] == "ChIPseq":
                 control=get_control_sample,
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{treatment}",
                     "_peaks.xls",
@@ -67,7 +63,7 @@ if config["method"] == "ChIPseq":
                 "../envs/macs2.yaml"
             shell:
                 """
-                macs2 callpeak \
+                macs3 callpeak \
                     -t {input.treatment:q} \
                     -c {input.control:q} \
                     --outdir {params.outdir:q} \
@@ -91,10 +87,10 @@ if config["method"] == "ChIPseq":
         threads: 4
         shell:
             """
-            macs2 bdgcmp \
-                -t {input.treatment} \
-                -c {input.control} \
-                -o {output.fe} \
+            macs3 bdgcmp \
+                -t {input.treatment:q} \
+                -c {input.control:q} \
+                -o {output.fe:q} \
                 -m FE {params.extra} 1> {log} 2>&1 
             """
 
@@ -114,10 +110,10 @@ if config["method"] == "ChIPseq":
         threads: 4
         shell:
             """
-            macs2 bdgcmp \
-                -t {input.treatment} \
-                -c {input.control} \
-                -o {output.diff} \
+            macs3 bdgcmp \
+                -t {input.treatment:q} \
+                -c {input.control:q} \
+                -o {output.diff:q} \
                 -m subtract {params.extra} 1> {log} 2>&1 
             """
 
@@ -179,8 +175,6 @@ else:
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{sample}",
                     "_peaks.xls",
@@ -197,7 +191,7 @@ else:
                 "../envs/macs2.yaml"
             shell:
                 """
-                macs2 callpeak \
+                macs3 callpeak \
                     -t {input.treatment:q} \
                     --outdir {params.outdir:q} \
                     -n {wildcards.sample:q} \
@@ -213,8 +207,6 @@ else:
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{sample}",
                     "_peaks.xls",
@@ -231,7 +223,7 @@ else:
                 "../envs/macs2.yaml"
             shell:
                 """
-                macs2 callpeak \
+                macs3 callpeak \
                     -t {input.treatment:q} \
                     --outdir {params.outdir:q} \
                     -n {wildcards.sample:q} \
