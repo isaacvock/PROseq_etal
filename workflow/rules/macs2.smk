@@ -9,8 +9,6 @@ if config["method"] == "ChIPseq":
                 control=get_control_sample,
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{treatment}",
                     "_peaks.xls",
@@ -22,10 +20,20 @@ if config["method"] == "ChIPseq":
             log:
                 "logs/macs2_callpeaks/{treatment}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(bdg=True),
+                outdir=get_macs2_callpeak_outdir,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs3 callpeak \
+                    -t {input.treatment:q} \
+                    -c {input.control:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.treatment:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     else:
 
@@ -37,8 +45,6 @@ if config["method"] == "ChIPseq":
                 control=get_control_sample,
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{treatment}",
                     "_peaks.xls",
@@ -50,10 +56,20 @@ if config["method"] == "ChIPseq":
             log:
                 "logs/macs2_callpeaks/{treatment}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(broad=True, bdg=True),
+                outdir=get_macs2_callpeak_outdir,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs3 callpeak \
+                    -t {input.treatment:q} \
+                    -c {input.control:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.treatment:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     ### Create fold enrichment track
     rule macs2_enrichment:
@@ -71,10 +87,10 @@ if config["method"] == "ChIPseq":
         threads: 4
         shell:
             """
-            macs2 bdgcmp \
-                -t {input.treatment} \
-                -c {input.control} \
-                -o {output.fe} \
+            macs3 bdgcmp \
+                -t {input.treatment:q} \
+                -c {input.control:q} \
+                -o {output.fe:q} \
                 -m FE {params.extra} 1> {log} 2>&1 
             """
 
@@ -94,10 +110,10 @@ if config["method"] == "ChIPseq":
         threads: 4
         shell:
             """
-            macs2 bdgcmp \
-                -t {input.treatment} \
-                -c {input.control} \
-                -o {output.diff} \
+            macs3 bdgcmp \
+                -t {input.treatment:q} \
+                -c {input.control:q} \
+                -o {output.diff:q} \
                 -m subtract {params.extra} 1> {log} 2>&1 
             """
 
@@ -159,8 +175,6 @@ else:
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{sample}",
                     "_peaks.xls",
@@ -170,10 +184,19 @@ else:
             log:
                 "logs/macs2_callpeaks/{sample}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(),
+                outdir=get_macs2_callpeak_outdir,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs3 callpeak \
+                    -t {input.treatment:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.sample:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     else:
 
@@ -184,8 +207,6 @@ else:
                 #control=expand("results/align/{control}.bam", control = get_control_sample),
             output:
                 # all output-files must share the same basename and only differ by it's extension
-                # Usable extensions (and which tools they implicitly call) are listed here:
-                #         https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/macs2/callpeak.html.
                 multiext(
                     "results/macs2_callpeak/{sample}",
                     "_peaks.xls",
@@ -195,7 +216,16 @@ else:
             log:
                 "logs/macs2_callpeaks/{sample}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(broad=True),
+                outdir=get_macs2_callpeak_outdir,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs3 callpeak \
+                    -t {input.treatment:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.sample:q} \
+                    {params.extra} 1> {log} 2>&1
+                """

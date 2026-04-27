@@ -1,4 +1,8 @@
 import glob
+import os
+
+FASTQ_SUFFIXES = (".fastq", ".fastq.gz", ".fq", ".fq.gz")
+GZIPPED_FASTQ_SUFFIXES = (".fastq.gz", ".fq.gz")
 
 # Sample names to help expanding lists of all bam files
 # and to aid in defining wildcards
@@ -44,10 +48,17 @@ else:
 
 
 # Get input fastq files for first step
+def get_fastq_files(fastq_path):
+    return sorted(
+        fastq
+        for suffix in FASTQ_SUFFIXES
+        for fastq in glob.glob(f"{fastq_path}/*{suffix}")
+    )
+
+
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]
-    fastq_files = sorted(glob.glob(f"{fastq_path}/*.fastq*"))
-    return fastq_files
+    return get_fastq_files(fastq_path)
 
 
 # Figure out which samples are each enrichment's input sample
@@ -62,19 +73,47 @@ fastq_paths = config["samples"]
 is_gz = False
 
 for p in fastq_paths.values():
-    fastqs = sorted(glob.glob(f"{p}/*.fastq*"))
-    test_gz = any(path.endswith(".fastq.gz") for path in fastqs)
+    fastqs = get_fastq_files(p)
+    test_gz = any(path.endswith(GZIPPED_FASTQ_SUFFIXES) for path in fastqs)
     is_gz = any([is_gz, test_gz])
 
 
-# MACS2 peak calling -f parameter
+# MACS peak calling -f parameter
 if config["PE"]:
     macs2_params = config["callpeaks_params"] + " -f BAMPE"
 else:
     macs2_params = config["callpeaks_params"]
 
 
-# Peak type to be called MACS2
+def _has_macs2_flag(params, *flags):
+    return any(flag in params.split() for flag in flags)
+
+
+def get_macs2_callpeak_params(broad=False, bdg=False):
+    params = macs2_params.strip()
+
+    if broad and not _has_macs2_flag(params, "--broad"):
+        params = f"{params} --broad".strip()
+    elif not broad and _has_macs2_flag(params, "--broad"):
+        raise ValueError(
+            "Remove --broad from callpeaks_params when macs2_narrow is True."
+        )
+
+    if bdg and not _has_macs2_flag(params, "--bdg", "-B"):
+        params = f"{params} --bdg".strip()
+    elif not bdg and _has_macs2_flag(params, "--bdg", "-B"):
+        raise ValueError(
+            "Remove --bdg/-B from callpeaks_params unless bedGraph outputs are declared."
+        )
+
+    return params
+
+
+def get_macs2_callpeak_outdir(wildcards, output):
+    return os.path.dirname(output[0])
+
+
+# Peak type to be called by MACS
 if config["macs2_narrow"]:
     MACS2_PEAK_TYPE = "narrow"
 
