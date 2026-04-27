@@ -1,5 +1,8 @@
 import glob
 
+FASTQ_SUFFIXES = (".fastq", ".fastq.gz", ".fq", ".fq.gz")
+GZIPPED_FASTQ_SUFFIXES = (".fastq.gz", ".fq.gz")
+
 # Sample names to help expanding lists of all bam files
 # and to aid in defining wildcards
 SAMP_NAMES = list(config["samples"].keys())
@@ -44,10 +47,17 @@ else:
 
 
 # Get input fastq files for first step
+def get_fastq_files(fastq_path):
+    return sorted(
+        fastq
+        for suffix in FASTQ_SUFFIXES
+        for fastq in glob.glob(f"{fastq_path}/*{suffix}")
+    )
+
+
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]
-    fastq_files = sorted(glob.glob(f"{fastq_path}/*.fastq*"))
-    return fastq_files
+    return get_fastq_files(fastq_path)
 
 
 # Figure out which samples are each enrichment's input sample
@@ -62,8 +72,8 @@ fastq_paths = config["samples"]
 is_gz = False
 
 for p in fastq_paths.values():
-    fastqs = sorted(glob.glob(f"{p}/*.fastq*"))
-    test_gz = any(path.endswith(".fastq.gz") for path in fastqs)
+    fastqs = get_fastq_files(p)
+    test_gz = any(path.endswith(GZIPPED_FASTQ_SUFFIXES) for path in fastqs)
     is_gz = any([is_gz, test_gz])
 
 
