@@ -1,3 +1,30 @@
+MACS2_CALLPEAK_DIR = "results/macs2_callpeak"
+
+
+def _has_macs2_flag(params, *flags):
+    return any(flag in params.split() for flag in flags)
+
+
+def get_macs2_callpeak_params(broad=False, bdg=False):
+    params = macs2_params.strip()
+
+    if broad and not _has_macs2_flag(params, "--broad"):
+        params = f"{params} --broad".strip()
+    elif not broad and _has_macs2_flag(params, "--broad"):
+        raise ValueError(
+            "Remove --broad from callpeaks_params when macs2_narrow is True."
+        )
+
+    if bdg and not _has_macs2_flag(params, "--bdg", "-B"):
+        params = f"{params} --bdg".strip()
+    elif not bdg and _has_macs2_flag(params, "--bdg", "-B"):
+        raise ValueError(
+            "Remove --bdg/-B from callpeaks_params unless bedGraph outputs are declared."
+        )
+
+    return params
+
+
 if config["method"] == "ChIPseq":
     if config["macs2_narrow"]:
 
@@ -22,10 +49,20 @@ if config["method"] == "ChIPseq":
             log:
                 "logs/macs2_callpeaks/{treatment}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(bdg=True),
+                outdir=MACS2_CALLPEAK_DIR,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs2 callpeak \
+                    -t {input.treatment:q} \
+                    -c {input.control:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.treatment:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     else:
 
@@ -50,10 +87,20 @@ if config["method"] == "ChIPseq":
             log:
                 "logs/macs2_callpeaks/{treatment}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(broad=True, bdg=True),
+                outdir=MACS2_CALLPEAK_DIR,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs2 callpeak \
+                    -t {input.treatment:q} \
+                    -c {input.control:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.treatment:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     ### Create fold enrichment track
     rule macs2_enrichment:
@@ -170,10 +217,19 @@ else:
             log:
                 "logs/macs2_callpeaks/{sample}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(),
+                outdir=MACS2_CALLPEAK_DIR,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs2 callpeak \
+                    -t {input.treatment:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.sample:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
 
     else:
 
@@ -195,7 +251,16 @@ else:
             log:
                 "logs/macs2_callpeaks/{sample}.log",
             params:
-                macs2_params,
+                extra=get_macs2_callpeak_params(broad=True),
+                outdir=MACS2_CALLPEAK_DIR,
             threads: 4
-            wrapper:
-                "v2.6.0/bio/macs2/callpeak"
+            conda:
+                "../envs/macs2.yaml"
+            shell:
+                """
+                macs2 callpeak \
+                    -t {input.treatment:q} \
+                    --outdir {params.outdir:q} \
+                    -n {wildcards.sample:q} \
+                    {params.extra} 1> {log} 2>&1
+                """
