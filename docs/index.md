@@ -7,7 +7,7 @@ PROseq_etal is a Snakemake pipeline developed by Isaac Vock. It is designed to p
 The pipeline includes the following steps:
 
 1. Trim adapters with [fastp](https://github.com/OpenGene/fastp)
-    * Fastqs will also be unzipped with [pigz]() if gzipped. If this is the case, the unzipped fastqs are temporary files that get removed once the pipeline steps using them have finished running. This saves on disk space
+    * Gzipped fastqs are passed directly to fastp.
 1. Assess fastqs with [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 1. Align fastqs
     * Can use [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2) or [bowtie2](https://github.com/BenLangmead/bowtie2)
