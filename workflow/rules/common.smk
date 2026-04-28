@@ -2,7 +2,6 @@ import glob
 import os
 
 FASTQ_SUFFIXES = (".fastq", ".fastq.gz", ".fq", ".fq.gz")
-GZIPPED_FASTQ_SUFFIXES = (".fastq.gz", ".fq.gz")
 
 # Sample names to help expanding lists of all bam files
 # and to aid in defining wildcards
@@ -49,33 +48,46 @@ else:
 
 # Get input fastq files for first step
 def get_fastq_files(fastq_path):
+    fastq_path = os.path.expanduser(str(fastq_path))
     return sorted(
-        fastq
-        for suffix in FASTQ_SUFFIXES
-        for fastq in glob.glob(f"{fastq_path}/*{suffix}")
+        set(
+            fastq
+            for suffix in FASTQ_SUFFIXES
+            for fastq in glob.glob(os.path.join(fastq_path, f"*{suffix}"))
+        )
     )
+
+
+def get_expected_fastq_count():
+    return 2 if config["PE"] else 1
 
 
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]
-    return get_fastq_files(fastq_path)
+    fastqs = get_fastq_files(fastq_path)
+    expected_count = get_expected_fastq_count()
+
+    if len(fastqs) != expected_count:
+        raise ValueError(
+            "Sample '{sample}' must have {expected} FASTQ file(s), but found "
+            "{observed} in '{path}'. Supported suffixes are: {suffixes}. "
+            "Matched files: {files}".format(
+                sample=wildcards.sample,
+                expected=expected_count,
+                observed=len(fastqs),
+                path=fastq_path,
+                suffixes=", ".join(FASTQ_SUFFIXES),
+                files=", ".join(fastqs) if fastqs else "none",
+            )
+        )
+
+    return fastqs
 
 
 # Figure out which samples are each enrichment's input sample
 def get_control_sample(wildcards):
     control_label = config["controls"][wildcards.treatment]
     return expand("results/sorted_bam/{control}.bam", control=control_label)
-
-
-# Check if fastq files are gzipped
-fastq_paths = config["samples"]
-
-is_gz = False
-
-for p in fastq_paths.values():
-    fastqs = get_fastq_files(p)
-    test_gz = any(path.endswith(GZIPPED_FASTQ_SUFFIXES) for path in fastqs)
-    is_gz = any([is_gz, test_gz])
 
 
 # MACS peak calling -f parameter
