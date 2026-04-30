@@ -1,4 +1,3 @@
-import glob
 import os
 
 FASTQ_SUFFIXES = (".fastq", ".fastq.gz", ".fq", ".fq.gz")
@@ -46,15 +45,46 @@ else:
     INDEX_PATH = str(config["indices"])
 
 
+def _format_values(values, limit=20):
+    if not values:
+        return "none"
+
+    formatted_values = ", ".join(repr(value) for value in values[:limit])
+    if len(values) > limit:
+        formatted_values += f", ... ({len(values) - limit} more)"
+
+    return formatted_values
+
+
+def get_fastq_directory_entries(fastq_path):
+    configured_fastq_path = str(fastq_path)
+    checked_fastq_path = os.path.expanduser(configured_fastq_path.strip())
+
+    try:
+        entries = sorted(os.listdir(checked_fastq_path))
+    except OSError as error:
+        raise ValueError(
+            "Could not list FASTQ directory {checked!r} (configured as "
+            "{configured!r}; current working directory: {cwd!r}). "
+            "{error_type}: {error}".format(
+                checked=checked_fastq_path,
+                configured=configured_fastq_path,
+                cwd=os.getcwd(),
+                error_type=type(error).__name__,
+                error=error,
+            )
+        ) from error
+
+    return checked_fastq_path, entries
+
+
 # Get input fastq files for first step
 def get_fastq_files(fastq_path):
-    fastq_path = os.path.expanduser(str(fastq_path))
+    checked_fastq_path, entries = get_fastq_directory_entries(fastq_path)
     return sorted(
-        set(
-            fastq
-            for suffix in FASTQ_SUFFIXES
-            for fastq in glob.glob(os.path.join(fastq_path, f"*{suffix}"))
-        )
+        os.path.join(checked_fastq_path, entry)
+        for entry in entries
+        if entry.endswith(FASTQ_SUFFIXES)
     )
 
 
@@ -64,20 +94,30 @@ def get_expected_fastq_count():
 
 def get_input_fastqs(wildcards):
     fastq_path = config["samples"][wildcards.sample]
-    fastqs = get_fastq_files(fastq_path)
+    checked_fastq_path, entries = get_fastq_directory_entries(fastq_path)
+    fastqs = sorted(
+        os.path.join(checked_fastq_path, entry)
+        for entry in entries
+        if entry.endswith(FASTQ_SUFFIXES)
+    )
     expected_count = get_expected_fastq_count()
 
     if len(fastqs) != expected_count:
         raise ValueError(
             "Sample '{sample}' must have {expected} FASTQ file(s), but found "
-            "{observed} in '{path}'. Supported suffixes are: {suffixes}. "
-            "Matched files: {files}".format(
+            "{observed} in {checked_path!r} (configured as {configured_path!r}; "
+            "current working directory: {cwd!r}). Supported suffixes are: "
+            "{suffixes}. Matched files: {files}. Directory entries: "
+            "{entries}".format(
                 sample=wildcards.sample,
                 expected=expected_count,
                 observed=len(fastqs),
-                path=fastq_path,
+                checked_path=checked_fastq_path,
+                configured_path=str(fastq_path),
+                cwd=os.getcwd(),
                 suffixes=", ".join(FASTQ_SUFFIXES),
-                files=", ".join(fastqs) if fastqs else "none",
+                files=_format_values(fastqs),
+                entries=_format_values(entries),
             )
         )
 
